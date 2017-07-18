@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Triarc", "Triarc\Triarc.csproj", "{A6E29BFE-6C5B-48DB-B02D-8355B48D014B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriarcTests", "TriarcTests\TriarcTests.csproj", "{676753D4-5C7D-46FA-8A40-36137665875D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6E29BFE-6C5B-48DB-B02D-8355B48D014B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6E29BFE-6C5B-48DB-B02D-8355B48D014B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6E29BFE-6C5B-48DB-B02D-8355B48D014B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6E29BFE-6C5B-48DB-B02D-8355B48D014B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{676753D4-5C7D-46FA-8A40-36137665875D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{676753D4-5C7D-46FA-8A40-36137665875D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{676753D4-5C7D-46FA-8A40-36137665875D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{676753D4-5C7D-46FA-8A40-36137665875D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

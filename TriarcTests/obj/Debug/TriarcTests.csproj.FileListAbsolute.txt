@@ -1,0 +1,10 @@
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\bin\Debug\TriarcTests.dll
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\bin\Debug\TriarcTests.pdb
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\bin\Debug\Triarc.exe
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\bin\Debug\Triarc.pdb
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\obj\Debug\TriarcTests.csprojResolveAssemblyReference.cache
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\obj\Debug\TriarcTests.dll
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\obj\Debug\TriarcTests.pdb
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\bin\Debug\System.Collections.Immutable.dll
+c:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\TriarcTests\bin\Debug\System.Collections.Immutable.xml

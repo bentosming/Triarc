@@ -28,8 +28,9 @@ namespace Triarc.Tests
 			Assert.IsTrue(BoundaryInt.OrderOfHighestSetBit(1) == 0);
 			Assert.IsTrue(BoundaryInt.OrderOfHighestSetBit(2) == 1);
 			Assert.IsTrue(BoundaryInt.OrderOfHighestSetBit(11) == 3);
-			Assert.IsTrue(BoundaryInt.OrderOfHighestSetBit(672) == 9);
-			Assert.IsTrue(BoundaryInt.OrderOfHighestSetBit(0xfffffff) == 27);
+			Assert.IsTrue(BoundaryInt.OrderOfHighestSetBit(0x00645450) == 22);
+			Assert.IsTrue(BoundaryInt.OrderOfHighestSetBit(0x0fffffff) == 27);
+			Assert.IsTrue(BoundaryInt.OrderOfHighestSetBit(-1) ==31 );
 		}
 
 		[TestMethod()]
@@ -41,6 +42,7 @@ namespace Triarc.Tests
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(74) == 84);
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(855) == 1002);
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(0x72) == 0x74);
+
 
 		}
 

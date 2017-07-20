@@ -15,7 +15,7 @@ namespace Triarc.Tests
 		[TestMethod()]
 		public void CreateBoundaryTest()
 		{
-			int b = Triarc.CreateBoundary(2, 2, 2);
+			long b = Triarc.CreateBoundary(2, 2, 2);
 			Assert.IsTrue(b == 0x888);
 			b = Triarc.CreateBoundary(4, 4, 3);
 			Assert.IsTrue(b == 0x2a2a28);

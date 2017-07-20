@@ -10,10 +10,10 @@ namespace Triarc
 	{
 		static void Main(string[] args)
 		{
-
-			var t = new Triarc(2,2,4, new int[2] { 5, 7 });
+			var tg = new TriarcGraph(4, 4, 3);
+			var t = new Triarc(4,4,3, new int[2] { 5, 7 });
 			t.Boundaries.Add(t.Boundary, t.Boundary);
-			t.MainFindTriarc();
+			tg.StatesToGoTrough=t.MainFindTriarc();
 			
 			t.IsValid(1);
 

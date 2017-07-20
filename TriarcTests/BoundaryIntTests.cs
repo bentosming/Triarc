@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics;
 using Triarc;
 using System;
 using System.Collections.Generic;
@@ -35,10 +36,13 @@ namespace Triarc.Tests
 		public void ToBoundaryStandardTest()
 		{
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(1) == 1);
+			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(2) == 2);
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(0) == 0);
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(74) == 84);
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(855) == 1002);
 		}
+
+
 
 		[TestMethod()]
 		public void FaceToBoundaryTest()
@@ -47,6 +51,11 @@ namespace Triarc.Tests
 			Assert.IsTrue(BoundaryInt.FaceToBoundary(1) == -2);
 			Assert.IsTrue(BoundaryInt.FaceToBoundary(2) == -4);
 			Assert.IsTrue(BoundaryInt.FaceToBoundary(5) == -32);
+
+		}
+
+		public void FaceToBoundaryTest1()
+		{
 
 		}
 	}

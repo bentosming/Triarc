@@ -10,21 +10,25 @@ namespace Triarc
 	{
 		static void Main(string[] args)
 		{
-			int b = Triarc.CreateBoundary(2, 2, 2).ToBoundary();
+
+			var t = new Triarc(2,2,4, new int[2] { 5, 7 });
+			t.Boundaries.Add(t.Boundary, t.Boundary);
+			t.FindTriarc(t.Boundary);
+			while (!t.Found)
+			{
+System.Threading.Thread.Sleep(10000);
+			}
+			
+			t.IsValid(1);
+			System.Threading.Thread.Sleep(10000);
+			System.Threading.Thread.Sleep(10000);
+			t.IsValid(1);
+
+			Console.ReadKey();
 		}
 	}
 
-	static class BoundaryLong
-	{
-		/// <summary>
-		/// Takes a boundary, that isn't represented properly and changes representation so that it is the greatest long value possible.
-		/// </summary>
-		/// <param name="l"></param>
-		/// <returns></returns>
-		public static long ToBoundary(this long l)
-		{ throw new NotImplementedException(); }
-	}
-
+	
 	
 
 

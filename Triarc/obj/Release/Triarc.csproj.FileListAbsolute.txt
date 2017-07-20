@@ -1,0 +1,8 @@
+C:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\Triarc\bin\Release\Triarc.exe.config
+C:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\Triarc\bin\Release\Triarc.exe
+C:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\Triarc\bin\Release\Triarc.pdb
+C:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\Triarc\bin\Release\System.Collections.Immutable.dll
+C:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\Triarc\bin\Release\System.Collections.Immutable.xml
+C:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\Triarc\obj\Release\Triarc.exe
+C:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\Triarc\obj\Release\Triarc.pdb
+C:\Users\Zuzana\documents\visual studio 2015\Projects\Triarc\Triarc\obj\Release\Triarc.csprojResolveAssemblyReference.cache

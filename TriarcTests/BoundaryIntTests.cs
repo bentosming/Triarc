@@ -40,6 +40,8 @@ namespace Triarc.Tests
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(0) == 0);
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(74) == 84);
 			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(855) == 1002);
+			Assert.IsTrue(BoundaryInt.ToBoundaryStandard(0x72) == 0x74);
+
 		}
 
 

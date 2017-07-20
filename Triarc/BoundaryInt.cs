@@ -22,6 +22,13 @@ namespace Triarc
 			}
 			return ToBoundaryStandard(l);
 		}
+		static int[] SetBits = new int[32] 
+		{ 0x1, 0x2, 0x4, 0x8 , 0x10, 0x20, 0x40, 0x80,
+		0x100, 0x200, 0x400, 0x800,0x1000, 0x2000, 0x4000, 0x8000 ,
+		0x10000, 0x20000, 0x40000, 0x80000,
+		0x100000, 0x200000, 0x4000000, 0x800000,
+		0x1000000, 0x2000000, 0x4000000, 0x8000000,
+		0x10000000,0x20000000,0x40000000, -2147483648 };
 
 		private static int ToBoundaryOnlyOneSide(int a)
 		{ throw new NotImplementedException(); }
@@ -57,12 +64,42 @@ namespace Triarc
 			}
 			return max;
 		}
+
 		public static int ToBoundaryStandard(int a)
 		{
-			int highestValue = HighestSetBit(a);
+			if (a==0)
+			{
+				return 0;
+			}
 			int highest = OrderOfHighestSetBit(a);
+			int highestValue = SetBits[highest];
 			int i = 0;
 			int max = a;
+			while (i <= highest && highest > 0)
+			{
+				int second = OrderOfHighestSetBit(a - highestValue);
+				//	int secondValue = HighestSetBit(l - highestValue);
+				a = ((a ^ highestValue) << (highest - second)) | (highestValue >> (second + 1));
+				i += highest - second;
+				if (a > max)
+				{
+					max = a;
+				}
+			}
+			//ještě verze "čtení z druhé strany"
+			int aReversed= 0;
+			for (int j = 0; j <= highest; j++)
+			{
+				aReversed <<= 1;
+				aReversed |= (a & 1);
+				a >>= 1;
+			}
+			int reversedHighestBit = aReversed.OrderOfHighestSetBit();
+			aReversed <<= (highest - reversedHighestBit);
+			a = aReversed;
+			 highest = OrderOfHighestSetBit(a);
+			 highestValue = SetBits[highest];
+			 i = 0;
 			while (i <= highest && highest > 0)
 			{
 				int second = OrderOfHighestSetBit(a - highestValue);

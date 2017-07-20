@@ -17,6 +17,8 @@ namespace Triarc
 		/// </summary>
 		public bool Found = false;
 
+		SortedSet<int> BoundariesToDo = new SortedSet<int>();
+
 		int[]  SetBits;
 		const int c80000000 = -2147483648;
 		public ImmutableDictionary<int,int> Boundaries = ImmutableDictionary.Create<int, int>();
@@ -69,40 +71,52 @@ namespace Triarc
 		/// <param name="h"></param>
 		/// <param name="hv"></param>
 		/// <param name="s"></param>
-		public void SubstituteAndStartTask(int b, int first, int firstv, int second, int originalb)
+		public int SubstituteAndStartTask(int b, int first, int firstv, int second, int originalb, int face)
 		{
 			int lengthAlready = first - second + 1; //count of vertices, that already have to share face
 
-			foreach (var face in FacesSizes)
+
+			int lengthMissing = face - lengthAlready;
+			if (lengthMissing >= 0)
 			{
-				int lengthMissing = face-lengthAlready;
-				if (lengthMissing >= 0)
+				if (second + lengthMissing >= 32)
 				{
-					int temp = b ^ SetBits[first] ^ SetBits[second];//vynuluje jedničky na začátku
-					for (int i = second + 1; i <= second + lengthMissing; i++)
-					{
-						temp |= SetBits[i];
-					}
-					if (first - lengthAlready + 1 + lengthMissing >= 31)
-					{
-						continue;
-					}
-					while ((SetBits[first - lengthAlready + 1 + lengthMissing] & temp) == 0) //nuly na začátku by byly ztraceny
+					return 0;
+				}
+				int temp = b ^ SetBits[first] ^ SetBits[second];//vynuluje jedničky na začátku
+				for (int i = second + 1; i <= second + lengthMissing; i++)
+				{
+					temp |= SetBits[i];
+				}
+				if (first - lengthAlready + 1 + lengthMissing >= 31)
+				{
+					return 0;
+				}
+				//second  + face -first + second -1) 
+				//while ((SetBits[first - lengthAlready + 1 + lengthMissing] & temp) == 0) //nuly na začátku by byly ztraceny
+				if (lengthMissing == 0)//nahrazeno jen za 00
+				{
+					while ((SetBits[second] & temp) == 0) //nuly za druhou jedničkou + místo jedné jeničky
 					{
 						temp <<= 1;
 					}
-					int newBoundary = temp.ToBoundary();
-					if (IsValid(newBoundary))
-					{
+				}
+				
+					temp <<= 1; //nula za jedničku na začátku
+				
+				int newBoundary = temp.ToBoundary();
+				if (IsValid(newBoundary))
+				{
 
-						if (
-						ThreadSafeAdd(originalb, newBoundary))
-						{
-							Task.Run(() => FindTriarc(newBoundary));
-						}
+					if (
+					ThreadSafeAdd(originalb, newBoundary))
+					{
+						return newBoundary;
 					}
 				}
 			}
+			return 0;
+
 		}
 		public bool ThreadSafeAdd(int value, int key)
 		{
@@ -139,7 +153,6 @@ namespace Triarc
 					if (ThreadSafeAdd(b, newBoundary))
 					{
 						Found = true;
-						PrintSequenceOfStates();
 					}
 				}//koncový stav konec if
 				if (shorterSequenceOfNulls + 2 + 1 < face) //musí se zvětšit o alespoň 2
@@ -151,7 +164,7 @@ namespace Triarc
 					}
 					if (IsValid(newBoundary) && ThreadSafeAdd(b, newBoundary))
 					{
-						Task.Run(() => FindTriarc(newBoundary));
+						FindTriarc(newBoundary);
 					}
 				}
 				if (longerSequenceOfNulls + 2 + 1 < face) //musí se zvětšit o alespoň 2
@@ -164,17 +177,28 @@ namespace Triarc
 				
 					if (IsValid(newBoundary) && ThreadSafeAdd(b, newBoundary))
 					{
-						Task.Run(() => FindTriarc(newBoundary));
+						FindTriarc(newBoundary);
 					}
 				}
 			}
 		}
+
+		public void MainFindTriarc()
+		{
+			BoundariesToDo.Add(Boundary);
+
+			Boundaries.Add(Boundary,Boundary);
+			while (BoundariesToDo.Count!=0 && !Found)
+			{
+				int boundaryToDo = BoundariesToDo.First();
+				BoundariesToDo.Remove(boundaryToDo);
+				FindTriarc(boundaryToDo);
+			}
+
+			PrintSequenceOfStates();
+		}
 		public void FindTriarc(int b)
 		{
-			if (Found)
-			{
-				return;
-			}
 
 			int originalb = b;
 			int highest = b.OrderOfHighestSetBit();
@@ -191,12 +215,22 @@ namespace Triarc
 				SubstituteAndStartTaskForTwoBitsSet(b, highest,  second);
 				return;
 			}
+			var list = new List<int>();
 			while (i <= highest && highest > 0)
 			{
 				second = (b - highestValue).OrderOfHighestSetBit();
 				// před jen procházecí cyklus
-
-				SubstituteAndStartTask(b, highest, highestValue, second,originalb);
+				foreach (var face in FacesSizes)
+				{
+				int newBoundary = SubstituteAndStartTask(b, highest, highestValue, second,originalb, face);
+					if (newBoundary==0)
+					{
+						continue;
+					}
+					
+						BoundariesToDo.Add(newBoundary);
+					
+				}
 
 				//po je procházecí cyklus
 				//	int secondValue = HighestSetBit(l - highestValue);
@@ -248,7 +282,8 @@ namespace Triarc
 		//triarc recreation
 		public void PrintSequenceOfStates()
 		{
-			TextWriter tw = new StreamWriter(Name+".txt");
+			//	TextWriter tw = new StreamWriter(Name+".txt");
+			TextWriter tw = Console.Out;
 			tw.WriteLine(Name);
 			foreach (var face in Faces)
 			{
@@ -269,6 +304,7 @@ namespace Triarc
 					return;
 				}
 			}
+			tw.Flush();
 			tw.Close();
 		}
 	}

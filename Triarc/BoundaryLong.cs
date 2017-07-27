@@ -43,7 +43,7 @@ namespace Triarc
 		0x1000000000000000, 0x2000000000000000, 0x4000000000000000, long.MinValue};
 
 		private static long ToBoundaryOnlyOneSide(long a)
-		{ throw new NotImplementedException(); }
+		{ return a; }
 
 	
 

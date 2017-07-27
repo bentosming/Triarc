@@ -39,7 +39,7 @@ namespace Triarc
 			}
 			
 			SetBits = new long[64];
-			int j=1;
+			long j=1;
 			for (int i = 0; i < 64; i++)
 			{
 				SetBits[i] = j;
@@ -78,7 +78,7 @@ namespace Triarc
 			int lengthMissing = face - lengthAlready;
 			if (lengthMissing >= 0)
 			{
-				if (second + lengthMissing >= 32)
+				if (second + lengthMissing >= 64)
 				{
 					return 0;
 				}
@@ -186,7 +186,7 @@ namespace Triarc
 		{
 			BoundariesToDo.Add(Boundary);
 
-			Boundaries.Add(Boundary,Boundary);
+			Boundaries = Boundaries.Add(Boundary,Boundary);
 			while (BoundariesToDo.Count!=0 && !Found)
 			{
 				long boundaryToDo = BoundariesToDo.First();
@@ -203,7 +203,6 @@ namespace Triarc
 			int highest = b.OrderOfHighestSetBit();
 			long highestValue = SetBits[highest];
 			int i = 0;
-
 			int second = (b - highestValue).OrderOfHighestSetBit();
 			if (second == -1) //důležité, jinak by mohlo dojít ke smyčce
 			{

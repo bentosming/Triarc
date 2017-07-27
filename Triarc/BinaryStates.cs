@@ -41,7 +41,7 @@ namespace Triarc
 		{
 			Func<VertexStack, int> vertexToInt = x =>
 			{
-				if (x.HasAllTreeNeighbours())
+				if (x.HasAllThreeNeighbours())
 				{
 					return 0;
 				}
@@ -119,7 +119,7 @@ namespace Triarc
 		{
 			Func<VertexStack, long> vertexToLong = x =>
 			{
-				if (x.HasAllTreeNeighbours())
+				if (x.HasAllThreeNeighbours())
 				{
 					return 0;
 				}
@@ -163,7 +163,7 @@ namespace Triarc
 		{
 			Func<VertexStack, long> vertexToLong = x =>
 			{
-				if (x.HasAllTreeNeighbours())
+				if (x.HasAllThreeNeighbours())
 				{
 					return 0;
 				}

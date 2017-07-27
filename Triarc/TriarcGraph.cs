@@ -74,22 +74,119 @@ namespace Triarc
 			List<VertexStack> active = new List<VertexStack>();
 			active.Add(vertices[ActiveRootID]);
 			int i = 0;
-			VertexStack temp = active[i].Succescor(active[i]);
-			while (temp != active[0])
+			if (active.First().HasAllThreeNeighbours() && active.First().A.Active && active.First().B.Active && active.First().C.Active)
 			{
-				i++;
+				//nejprve přidej řetízek "in" vrcholů
+				VertexStack temp = active.First().C;
+				while (!temp.HasAllThreeNeighbours())
+				{
+					i++;
+					active.Add(temp);
+					temp = active[i].Succescor(active[i - 1]);
+				}
 				active.Add(temp);
-				temp = active[i].Succescor(active[i - 1]);
+				i++;
+				if (temp.A.Active &&temp.B.Active && temp.C.Active) //nastavení prvního out vrcholu, který nesouseí s in vrcholy
+				{
+					if (! active.Contains(temp.A))
+					{
+						temp = temp.A;
+					}
+					else if (! active.Contains(temp.B))
+					{
+						temp = temp.B;
+					}
+					else
+					{
+						temp = temp.C;
+					}
+				}
+
+				while (temp!=active[0])
+				{
+					i++;
+					active.Add(temp);
+					//temp = následník, který je aktivní a ještě není v active
+					if (temp.A.Active && !active.Contains(temp.A))
+					{
+						temp = temp.A;
+						continue;
+					}
+					if (temp.B.Active && !active.Contains(temp.B))
+					{
+						temp = temp.B;
+						continue;
+					}
+					if (temp.C.HasAllThreeNeighbours()&& temp.C.Active && !active.Contains(temp.C))
+					{
+						temp = temp.C;
+						continue;
+					}
+					//pokud žádné z předchozích nevyšlo, musel mít jen takové aktivní sousedy, které už jsou v active, tedy jeden z nich je první soused
+					temp = active[0];
+				}
+				
+				return active;
 			}
-			return active;
+			else
+			{
+				
+				VertexStack temp = active[i].Succescor(active[i]);
+				while (temp != active[0])
+				{
+					i++;
+					active.Add(temp);
+					temp = active[i].Succescor(active[i - 1]);
+				}
+				return active;
+			}
 		}
 
 		public void BATWrite(TextWriter tw, string name)
 		{
-			tw.WriteLine("cd \"C:\\Users\\Zuzana\\Documents\\Visual Studio 2015\\Projects\\Triart\\Triarc\\bin\\Debug\"");
+			tw.WriteLine("cd \"C:\\Users\\Zuzana\\Documents\\Visual Studio 2015\\Projects\\Triarc\\Triarc\\bin\\Debug\"");
 			tw.WriteLine("  \"C:\\Program Files (x86)\\Graphviz2.38\\bin\\neato.exe\" -o \"grafy\\" + name + ".png\" -Tpng   \"grafy\\" + name + ".gv\"");
 		}
 
+		public void WAWrite(TextWriter tw)
+		{
+
+			
+			foreach (var item in vertices)
+			{
+				if (item.ID < Circumference)
+				{
+					
+					if (item.ID < item.A.ID)
+					{
+						tw.Write(item.ID + " -> " + item.A.ID + ", ");
+					}															 
+					if (item.ID < item.B.ID)							 
+					{															 
+						tw.Write(item.ID + " -> " + item.B.ID + ", ");
+					}															 
+				}																 
+				else															 
+				{																 
+					if (item.ID < item.A.ID)							 
+					{															 
+						tw.Write(item.ID + " -> " + item.A.ID + ", ");
+					}
+					if (item.ID < item.B.ID)
+					{
+						tw.Write(item.ID + " -> " + item.B.ID + ", ");
+					}
+
+				}
+				if (item.C != null && item.ID < item.C.ID)
+				{
+					tw.Write(item.ID + " -> " + item.C.ID + ", ");
+				}
+
+
+			}
+		}
+	
 		public void GWWrite(TextWriter tw)
 		{
 			double diameter = Math.Sqrt(Count);
@@ -141,447 +238,461 @@ namespace Triarc
 	}
 
 
-		interface IStates<T>
+	interface IStates<T>
+	{
+		T VerticesToState(IList<VertexStack> list);
+		/// <summary>
+		/// Adds state, returns false if state has already been in.
+		/// </summary>
+		/// <param name="item"></param> 
+		/// <returns></returns>
+		bool Add(T item);
+		int Count();
+		bool Add(IList<VertexStack> list);
+		string VerticesToString(IList<VertexStack> list);
+	}
+	interface IStates
+	{
+
+		int Count();
+		bool Add(IList<VertexStack> list);
+		string VerticesToString(IList<VertexStack> list);
+	}
+
+
+	class CannotCreateMultipleEdgesException : Exception
+	{
+
+	}
+
+
+	class TriarcReconstruction
+	{
+		public int maxNumberOfVertices = 38;
+
+		public IStates<long> states = new LongBinaryStatesWithHashSet();
+		public TextWriter writer = Console.Out;
+
+		public TriarcGraph triarc;
+		bool found = false;
+		int version = 0;
+
+		public TriarcReconstruction(TriarcGraph tg, int MaxNumberOfVerticesToAdd)
 		{
-			T VerticesToState(IList<VertexStack> list);
-			/// <summary>
-			/// Adds state, returns false if state has already been in.
-			/// </summary>
-			/// <param name="item"></param> 
-			/// <returns></returns>
-			bool Add(T item);
-			int Count();
-			bool Add(IList<VertexStack> list);
-			string VerticesToString(IList<VertexStack> list);
+			triarc = tg;
+			maxNumberOfVertices = triarc.Count + MaxNumberOfVerticesToAdd;
 		}
-		interface IStates
+		void ExtractResult()
 		{
-
-			int Count();
-			bool Add(IList<VertexStack> list);
-			string VerticesToString(IList<VertexStack> list);
+			string name = "Triarc" + triarc.Name + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "__" + version + "v" + triarc.Count;
+			StreamWriter sw = new StreamWriter("grafy\\" + name + ".gv");
+			StreamWriter sw2 = new StreamWriter("grafy\\" + name + ".txt");
+			triarc.WAWrite(sw2);
+			sw2.Close();
+			triarc.GWWrite(sw);
+			sw.Close();
+			sw = new StreamWriter("grafy\\" + name + ".BAT");
+			triarc.BATWrite(sw, name);
+			sw.Close();
 		}
 
-
-		class CannotCreateMultipleEdgesException : Exception
+		IEnumerable<IList<VertexStack>> SelectWhatToChange(List<VertexStack> active)
 		{
-
-		}
-
-
-		class TriarcReconstruction
-		{
-			public int maxNumberOfVertices = 38;
-
-			public IStates<long> states = new LongBinaryStatesWithHashSet();
-			public TextWriter writer = Console.Out;
-
-			public TriarcGraph triarc;
-			bool found = false;
-			int version = 0;
-
-			public TriarcReconstruction(TriarcGraph tg, int MaxNumberOfVerticesToAdd)
+			var result = new List<IList<VertexStack>>();
+			int i = 0;
+			int max = active.Count;
+			while (i < max && active[i].HasAllThreeNeighbours())
 			{
-				triarc = tg;
-				maxNumberOfVertices = triarc.Count + MaxNumberOfVerticesToAdd;
+				i++;
 			}
-			void ExtractResult()
+			int toGoTroughAgain = i;
+			List<VertexStack> temp = new List<VertexStack>();
+			while (i < max + toGoTroughAgain)
 			{
-				string name = "Triarc" + triarc.Name + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "__" + version + "v" + triarc.Count;
-				StreamWriter sw = new StreamWriter("grafy\\" + name + ".gv");
-
-				triarc.GWWrite(sw);
-				sw.Close();
-				sw = new StreamWriter("grafy\\" + name + ".BAT");
-				triarc.BATWrite(sw, name);
-				sw.Close();
-			}
-
-			IEnumerable<IList<VertexStack>> SelectWhatToChange(List<VertexStack> active)
-			{
-				var result = new List<IList<VertexStack>>();
-				int i = 0;
-				int max = active.Count;
-				while (i < max && active[i].HasAllTreeNeighbours())
+				int ii = i % max;
+				temp = new List<VertexStack>();
+				temp.Add(active[ii]);
+				i++;
+				ii = i % max;
+				while (active[ii].HasAllThreeNeighbours()) //dokued nemíří dovnitř
 				{
-					i++;
-				}
-				int toGoTroughAgain = i;
-				List<VertexStack> temp = new List<VertexStack>();
-				while (i < max + toGoTroughAgain)
-				{
-					int ii = i % max;
-					temp = new List<VertexStack>();
 					temp.Add(active[ii]);
 					i++;
 					ii = i % max;
-					while (active[ii].HasAllTreeNeighbours()) //dokued nemíří dovnitř
-					{
-						temp.Add(active[ii]);
-						i++;
-						ii = i % max;
 
-					}
-					temp.Add(active[ii]);
-					result.Add(temp);
 				}
-				return from item in result
-						 orderby item.Count descending
-						 select item;
+				temp.Add(active[ii]);
+				result.Add(temp);
 			}
+			return from item in result
+					 orderby item.Count descending
+					 select item;
+		}
 
-			public int NumberOfActiveWithTwoNeighbours(List<VertexStack> active)
+		public int NumberOfActiveWithTwoNeighbours(List<VertexStack> active)
+		{
+			int i = 0;
+			foreach (var item in active)
 			{
-				int i = 0;
-				foreach (var item in active)
+				if (!item.HasAllThreeNeighbours())
 				{
-					if (!item.HasAllTreeNeighbours())
-					{
-						i++;
-					}
+					i++;
 				}
-				return i;
 			}
+			return i;
+		}
 
-			void WriteVertices(IList<VertexStack> list, string s, bool extraNewLine, string prefix)
+		void WriteVertices(IList<VertexStack> list, string s, bool extraNewLine, string prefix)
+		{
+
+			if (extraNewLine)
 			{
 
-				if (extraNewLine)
-				{
+				writer.WriteLine(prefix + "-");
+			}
+			return;
+			writer.WriteLine(s);
+			foreach (var item in list)
+			{
+				writer.WriteLine(prefix + item.ToString());
+			}
+		}
 
-					writer.WriteLine(prefix + "-");
-				}
+		public void ReconstructTriarc(string depth)
+		{
+			long boundaryFromActive = (LongBinaryStatesWithHashSet.VerticesToStateStatic(triarc.ActiveVertices())).ToBoundary();
+
+			List<VertexStack> active = triarc.ActiveVertices();
+			if (NumberOfActiveWithTwoNeighbours(active) == 0 && triarc.PolygonSizes.Contains(active.Count))
+			{
+				ExtractResult();
+				writer.WriteLine("že by?");
+				found = true;
+				//				return;
+			}
+			if (boundaryFromActive != triarc.StatesToGoTrough.Last() || (NumberOfActiveWithTwoNeighbours(active) == 0))
+			{
+				var bla = triarc.ActiveVertices();
+				long test = LongBinaryStatesWithHashSet.VerticesToStateStatic(triarc.ActiveVertices());
+				return; //jsme ve špatné větvi výpočtu
+			}
+			triarc.StatesToGoTrough.RemoveAt(triarc.StatesToGoTrough.Count - 1);
+			if (triarc.Count > maxNumberOfVertices)
+			{
+				
 				return;
-				writer.WriteLine(s);
-				foreach (var item in list)
-				{
-					writer.WriteLine(prefix + item.ToString());
-				}
 			}
 
-			public void ReconstructTriarc(string depth)
+			try
 			{
-				if (triarc.Count > maxNumberOfVertices)
-				{
-					return;
-				}
-				List<VertexStack> active = triarc.ActiveVertices();
+				//			writer.WriteLine(states.VerticesToString(active));
+			}
+			catch (TooManyVerticesToPutInStateException)
+			{
+				writer.WriteLine("TooManyVerticesToPutInStateException");
+				return;
+			}
 
-				try
-				{
-					//			writer.WriteLine(states.VerticesToString(active));
-				}
-				catch (TooManyVerticesToPutInStateException)
-				{
-					writer.WriteLine("TooManyVerticesToPutInStateException");
-					return;
-				}
+			//	writer.WriteLine(states.VerticesToString(active));
 
-				//	writer.WriteLine(states.VerticesToString(active));
+			if (!states.Add(active))
+			{
+				version++;
+				return;
+			}
+			int activeNUmber = NumberOfActiveWithTwoNeighbours(active);
 
-				if (!states.Add(active))
-				{
-					version++;
-					return;
-				}
-				int activeNUmber = NumberOfActiveWithTwoNeighbours(active);
-
-				if (NumberOfActiveWithTwoNeighbours(active) == 0 && triarc.PolygonSizes.Contains(active.Count))
-				{
-					ExtractResult();
-					writer.WriteLine("že by?");
-					found = true;
-					//				return;
-				}
+		
 
 
-				if (activeNUmber > 1 && !found)
+			if (activeNUmber > 1 && !found)
+			{
+				var selectWhatToChange = SelectWhatToChange(active).ToArray();
+				foreach (var selected in selectWhatToChange)
 				{
-					var selectWhatToChange = SelectWhatToChange(active).ToArray();
-					foreach (var selected in selectWhatToChange)
+
+
+					WriteVertices(active, "active ", true, depth);
+					WriteVertices(selected, "selected  ", false, depth);
+
+					foreach (var polySize in triarc.PolygonSizes)
 					{
+						version++;
 
-
-						WriteVertices(active, "active ", true, depth);
-						WriteVertices(selected, "selected  ", false, depth);
-
-						foreach (var polySize in triarc.PolygonSizes)
+						if (triarc.PolygonSizes[triarc.PolygonSizes.Count - 1] < selected.Count)
 						{
-							version++;
-
-							if (triarc.PolygonSizes[triarc.PolygonSizes.Count - 1] < selected.Count)
-							{
-								return;
-							}
-							if (polySize < selected.Count)
-							{
-								continue;
-							}
-
-
-							//předejití násobným hranám
-							if (selected[0].A == selected[selected.Count - 1] || selected[0].B == selected[selected.Count - 1])
-							{
-								return;
-							}
-
-							int NumberOfVerticesInTriarc = triarc.Count;
-							int root = triarc.ActiveRootID;
-							List<VertexStack> replacedBy;
-
-							Replace(selected, out replacedBy, polySize);
-
-							WriteVertices(replacedBy, "replaced by", false, depth);
-							triarc.ActiveRootID = selected[0].ID;
-							List<VertexStack> activeNew = triarc.ActiveVertices();
-							triarc.ActiveRootID = IndexOfMinimalID(activeNew);
-
-							ReconstructTriarc(depth + ".");
-							if (found)
-							{
-								return;
-							}
-							foreach (var item in selected)
-							{
-								//				writer.WriteLine(depth + "Poping " + item);
-								item.Pop();
-								//				writer.WriteLine(depth + "  on   " + item);
-							}
-							triarc.vertices.RemoveRange(NumberOfVerticesInTriarc, polySize - selected.Count);
-							triarc.Count = NumberOfVerticesInTriarc;
-							triarc.ActiveRootID = root;
-
+							return;
+						}
+						if (polySize < selected.Count)
+						{
+							continue;
 						}
 
+
+						//předejití násobným hranám
+						if ((selected[0].A == selected[selected.Count - 1] || selected[0].B == selected[selected.Count - 1]) && selected.Count==polySize)
+						{
+							continue;
+						}
+
+						int NumberOfVerticesInTriarc = triarc.Count;
+						int root = triarc.ActiveRootID;
+						List<VertexStack> replacedBy;
+
+						Replace(selected, out replacedBy, polySize);
+
+						WriteVertices(replacedBy, "replaced by", false, depth);
+						triarc.ActiveRootID = selected[0].ID;
+						List<VertexStack> activeNew = triarc.ActiveVertices();
+		//				triarc.ActiveRootID = IndexOfMinimalID(activeNew);
+
+						ReconstructTriarc(depth + ".");
+						if (found)
+						{
+							return;
+						}
+						foreach (var item in selected)
+						{
+							//				writer.WriteLine(depth + "Poping " + item);
+							item.Pop();
+							//				writer.WriteLine(depth + "  on   " + item);
+						}
+						triarc.vertices.RemoveRange(NumberOfVerticesInTriarc, polySize - selected.Count);
+						triarc.Count = NumberOfVerticesInTriarc;
+						triarc.ActiveRootID = root;
+
 					}
 
 				}
-				writer.Flush();
 
 			}
-			int IndexOfMinimalID(IList<VertexStack> list)
+			writer.Flush();
 
-			{
-				int index = list[0].ID;
-				for (int i = 0; i < list.Count; i++)
-				{
-					if (list[i].ID < index)
-					{
-						index = list[i].ID;
-					}
-				}
-				return index;
-			}
-			void Replace(IList<VertexStack> selected, out List<VertexStack> replacedBy, int polySize)
-			{
-				//střed vybraných bude neaktivní
-				for (int i = 1; i < selected.Count - 1; i++)
-				{
-					Vertex temp = selected[i].Peek().Clone();
-					temp.Active = false;
-					selected[i].Push(temp);
-				}
-
-				replacedBy = new List<VertexStack>();
-				replacedBy.Add(selected[0]);
-				selected[0].Push(selected[0].Peek().Clone());
-				for (int i = 0; i < polySize - selected.Count; i++)
-				{
-					VertexStack tempVS = new VertexStack(triarc.Count);
-					triarc.vertices.Add(tempVS);
-					triarc.Count++;
-					Vertex tempV = new Vertex();
-					tempV.A = replacedBy[i];
-					tempV.Active = true;
-					tempVS.Push(tempV);
-					Vertex tempP = replacedBy[i].Pop();
-					if (tempP.B == null)
-					{
-						tempP.B = tempVS;
-					}
-					else
-					{
-						tempP.C = tempVS;
-					}
-					replacedBy[i].Push(tempP);
-					replacedBy.Add(tempVS);
-				}
-				//and connect last
-				{
-					VertexStack tempVS = selected[selected.Count - 1];
-					Vertex tempV = tempVS.Peek().Clone();
-					tempV.C = replacedBy[replacedBy.Count - 1];
-					tempV.Active = true;
-					tempVS.Push(tempV);
-					Vertex tempP = replacedBy[replacedBy.Count - 1].Pop();
-					if (tempP.B == null)
-					{
-						tempP.B = tempVS;
-					}
-					else
-					{
-						tempP.C = tempVS;
-					}
-					replacedBy[replacedBy.Count - 1].Push(tempP);
-					replacedBy.Add(tempVS);
-				}
-			}
 		}
+		int IndexOfMinimalID(IList<VertexStack> list)
 
-		class Vertex
 		{
-			public VertexStack A, B;
-			private VertexStack c;
-			public VertexStack C
+			int index = list[0].ID;
+			for (int i = 0; i < list.Count; i++)
 			{
-				get
+				if (list[i].ID < index)
 				{
-					return c;
+					index = list[i].ID;
 				}
-				set
+			}
+			return index;
+		}
+		void Replace(IList<VertexStack> selected, out List<VertexStack> replacedBy, int polySize)
+		{
+			//střed vybraných bude neaktivní
+			for (int i = 1; i < selected.Count - 1; i++)
+			{
+				Vertex temp = selected[i].Peek().Clone();
+				temp.Active = false;
+				selected[i].Push(temp);
+			}
+
+			replacedBy = new List<VertexStack>();
+			replacedBy.Add(selected[0]);
+			selected[0].Push(selected[0].Peek().Clone());
+			for (int i = 0; i < polySize - selected.Count; i++)
+			{
+				VertexStack tempVS = new VertexStack(triarc.Count);
+				triarc.vertices.Add(tempVS);
+				triarc.Count++;
+				Vertex tempV = new Vertex();
+				tempV.A = replacedBy[i];
+				tempV.Active = true;
+				tempVS.Push(tempV);
+				Vertex tempP = replacedBy[i].Pop();
+				if (tempP.B == null)
 				{
-					if ((B != null && A != null && value.ID != A.ID && value.ID != B.ID) || value.ID == -1)
+					tempP.B = tempVS;
+				}
+				else
+				{
+					tempP.C = tempVS;
+				}
+				replacedBy[i].Push(tempP);
+				replacedBy.Add(tempVS);
+			}
+			//and connect last
+			{
+				VertexStack tempVS = selected[selected.Count - 1];
+				Vertex tempV = tempVS.Peek().Clone();
+				tempV.C = replacedBy[replacedBy.Count - 1];
+				tempV.Active = true;
+				tempVS.Push(tempV);
+				Vertex tempP = replacedBy[replacedBy.Count - 1].Pop();
+				if (tempP.B == null)
+				{
+					tempP.B = tempVS;
+				}
+				else
+				{
+					tempP.C = tempVS;
+				}
+				replacedBy[replacedBy.Count - 1].Push(tempP);
+				replacedBy.Add(tempVS);
+			}
+		}
+	}
+
+	class Vertex
+	{
+		public VertexStack A, B;
+		private VertexStack c;
+		public VertexStack C
+		{
+			get
+			{
+				return c;
+			}
+			set
+			{
+				if ((B != null && A != null && value.ID != A.ID && value.ID != B.ID) || value.ID == -1)
+				{
+					c = value;
+				}
+				else
+				{
+					if (value.ID == -1)
 					{
-						c = value;
+						throw new ArgumentException();
 					}
 					else
 					{
-						if (value.ID == -1)
-						{
-							throw new ArgumentException();
-						}
-						else
-						{
-							throw new CannotCreateMultipleEdgesException();
-						}
+						throw new CannotCreateMultipleEdgesException();
 					}
 				}
 			}
-
-			public bool Active;
-			public VertexStack Succescor(VertexStack predecessor)
-			{
-				if (A != null && A != predecessor && A.Active)
-				{
-					return A;
-				}
-				if (B != null && B != predecessor && B.Active)
-				{
-					return B;
-				}
-				if (C != null && C != predecessor && C.Active)
-				{
-
-					return C;
-				}
-				return null;
-			}
-
-			public Vertex Clone()
-			{
-				var clone = new Vertex();
-				clone.A = this.A;
-				clone.B = this.B;
-				clone.c = this.c;
-				clone.Active = this.Active;
-				return clone;
-			}
-			public override string ToString()
-			{
-				string neighbours = "";
-				if (A != null)
-				{
-					neighbours += "    A " + A.ID;
-				}
-				if (B != null)
-				{
-					neighbours += "    B " + B.ID;
-				}
-				if (C != null)
-				{
-					neighbours += "    C " + C.ID;
-				}
-				return neighbours;
-			}
-
-
 		}
-		class VertexStack
+
+		public bool Active;
+		public VertexStack Succescor(VertexStack predecessor)
 		{
-			Stack<Vertex> stack;
-			public int ID;
-			public VertexStack(int id)
-			{
-				stack = new Stack<Vertex>();
-				ID = id;
-			}
-			public VertexStack A
-			{
-				get
-				{
-					return stack.Peek().A;
-				}
-			}
-			public VertexStack B
-			{
-				get
-				{
-					return stack.Peek().B;
-				}
-			}
-			public VertexStack C
-			{
-				get
-				{
-					return stack.Peek().C;
-				}
-			}
-			public bool Active
-			{
-				get
-				{
-					return stack.Peek().Active;
-				}
-			}
-			public VertexStack Succescor(VertexStack predecessor)
-			{
-				return stack.Peek().Succescor(predecessor);
-			}
-			public bool HasAllTreeNeighbours()
-			{
-				return A != null && B != null && C != null;
-			}
 
-			public void Push(Vertex v)
+			if (A != null && A != predecessor && A.Active)
 			{
-				stack.Push(v);
+				return A;
 			}
-			public Vertex Pop()
+			if (B != null && B != predecessor && B.Active)
 			{
-				return stack.Pop();
+				return B;
 			}
-			public Vertex Peek()
+			if (C != null && C != predecessor && C.Active)
 			{
-				return stack.Peek();
+
+				return C;
 			}
-			public override string ToString()
+			return null;
+		}
+
+		public Vertex Clone()
+		{
+			var clone = new Vertex();
+			clone.A = this.A;
+			clone.B = this.B;
+			clone.c = this.c;
+			clone.Active = this.Active;
+			return clone;
+		}
+		public override string ToString()
+		{
+			string neighbours = "";
+			if (A != null)
 			{
-				string neighbours = "";
-				if (A != null)
-				{
-					neighbours += "    A " + A.ID;
-				}
-				if (B != null)
-				{
-					neighbours += "    B " + B.ID;
-				}
-				if (C != null)
-				{
-					neighbours += "    C " + C.ID;
-				}
-				return "ID " + ID + neighbours;
+				neighbours += "    A " + A.ID;
+			}
+			if (B != null)
+			{
+				neighbours += "    B " + B.ID;
+			}
+			if (C != null)
+			{
+				neighbours += "    C " + C.ID;
+			}
+			return neighbours;
+		}
+
+
+	}
+	class VertexStack
+	{
+		Stack<Vertex> stack;
+		public int ID;
+		public VertexStack(int id)
+		{
+			stack = new Stack<Vertex>();
+			ID = id;
+		}
+		public VertexStack A
+		{
+			get
+			{
+				return stack.Peek().A;
 			}
 		}
+		public VertexStack B
+		{
+			get
+			{
+				return stack.Peek().B;
+			}
+		}
+		public VertexStack C
+		{
+			get
+			{
+				return stack.Peek().C;
+			}
+		}
+		public bool Active
+		{
+			get
+			{
+				return stack.Peek().Active;
+			}
+		}
+		public VertexStack Succescor(VertexStack predecessor)
+		{
+			return stack.Peek().Succescor(predecessor);
+		}
+		public bool HasAllThreeNeighbours()
+		{
+			return A != null && B != null && C != null;
+		}
+
+		public void Push(Vertex v)
+		{
+			stack.Push(v);
+		}
+		public Vertex Pop()
+		{
+			return stack.Pop();
+		}
+		public Vertex Peek()
+		{
+			return stack.Peek();
+		}
+		public override string ToString()
+		{
+			string neighbours = "";
+			if (A != null)
+			{
+				neighbours += "    A " + A.ID;
+			}
+			if (B != null)
+			{
+				neighbours += "    B " + B.ID;
+			}
+			if (C != null)
+			{
+				neighbours += "    C " + C.ID;
+			}
+			return "ID " + ID + neighbours;
+		}
+	}
 
 
 	class StringStatesWithHasSetAndRedundants : IStates<string>, IStates
@@ -634,7 +745,7 @@ namespace Triarc
 
 			Func<VertexStack, char> toState = x =>
 			{
-				if (x.HasAllTreeNeighbours())
+				if (x.HasAllThreeNeighbours())
 				{
 					return 'O';
 				}

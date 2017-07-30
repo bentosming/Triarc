@@ -9,23 +9,33 @@ namespace Triarc
 {
 	public static class BoundaryLong
 	{
-		const int LengthOfStruct = 64;
 		/// <summary>
-		/// Takes a boundary, that isn't represented properly and changes representation so that it is the greatest int value possible.
+		/// Number of bits in long
+		/// </summary>
+		const int LengthOfStruct = 64;
+
+		/// <summary>
+		/// Takes a long, which represents a boundary and transforms it into its unique form.
+		/// Unique form of boundary is the one, that represents the same boundary and has the greatest numerical value. Unique form of one-faced n-long boundary is all bits 
 		/// </summary>
 		/// <param name="l"></param>
 		/// <returns></returns>
-		public static long ToBoundary(this long l)
+		public static long BoundaryToStandardizedForm(this long boundaryToBeStandardized)
 		{
 
-			if (l < 0)
+			if (boundaryToBeStandardized < 0)
 			{
-				return ToBoundaryOnlyOneSide(l);
+				return ToStandardizedFormOnlyOneFace(boundaryToBeStandardized);
 			}
-			return ToBoundaryStandard(l);
+			return ToStandardizedFormMoreFaces(boundaryToBeStandardized);
 		}
+
+		/// <summary>
+		/// SetBits array allows direct acces to n-th bit.
+		/// </summary>
 		static long[] SetBits = new long[LengthOfStruct]
-		{ 0x1, 0x2, 0x4, 0x8 ,
+		{
+		0x1, 0x2, 0x4, 0x8 ,
 		0x10, 0x20, 0x40, 0x80,
 		0x100, 0x200, 0x400, 0x800,
 		0x1000, 0x2000, 0x4000, 0x8000 ,
@@ -42,150 +52,147 @@ namespace Triarc
 		0x0100000000000000, 0x0200000000000000, 0x0400000000000000, 0x0800000000000000,
 		0x1000000000000000, 0x2000000000000000, 0x4000000000000000, long.MinValue};
 
-		private static long ToBoundaryOnlyOneSide(long a)
-		{ return a; }
-
-	
-
-
-		public static long ToBoundaryStandard(long a)
+		/// <summary>
+		/// Knowing the project never generates a one-faced boundary representation that isn't standardized, this returns its parameter.
+		/// In the case that previous doesn't hold, some adequate control has to be added.
+		/// </summary>
+		/// <param name="oneFacedBoundaryToBeStandardized"></param>
+		/// <returns></returns>
+		private static long ToStandardizedFormOnlyOneFace(long oneFacedBoundaryToBeStandardized)
 		{
-			if (a == 0)
+			return oneFacedBoundaryToBeStandardized;
+		}
+
+		/// <summary>
+		/// Takes a more-than-one-faced boundary and returns its standardized form which is the one from those that represents the same boundary that has the greates numeric value.
+		/// For zero returns zero.
+		/// For other non supported input returns eighter nonsense or crushes.
+		/// </summary>
+		/// <param name="moreThanOneFacedBoundaryToBeStandardized"></param>
+		/// <returns></returns>
+		public static long ToStandardizedFormMoreFaces(long moreThanOneFacedBoundaryToBeStandardized)
+		{
+			//not exactly a "moreThanOneFacedBoundary" but still useful
+			if (moreThanOneFacedBoundaryToBeStandardized == 0)
 			{
 				return 0;
 			}
-			int highest = OrderOfHighestSetBit(a);
-			long highestValue = SetBits[highest];
-			int i = 0;
-			long max = a;
-			while (i <= highest && highest > 0)
+
+			int orderOfHighestBitSet = OrderOfHighestSetBit(moreThanOneFacedBoundaryToBeStandardized);
+			long onlyHighestBitSet = SetBits[orderOfHighestBitSet];
+
+			//sums lengths of rotations done, so that it can determine that the boundary has been fully rotated
+			int togetherRotatedBy = 0;
+			
+			//Since a maximal value of all acceptable is searched for, it will be represented by maximalValueFound and inicializated by the first acceptable.
+			long maximalValueFound = moreThanOneFacedBoundaryToBeStandardized;
+
+			while (togetherRotatedBy <= orderOfHighestBitSet && orderOfHighestBitSet > 0)
 			{
-				int second = OrderOfHighestSetBit(a - highestValue);
-				//	int secondValue = HighestSetBit(l - highestValue);
-				a = ((a ^ highestValue) << (highest - second)) | (highestValue >> (second + 1));
-				i += highest - second;
-				if (a > max)
+				int orderOfSecondHighestBitSet = OrderOfHighestSetBit(moreThanOneFacedBoundaryToBeStandardized - onlyHighestBitSet);
+				
+				//unsets highest bit set, shifts left, so that the second highest bit set is on the position of first and sets bit that responds to the original highest
+				moreThanOneFacedBoundaryToBeStandardized = ((moreThanOneFacedBoundaryToBeStandardized ^ onlyHighestBitSet) << (orderOfHighestBitSet - orderOfSecondHighestBitSet)) | (onlyHighestBitSet >> (orderOfSecondHighestBitSet + 1));
+
+				togetherRotatedBy += orderOfHighestBitSet - orderOfSecondHighestBitSet;
+
+				if (moreThanOneFacedBoundaryToBeStandardized > maximalValueFound)
 				{
-					max = a;
+					maximalValueFound = moreThanOneFacedBoundaryToBeStandardized;
 				}
 			}
-			//ještě verze "čtení z druhé strany"
-			long aReversed = 0;
-			for (int j = 0; j <= highest; j++)
+
+			//To really find all boundary representations, it is neccesary to "read it backwards" (equivalent to clockwise and anticlock wise reading graphical representation).
+		
+			//reversing 
+			long reversedBoundaryToBeStandardized = 0;
+			for (int j = 0; j <= orderOfHighestBitSet; j++)
 			{
-				aReversed <<= 1;
-				aReversed |= (a & 1);
-				a >>= 1;
+				reversedBoundaryToBeStandardized <<= 1;
+				reversedBoundaryToBeStandardized |= (moreThanOneFacedBoundaryToBeStandardized & 1);
+				moreThanOneFacedBoundaryToBeStandardized >>= 1;
 			}
-			int reversedHighestBit = aReversed.OrderOfHighestSetBit();
-			aReversed <<= (highest - reversedHighestBit);
-			a = aReversed;
-			highest = OrderOfHighestSetBit(a);
-			highestValue = SetBits[highest];
-			i = 0;
-			while (i <= highest && highest > 0)
+			int reversedHighestBit = reversedBoundaryToBeStandardized.OrderOfHighestSetBit();
+			reversedBoundaryToBeStandardized <<= (orderOfHighestBitSet - reversedHighestBit);
+
+			//rotating reversed just as above the original
+			moreThanOneFacedBoundaryToBeStandardized = reversedBoundaryToBeStandardized;
+			orderOfHighestBitSet = OrderOfHighestSetBit(moreThanOneFacedBoundaryToBeStandardized);
+			onlyHighestBitSet = SetBits[orderOfHighestBitSet];
+			togetherRotatedBy = 0;
+			while (togetherRotatedBy <= orderOfHighestBitSet && orderOfHighestBitSet > 0)
 			{
-				int second = OrderOfHighestSetBit(a - highestValue);
-				//	int secondValue = HighestSetBit(l - highestValue);
-				a = ((a ^ highestValue) << (highest - second)) | (highestValue >> (second + 1));
-				i += highest - second;
-				if (a > max)
+				int orderOfSecondHighestBitSet = OrderOfHighestSetBit(moreThanOneFacedBoundaryToBeStandardized - onlyHighestBitSet);
+				moreThanOneFacedBoundaryToBeStandardized = ((moreThanOneFacedBoundaryToBeStandardized ^ onlyHighestBitSet) << (orderOfHighestBitSet - orderOfSecondHighestBitSet)) | (onlyHighestBitSet >> (orderOfSecondHighestBitSet + 1));
+				togetherRotatedBy += orderOfHighestBitSet - orderOfSecondHighestBitSet;
+				if (moreThanOneFacedBoundaryToBeStandardized > maximalValueFound)
 				{
-					max = a;
+					maximalValueFound = moreThanOneFacedBoundaryToBeStandardized;
 				}
 			}
-			return max;
+
+			return maximalValueFound;
+		}
+
+
+		/// <summary>
+		/// Takes non-negative long and returns value of highest bit set.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public static long HighestSetBit(this long value)
+		{
+			//sets all bits lower that the highest and then unsets all but the highests
+			value |= (value >> 1);
+			value |= (value >> 2);
+			value |= (value >> 4);
+			value |= (value >> 8);
+			value |= (value >> 16);
+			value |= (value >> 32);
+			return value - (value >> 1);
 		}
 
 		/// <summary>
-		/// rotates l so that second highest set bit is first
+		/// Takes positive int and returns order of highest bit set. Lowest bit's order is 0 and highest's is 63.
+		/// For zero returns -1.
 		/// </summary>
-		/// <param name="l"></param>
-		/// <param name="highest"></param>
-		/// <param name="highestValue"></param>
+		/// <param name="value"></param>
 		/// <returns></returns>
-		public static long RotateRight(this long l, int highest, long highestValue)
+		public static int OrderOfHighestSetBit(this long value)
 		{
-			int second = OrderOfHighestSetBit(l - highestValue);
-			//	int secondValue = HighestSetBit(l - highestValue);
-			return ((l ^ highestValue) << (highest - second)) | (highestValue >> (second + 1));
-		}
-
-		/// <summary>
-		/// Takes non-negative int and returns value of highest set bit
-		/// </summary>
-		/// <param name="n"></param>
-		/// <returns></returns>
-		public static long HighestSetBit(this long n)
-		{
-			n |= (n >> 1);
-			n |= (n >> 2);
-			n |= (n >> 4);
-			n |= (n >> 8);
-			n |= (n >> 16);
-			n |= (n >> 32);
-			return n - (n >> 1);
-		}
-		/// <summary>
-		/// Takes positive int and returns order of highest bit set ( for 1 its 0).
-		/// </summary>
-		/// <param name="n"></param>
-		/// <returns></returns>
-		public static int OrderOfHighestSetBit(this long n)
-		{
-			if (n < 0)
+			if (value < 0)
 			{
 				return LengthOfStruct - 1;
 			}
-			if (n == 0)
+			if (value == 0)
 			{
 				return -1;
 			}
 			int result = 0;
 
-			while (n != 1 && n != 0)
+			//Counted lineraly to LengthOfStruct by shifting by one until only last bit is set.
+			while (value != 1 && value != 0)
 			{
 				result++;
-				n >>= 1;
+				value >>= 1;
 			}
+
 			return result;
 		}
 
-		public static long FaceToBoundary(int a)
+		/// <summary>
+		/// Takes length of single-faced boundary and returns its standardized representation.
+		/// </summary>
+		/// <param name="lengthOfSingleFacedBoundary"></param>
+		/// <returns>Standardized boundary form of face</returns>
+		public static long FaceToBoundary(int lengthOfSingleFacedBoundary)
 		{
-			int b = -1;
-			for (int i = 0; i < a; i++)
-			{
-				b <<= 1;
+			//initializes to all bits set and then add zeros to low bits (as many as lenght of face)
+			int representation = -1;
+			representation <<= lengthOfSingleFacedBoundary;
 
-			}
-			return b;
+			return representation;
 		}
-
-
-		public static void ToBoundaryStandardPerformaceTest()
-		{
-
-			BoundaryInt.ToBoundaryStandard(1);
-			var stopWatch = new Stopwatch();
-			stopWatch.Start();
-			for (int i = 1; i < 0xFFFFFFF; i++)
-			{
-				BoundaryInt.ToBoundaryStandard(i);
-
-			}
-			stopWatch.Stop();
-			Console.WriteLine("Time elapsed when using ToBoundaryStandard  " + stopWatch.Elapsed);
-
-			BoundaryInt.ToBoundaryStandard2(1);
-			stopWatch = new Stopwatch();
-			stopWatch.Start();
-			for (int i = 1; i < 0xFFFFFFF; i++)
-			{
-				BoundaryInt.ToBoundaryStandard2(i);
-			}
-			stopWatch.Stop();
-			Console.WriteLine("Time elapsed when using ToBoundaryStandard2  " + stopWatch.Elapsed);
-		}
+		
 	}
 }

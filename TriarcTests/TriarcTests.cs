@@ -12,7 +12,7 @@ namespace Triarc.Tests
 	[TestClass()]
 	public class TriarcTests
 	{
-		[TestMethod()]
+/*		[TestMethod()]
 		public void CreateBoundaryTest()
 		{
 			long b = Triarc.CreateBoundary(2, 2, 2);
@@ -50,5 +50,6 @@ namespace Triarc.Tests
 			t.SubstituteAndStartTaskForTwoBitsSet(0x220,9,5);//10 0010 0000
 			Assert.IsTrue(t.Boundaries.Contains(BoundaryInt.FaceToBoundary(5), 0x220) || t.Boundaries.Contains(BoundaryInt.FaceToBoundary(7), 0x220));
 		}
+		*/
 	}
 }

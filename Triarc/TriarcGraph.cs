@@ -360,7 +360,7 @@ namespace Triarc
 
 		public void ReconstructTriarc(string depth)
 		{
-			long boundaryFromActive = (LongBinaryStatesWithHashSet.VerticesToStateStatic(triarc.ActiveVertices())).ToBoundary();
+			long boundaryFromActive = (LongBinaryStatesWithHashSet.VerticesToStateStatic(triarc.ActiveVertices())).BoundaryToStandardizedForm();
 
 			List<VertexStack> active = triarc.ActiveVertices();
 			if (NumberOfActiveWithTwoNeighbours(active) == 0 && triarc.PolygonSizes.Contains(active.Count))

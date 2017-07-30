@@ -8,91 +8,14 @@ namespace Triarc
 {
 	class TooManyVerticesToPutInStateException : Exception
 	{ }
-	/// <summary>
-	/// Pamatuje si stavy v hashsetu intů a to ne všechny rotace, ale jen největší z nich. Pokud Je seznam vrcholů delší než 31, vyhodí chybu.
-	/// </summary>
-	class IntBinaryStatesWithHashSet : IStates<int>, IStates
-	{
-		HashSet<int> states = new HashSet<int>();
-		public bool Add(IList<VertexStack> list)
-		{
-			return Add(this.VerticesToState(list));
-		}
-
-		public int Count()
-		{
-			return states.Count;
-		}
-
-
-
-		public bool Add(int item)
-		{
-			return states.Add(item);
-
-		}
-
-		/// <summary>
-		/// list musí mít 31 a méně vrcholů
-		/// </summary>
-		/// <param name="list"></param>
-		/// <returns></returns>
-		public int VerticesToState(IList<VertexStack> list)
-		{
-			Func<VertexStack, int> vertexToInt = x =>
-			{
-				if (x.HasAllThreeNeighbours())
-				{
-					return 0;
-				}
-				return 1;
-			};
-
-
-			if (list.Count > 31)
-			{
-				throw new TooManyVerticesToPutInStateException();
-			}
-			int temp = 0;
-			for (int i = 0; i < list.Count; i++)
-			{
-				temp = (temp << 1) | vertexToInt(list[i]);
-			}
-			var max = temp;
-			int length = 0;
-			for (int i = 0; i < list.Count; i++)
-			{
-				length = (length << 1) | 1;
-			}
-
-			for (int i = 0; i < list.Count; i++)
-			{
-				temp = ((temp << 1) | vertexToInt(list[i])) & length; //posune o jedna, nastaví poslední bit a pak ořízne vše před
-				if (temp > max)
-				{
-					max = temp;
-				}
-			}
-			//teď není hotovo, protože potřebujeme rozlišovat stavy typu "000" a "0000", 
-			//hodnota bude jedničky všude tam, kde nemá být nula, díky znaménkovému bitu je jednoznačné
-			if (max == 0)
-			{
-				return ~length; //length = jedničky požadované délky, ~ je binární not
-			}
-			return max;
-		}
-
-		public string VerticesToString(IList<VertexStack> list)
-		{
-			return Convert.ToString(VerticesToState(list), 2);
-		}
-	}
-
 
 	class LongBinaryStatesWithHashSet : IStates<long>, IStates
 	{
+		/// <summary>
+		/// Collection of all 
+		/// </summary>
 		HashSet<long> states = new HashSet<long>();
-		public bool Add(IList<VertexStack> list)
+		public bool Add(IList<TriarcGraph.VertexStack> list)
 		{
 			return Add(this.VerticesToState(list));
 		}
@@ -115,9 +38,9 @@ namespace Triarc
 		/// </summary>
 		/// <param name="list"></param>
 		/// <returns></returns>
-		public long VerticesToState(IList<VertexStack> list)
+		public long VerticesToState(IList<TriarcGraph.VertexStack> list)
 		{
-			Func<VertexStack, long> vertexToLong = x =>
+			Func<TriarcGraph.VertexStack, long> vertexToLong = x =>
 			{
 				if (x.HasAllThreeNeighbours())
 				{
@@ -159,9 +82,9 @@ namespace Triarc
 			}
 			return max;
 		}
-		public static long VerticesToStateStatic(IList<VertexStack> list)
+		public static long VerticesToStateStatic(IList<TriarcGraph.VertexStack> list)
 		{
-			Func<VertexStack, long> vertexToLong = x =>
+			Func<TriarcGraph.VertexStack, long> vertexToLong = x =>
 			{
 				if (x.HasAllThreeNeighbours())
 				{
@@ -204,7 +127,7 @@ namespace Triarc
 			return max;
 		}
 
-		public string VerticesToString(IList<VertexStack> list)
+		public string VerticesToString(IList<TriarcGraph.VertexStack> list)
 		{
 			return Convert.ToString(VerticesToState(list), 2);
 		}

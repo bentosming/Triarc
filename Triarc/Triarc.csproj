@@ -49,10 +49,12 @@
   <ItemGroup>
     <Compile Include="BinaryStates.cs" />
     <Compile Include="BoundaryLong.cs" />
+    <Compile Include="IStates.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Triarc.cs" />
     <Compile Include="TriarcGraph.cs" />
+    <Compile Include="TriarcReconstruction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

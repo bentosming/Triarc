@@ -24,13 +24,10 @@ namespace Triarc
 		{
 			return states.Count;
 		}
-
-
-
+		
 		public bool Add(long item)
 		{
 			return states.Add(item);
-
 		}
 
 		/// <summary>
@@ -40,48 +37,9 @@ namespace Triarc
 		/// <returns></returns>
 		public long VerticesToState(IList<TriarcGraph.VertexStack> list)
 		{
-			Func<TriarcGraph.VertexStack, long> vertexToLong = x =>
-			{
-				if (x.HasAllThreeNeighbours())
-				{
-					return 0;
-				}
-				return 1;
-			};
-
-
-			if (list.Count > 63)
-			{
-				throw new TooManyVerticesToPutInStateException();
-			}
-			long temp = 0;
-			for (int i = 0; i < list.Count; i++)
-			{
-				temp = (temp << 1) | vertexToLong(list[i]);
-			}
-			var max = temp;
-			long length = 0;
-			for (long i = 0; i < list.Count; i++)
-			{
-				length = (length << 1) | 1;
-			}
-
-			for (int i = 0; i < list.Count; i++)
-			{
-				temp = ((temp << 1) | vertexToLong(list[i])) & length; //posune o jedna, nastaví poslední bit a pak ořízne vše před
-				if (temp > max)
-				{
-					max = temp;
-				}
-			}
-			//teď není hotovo, protože potřebujeme rozlišovat stavy typu "000" a "0000", 
-			//hodnota bude jedničky všude tam, kde nemá být nula, díky znaménkovému bitu je jednoznačné
-			if (max == 0)
-			{
-				return ~length; //length = jedničky požadované délky, ~ je binární not
-			}
-			return max;
+			return LongBinaryStatesWithHashSet.VerticesToStateStatic(list);
 		}
+
 		public static long VerticesToStateStatic(IList<TriarcGraph.VertexStack> list)
 		{
 			Func<TriarcGraph.VertexStack, long> vertexToLong = x =>

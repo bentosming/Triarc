@@ -16,75 +16,133 @@ namespace Triarc
 		/// </summary>
 		public List<long> SequenceOfStatesLeadingToResult = new List<long>();
 
-		public int maxNumberOfVertices = 38;
 
 		/// <summary>
-		/// All found states
+		/// Maximal count of vertices in triarc, including outer bourdary.
 		/// </summary>
-		public IStates<long> states = new LongBinaryStatesWithHashSet();
+		public int maxNumberOfVertices;
 
 
+		/// <summary>
+		/// All states found during execution.
+		/// </summary>
+		IStates<long> states = new LongBinaryStatesWithHashSet();
+
+		public bool ExtractResultOff = false;
+
+		/// <summary>
+		/// Triarc to build.
+		/// </summary>
 		public TriarcGraph triarc;
-		bool found = false;
-		int version = 0;
 
-		public TriarcReconstruction(TriarcGraph tg, int MaxNumberOfVerticesToAdd)
+
+		/// <summary>
+		/// Indicates state of reconstructing triarc.
+		/// </summary>
+		bool found = false;
+		
+
+		/// <summary>
+		/// Creates a TriarcReconstruction.
+		/// </summary>
+		/// <param name="triarcGraph">triarcGraph containing only boundary that is the same as last state from sequence.</param>
+		/// <param name="sequenceOfStatesLeadingToResult">Solution of finding triarc.</param>
+		public TriarcReconstruction(TriarcGraph triarcGraph, List<long> sequenceOfStatesLeadingToResult)
 		{
-			triarc = tg;
-			maxNumberOfVertices = triarc.CountOfVertices + MaxNumberOfVerticesToAdd;
+			triarc = triarcGraph;
+			maxNumberOfVertices = int.MaxValue;
+			this.SequenceOfStatesLeadingToResult = sequenceOfStatesLeadingToResult;
 		}
 
+
+		/// <summary>
+		/// Creates set of files representing result
+		/// grafy\name.gv - graphVizard readable.
+		/// grafy\name.BAT - converts .gv file into png.
+		/// grafy\name.txt - WolframAlpha readable.
+		/// </summary>
 		void ExtractResult()
 		{
-			string name = "Triarc" + triarc.Name + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "__" + version + "v" + triarc.CountOfVertices;
-			StreamWriter sw = new StreamWriter("grafy\\" + name + ".gv");
-			StreamWriter sw2 = new StreamWriter("grafy\\" + name + ".txt");
-			triarc.WAWrite(sw2);
-			sw2.Close();
-			triarc.GWWrite(sw);
-			sw.Close();
-			sw = new StreamWriter("grafy\\" + name + ".BAT");
-			triarc.BATWrite(sw, name);
-			sw.Close();
+			if (ExtractResultOff)
+			{
+				return;
+			}
+
+			string fileName = "Triarc" + triarc.Name + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "__"  + "v" + triarc.CountOfVertices;
+			Console.WriteLine("Triarc will be saved into grafy\\" + fileName + " as gv, txt and BAT files.");
+			StreamWriter gWStreamWriter = new StreamWriter("grafy\\" + fileName + ".gv");
+			StreamWriter waStreamWriter = new StreamWriter("grafy\\" + fileName + ".txt");
+			triarc.WAWrite(waStreamWriter);
+			waStreamWriter.Close();
+			triarc.GWWrite(gWStreamWriter);
+			gWStreamWriter.Close();
+			gWStreamWriter = new StreamWriter("grafy\\" + fileName + ".BAT");
+			triarc.BATWrite(gWStreamWriter, fileName);
+			gWStreamWriter.Close();
 		}
 
-		IEnumerable<IList<TriarcGraph.VertexStack>> SelectWhatToChange(List<TriarcGraph.VertexStack> active)
+
+		/// <summary>
+		/// Takes vertices forming boundary and returns all sequences starting and ending by vertex, that has only two neighbours,
+		/// and all between have three neighbours.  
+		/// </summary>
+		/// <param name="activeBoundary"></param>
+		/// <returns></returns>
+		IEnumerable<IList<TriarcGraph.VertexStack>> SelectWhatToChange(List<TriarcGraph.VertexStack> activeBoundary)
 		{
-			var result = new List<IList<TriarcGraph.VertexStack>>();
+			var selectedSequences = new List<IList<TriarcGraph.VertexStack>>();
 			int i = 0;
-			int max = active.Count;
-			while (i < max && active[i].HasAllThreeNeighbours())
+			int max = activeBoundary.Count;
+			
+			while (i < max && activeBoundary[i].HasAllThreeNeighbours())
 			{
 				i++;
 			}
-			int toGoTroughAgain = i;
-			List<TriarcGraph.VertexStack> temp = new List<TriarcGraph.VertexStack>();
-			while (i < max + toGoTroughAgain)
+			int NumberOfVerticesFromBeginingWithThreeNeighbours	 = i;
+
+
+			List<TriarcGraph.VertexStack> oneSequence = new List<TriarcGraph.VertexStack>();
+			while (i < max + NumberOfVerticesFromBeginingWithThreeNeighbours)
 			{
 				int ii = i % max;
-				temp = new List<TriarcGraph.VertexStack>();
-				temp.Add(active[ii]);
+				oneSequence = new List<TriarcGraph.VertexStack>();
+				oneSequence.Add(activeBoundary[ii]);
 				i++;
 				ii = i % max;
-				while (active[ii].HasAllThreeNeighbours()) //dokued nemíří dovnitř
+				while (activeBoundary[ii].HasAllThreeNeighbours()) //dokued nemíří dovnitř
 				{
-					temp.Add(active[ii]);
+					oneSequence.Add(activeBoundary[ii]);
 					i++;
 					ii = i % max;
-
 				}
-				temp.Add(active[ii]);
-				result.Add(temp);
+				oneSequence.Add(activeBoundary[ii]);
+				selectedSequences.Add(oneSequence);
 			}
-			return from item in result
-					 orderby item.Count descending
-					 select item;
+
+			return selectedSequences;
 		}
 
-		public int NumberOfActiveWithTwoNeighbours(List<TriarcGraph.VertexStack> active)
+		/// <summary>
+		/// Specifies in which order will be sequences changed.
+		/// </summary>
+		/// <param name="selectedSequences"></param>
+		/// <returns>Sorted list by priority.</returns>
+		IEnumerable<IList<TriarcGraph.VertexStack>> OrderOfExecution(IEnumerable<IList<TriarcGraph.VertexStack>> selectedSequences)
+		{
+			return from item in selectedSequences
+			orderby item.Count descending
+			select item;
+		}
+
+		/// <summary>
+		/// Counts how many vertices have less than three neighbours.
+		/// </summary>
+		/// <param name="sequenceOfVertices"></param>
+		/// <returns></returns>
+		public int CountOfVerticesWithLessThanThreeNeighbours(List<TriarcGraph.VertexStack> sequenceOfVertices)
 		{
 			int i = 0;
-			foreach (var item in active)
+			foreach (var item in sequenceOfVertices)
 			{
 				if (!item.HasAllThreeNeighbours())
 				{
@@ -94,17 +152,30 @@ namespace Triarc
 			return i;
 		}
 
+		/// <summary>
+		/// Debug Statements. 
+		/// </summary>
+		/// <param name="sequence">Vertices to write.</param>
+		/// <param name="message">Line written before vertices.</param>
+		/// <param name="extraNewLine">Print extra new line?</param>
+		/// <param name="prefix">Start of each line.</param>
 		[Conditional("DebugOutputWeek")]
-		void WriteDepthAndVertices(IList<TriarcGraph.VertexStack> list, string s, bool extraNewLine, string prefix)
+		void WriteDepthAndVertices(IList<TriarcGraph.VertexStack> sequence, string message, bool extraNewLine, string prefix)
 		{
+
 			var writer = Console.Out;
+			WriteDepth(extraNewLine, prefix, writer);
+			WriteVertices(sequence, message, prefix, writer);
+
+		}
+
+		[Conditional("DebugOutputWeek")]
+		void WriteDepth(bool extraNewLine, string prefix, TextWriter writer)
+		{
 			if (extraNewLine)
 			{
-
 				writer.WriteLine(prefix + "-");
 			}
-			WriteVertices(list, s, prefix, writer);
-
 		}
 
 		[Conditional("DebugOutputStrong")]
@@ -117,97 +188,126 @@ namespace Triarc
 			}
 		}
 
-		public void ReconstructTriarc(string depth)
+
+		/// <summary>
+		/// Symbolizes depth of recursion.
+		/// </summary>
+		string depth ="";
+
+
+		public bool ReconstructTriarc()
 		{
-			long boundaryFromActive = (LongBinaryStatesWithHashSet.VerticesToStateStatic(triarc.ActiveVertices())).BoundaryToStandardizedForm();
+			if (SequenceOfStatesLeadingToResult==null)
+			{
+
+				return false;
+			}
+			reconstructTriarc();
+			return false;
+		}
+
+		/// <summary>
+		/// Builds a full triarc in this.triarc following sequence of boundary from constructor.
+		/// </summary>
+		private void reconstructTriarc()
+		{
 
 			List<TriarcGraph.VertexStack> active = triarc.ActiveVertices();
-			if (NumberOfActiveWithTwoNeighbours(active) == 0 && triarc.FaceSizes.Contains(active.Count))
+			long boundaryFromActive = (LongBinaryStatesWithHashSet.VerticesToStateStatic(active)).BoundaryToStandardizedForm();
+			int countOfActiveWithLessThanThreeNeighbours = CountOfVerticesWithLessThanThreeNeighbours(active);
+
+			//if triarc has been finished
+			if (countOfActiveWithLessThanThreeNeighbours == 0 && triarc.FaceSizes.Contains(active.Count))
 			{
-				Console.WriteLine("Triarc's graph representation has been found.");
+				Console.WriteLine("Triarc has been found, reconstructed and will be saved.");
+				Console.WriteLine();
 				ExtractResult();
 				found = true;
 			}
-			if (boundaryFromActive != SequenceOfStatesLeadingToResult.Last() || (NumberOfActiveWithTwoNeighbours(active) == 0))
+
+			//If this state isn't the one solution suggests.
+			if (boundaryFromActive != SequenceOfStatesLeadingToResult.Last() || (countOfActiveWithLessThanThreeNeighbours == 0))
 			{
-				var bla = triarc.ActiveVertices();
-				long test = LongBinaryStatesWithHashSet.VerticesToStateStatic(triarc.ActiveVertices());
 				return; //jsme ve špatné větvi výpočtu
 			}
+			//Else remove it to signal that it has been gone trough.
 			SequenceOfStatesLeadingToResult.RemoveAt(SequenceOfStatesLeadingToResult.Count - 1);
+
+			//If there is a restriction on maximal count of vertices, defaultly set to int.maxValue
 			if (triarc.CountOfVertices > maxNumberOfVertices)
 			{
-
+				Console.WriteLine("Triarc won't be reconstructed due to having more vertices than allowed.");
+				Console.WriteLine("The limit is set to " + maxNumberOfVertices);
 				return;
 			}
 
 
+			states.Add(active);
+			
 
-			//	writer.WriteLine(states.VerticesToString(active));
-
-			if (!states.Add(active))
+			if (countOfActiveWithLessThanThreeNeighbours > 1 && !found)
 			{
-				version++;
-				return;
-			}
-			int activeNUmber = NumberOfActiveWithTwoNeighbours(active);
-
-
-
-
-			if (activeNUmber > 1 && !found)
-			{
-				var selectWhatToChange = SelectWhatToChange(active).ToArray();
+				var selectWhatToChange = OrderOfExecution( SelectWhatToChange(active).ToArray());
 				foreach (var selected in selectWhatToChange)
 				{
-
-
+					//Conditional debug statements
 					WriteDepthAndVertices(active, "active ", true, depth);
 					WriteDepthAndVertices(selected, "selected  ", false, depth);
 
-					foreach (var polySize in triarc.FaceSizes)
+					foreach (var faceSize in triarc.FaceSizes)
 					{
-						version++;
 
+						//Skips invalid states
 						if (triarc.FaceSizes[triarc.FaceSizes.Count - 1] < selected.Count)
 						{
 							return;
 						}
-						if (polySize < selected.Count)
+
+						//Skips invalid state
+						if (faceSize < selected.Count)
 						{
 							continue;
 						}
 
-
-						//předejití násobným hranám
-						if ((selected[0].A == selected[selected.Count - 1] || selected[0].B == selected[selected.Count - 1]) && selected.Count == polySize)
+						//Prevents multipleEdges and loops
+						if ((selected[0].A == selected[selected.Count - 1] || selected[0].B == selected[selected.Count - 1]) && selected.Count == faceSize)
 						{
 							continue;
 						}
 
 						int NumberOfVerticesInTriarc = triarc.CountOfVertices;
-						int root = triarc.ActiveRootID;
+						int localRoot = triarc.ActiveRootID;
 						List<TriarcGraph.VertexStack> replacedBy;
 
-						Replace(selected, out replacedBy, polySize);
+						Replace(selected, out replacedBy, faceSize);
 
+						//Conditional debug statements.
 						WriteDepthAndVertices(replacedBy, "replaced by", false, depth);
+
 						triarc.ActiveRootID = selected[0].ID;
 						List<TriarcGraph.VertexStack> activeNew = triarc.ActiveVertices();
-						//				triarc.ActiveRootID = IndexOfMinimalID(activeNew);
 
-						ReconstructTriarc(depth + ".");
+						string localDepth = depth;
+						depth += ".";
+
+						//Recursive calling
+						reconstructTriarc();
+
+						depth = localDepth;
+
 						if (found)
 						{
 							return;
 						}
+
+						//Undo changes done by this method before returning
 						foreach (var item in selected)
 						{
 							item.Pop();
 						}
-						triarc.vertices.RemoveRange(NumberOfVerticesInTriarc, polySize - selected.Count);
+						triarc.vertices.RemoveRange(NumberOfVerticesInTriarc, faceSize - selected.Count);
 						triarc.CountOfVertices = NumberOfVerticesInTriarc;
-						triarc.ActiveRootID = root;
+						triarc.ActiveRootID = localRoot;
 
 					}
 
@@ -217,6 +317,11 @@ namespace Triarc
 
 		}
 
+		/// <summary>
+		/// Returns vertex with least value of ID.
+		/// </summary>
+		/// <param name="list"></param>
+		/// <returns>Vertex with least value of ID.</returns>
 		int IndexOfMinimalID(IList<TriarcGraph.VertexStack> list)
 
 		{
@@ -231,29 +336,35 @@ namespace Triarc
 			return index;
 		}
 
-		void Replace(IList<TriarcGraph.VertexStack> selected, out List<TriarcGraph.VertexStack> replacedBy, int polySize)
+		/// <summary>
+		/// Takes sequence of vertices, turns them into face and returns active part of face in replacedBy
+		/// </summary>
+		/// <param name="selected">Sequence of original vertices.</param>
+		/// <param name="replacedBy">Sequence of new vertices.</param>
+		/// <param name="faceSize">size of face used when connecting selected.</param>
+		void Replace(IList<TriarcGraph.VertexStack> selected, out List<TriarcGraph.VertexStack> replacedBy, int faceSize)
 		{
 			//střed vybraných bude neaktivní
 			for (int i = 1; i < selected.Count - 1; i++)
 			{
-				TriarcGraph.Vertex temp = selected[i].Peek().Clone();
-				temp.Active = false;
+				TriarcGraph.SingleVertex temp = selected[i].Peek().Clone();
+				temp.IsActive = false;
 				selected[i].Push(temp);
 			}
 
 			replacedBy = new List<TriarcGraph.VertexStack>();
 			replacedBy.Add(selected[0]);
 			selected[0].Push(selected[0].Peek().Clone());
-			for (int i = 0; i < polySize - selected.Count; i++)
+			for (int i = 0; i < faceSize - selected.Count; i++)
 			{
 				TriarcGraph.VertexStack tempVS = new TriarcGraph.VertexStack(triarc.CountOfVertices);
 				triarc.vertices.Add(tempVS);
 				triarc.CountOfVertices++;
-				TriarcGraph.Vertex tempV = new TriarcGraph.Vertex();
+				TriarcGraph.SingleVertex tempV = new TriarcGraph.SingleVertex();
 				tempV.A = replacedBy[i];
-				tempV.Active = true;
+				tempV.IsActive = true;
 				tempVS.Push(tempV);
-				TriarcGraph.Vertex tempP = replacedBy[i].Pop();
+				TriarcGraph.SingleVertex tempP = replacedBy[i].Pop();
 				if (tempP.B == null)
 				{
 					tempP.B = tempVS;
@@ -268,11 +379,11 @@ namespace Triarc
 			//and connect last
 			{
 				TriarcGraph.VertexStack tempVS = selected[selected.Count - 1];
-				TriarcGraph.Vertex tempV = tempVS.Peek().Clone();
+				TriarcGraph.SingleVertex tempV = tempVS.Peek().Clone();
 				tempV.C = replacedBy[replacedBy.Count - 1];
-				tempV.Active = true;
+				tempV.IsActive = true;
 				tempVS.Push(tempV);
-				TriarcGraph.Vertex tempP = replacedBy[replacedBy.Count - 1].Pop();
+				TriarcGraph.SingleVertex tempP = replacedBy[replacedBy.Count - 1].Pop();
 				if (tempP.B == null)
 				{
 					tempP.B = tempVS;

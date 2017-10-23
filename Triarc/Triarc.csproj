@@ -55,6 +55,7 @@
     <Compile Include="Triarc.cs" />
     <Compile Include="TriarcGraph.cs" />
     <Compile Include="TriarcReconstruction.cs" />
+    <Compile Include="TriarcSolving.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

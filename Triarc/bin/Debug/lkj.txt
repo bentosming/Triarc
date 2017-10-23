@@ -1,0 +1,626 @@
+(2,2,2) with facesSizes 5 7 doesn't exists
+(3,2,2) with facesSizes 5 7 doesn't exists
+(3,3,2) with facesSizes 5 7 exists
+(3,3,3) with facesSizes 5 7 exists
+(4,2,2) with facesSizes 5 7 exists
+(4,3,2) with facesSizes 5 7 exists
+(4,3,3) with facesSizes 5 7 exists
+(4,4,2) with facesSizes 5 7 exists
+(4,4,3) with facesSizes 5 7 exists
+(4,4,4) with facesSizes 5 7 exists
+(5,2,2) with facesSizes 5 7 exists
+(5,3,2) with facesSizes 5 7 exists
+(5,3,3) with facesSizes 5 7 exists
+(5,4,2) with facesSizes 5 7 exists
+(5,4,3) with facesSizes 5 7 exists
+(5,4,4) with facesSizes 5 7 exists
+(5,5,2) with facesSizes 5 7 exists
+(5,5,3) with facesSizes 5 7 exists
+(5,5,4) with facesSizes 5 7 exists
+(5,5,5) with facesSizes 5 7 exists
+(6,2,2) with facesSizes 5 7 exists
+(6,3,2) with facesSizes 5 7 exists
+(6,3,3) with facesSizes 5 7 exists
+(6,4,2) with facesSizes 5 7 exists
+(6,4,3) with facesSizes 5 7 exists
+(6,4,4) with facesSizes 5 7 exists
+(6,5,2) with facesSizes 5 7 exists
+(6,5,3) with facesSizes 5 7 exists
+(6,5,4) with facesSizes 5 7 exists
+(6,5,5) with facesSizes 5 7 exists
+(6,6,2) with facesSizes 5 7 exists
+(6,6,3) with facesSizes 5 7 exists
+(6,6,4) with facesSizes 5 7 exists
+(6,6,5) with facesSizes 5 7 exists
+(6,6,6) with facesSizes 5 7 exists
+(7,2,2) with facesSizes 5 7 exists
+(7,3,2) with facesSizes 5 7 exists
+(7,3,3) with facesSizes 5 7 exists
+(7,4,2) with facesSizes 5 7 exists
+(7,4,3) with facesSizes 5 7 exists
+(7,4,4) with facesSizes 5 7 exists
+(7,5,2) with facesSizes 5 7 exists
+(7,5,3) with facesSizes 5 7 exists
+(7,5,4) with facesSizes 5 7 exists
+(7,5,5) with facesSizes 5 7 exists
+(7,6,2) with facesSizes 5 7 exists
+(7,6,3) with facesSizes 5 7 exists
+(7,6,4) with facesSizes 5 7 exists
+(7,6,5) with facesSizes 5 7 exists
+(7,6,6) with facesSizes 5 7 exists
+(7,7,2) with facesSizes 5 7 doesn't exists
+(7,7,3) with facesSizes 5 7 exists
+(7,7,4) with facesSizes 5 7 exists
+(7,7,5) with facesSizes 5 7 exists
+(7,7,6) with facesSizes 5 7 exists
+(7,7,7) with facesSizes 5 7 exists
+(8,2,2) with facesSizes 5 7 exists
+(8,3,2) with facesSizes 5 7 exists
+(8,3,3) with facesSizes 5 7 exists
+(8,4,2) with facesSizes 5 7 exists
+(8,4,3) with facesSizes 5 7 exists
+(8,4,4) with facesSizes 5 7 exists
+(8,5,2) with facesSizes 5 7 exists
+(8,5,3) with facesSizes 5 7 exists
+(8,5,4) with facesSizes 5 7 exists
+(8,5,5) with facesSizes 5 7 exists
+(8,6,2) with facesSizes 5 7 doesn't exists
+(8,6,3) with facesSizes 5 7 exists
+(8,6,4) with facesSizes 5 7 doesn't exists
+(8,6,5) with facesSizes 5 7 exists
+(8,6,6) with facesSizes 5 7 exists
+(8,7,2) with facesSizes 5 7 doesn't exists
+(8,7,3) with facesSizes 5 7 exists
+(8,7,4) with facesSizes 5 7 exists
+(8,7,5) with facesSizes 5 7 exists
+(8,7,6) with facesSizes 5 7 doesn't exists
+(8,7,7) with facesSizes 5 7 doesn't exists
+(8,8,2) with facesSizes 5 7 doesn't exists
+(8,8,3) with facesSizes 5 7 exists
+(8,8,4) with facesSizes 5 7 exists
+(8,8,5) with facesSizes 5 7 doesn't exists
+(8,8,6) with facesSizes 5 7 exists
+(8,8,7) with facesSizes 5 7 exists
+(8,8,8) with facesSizes 5 7 exists
+(9,2,2) with facesSizes 5 7 exists
+(9,3,2) with facesSizes 5 7 exists
+(9,3,3) with facesSizes 5 7 doesn't exists
+(9,4,2) with facesSizes 5 7 exists
+(9,4,3) with facesSizes 5 7 exists
+(9,4,4) with facesSizes 5 7 exists
+(9,5,2) with facesSizes 5 7 doesn't exists
+(9,5,3) with facesSizes 5 7 exists
+(9,5,4) with facesSizes 5 7 exists
+(9,5,5) with facesSizes 5 7 exists
+(9,6,2) with facesSizes 5 7 doesn't exists
+(9,6,3) with facesSizes 5 7 exists
+(9,6,4) with facesSizes 5 7 doesn't exists
+(9,6,5) with facesSizes 5 7 exists
+(9,6,6) with facesSizes 5 7 exists
+(9,7,2) with facesSizes 5 7 doesn't exists
+(9,7,3) with facesSizes 5 7 exists
+(9,7,4) with facesSizes 5 7 exists
+(9,7,5) with facesSizes 5 7 exists
+(9,7,6) with facesSizes 5 7 doesn't exists
+(9,7,7) with facesSizes 5 7 doesn't exists
+(9,8,2) with facesSizes 5 7 doesn't exists
+(9,8,3) with facesSizes 5 7 exists
+(9,8,4) with facesSizes 5 7 exists
+(9,8,5) with facesSizes 5 7 exists
+(9,8,6) with facesSizes 5 7 doesn't exists
+(9,8,7) with facesSizes 5 7 exists
+(9,8,8) with facesSizes 5 7 doesn't exists
+(9,9,2) with facesSizes 5 7 doesn't exists
+(9,9,3) with facesSizes 5 7 exists
+(9,9,4) with facesSizes 5 7 exists
+(9,9,5) with facesSizes 5 7 exists
+(9,9,6) with facesSizes 5 7 doesn't exists
+(9,9,7) with facesSizes 5 7 exists
+(9,9,8) with facesSizes 5 7 exists
+(9,9,9) with facesSizes 5 7 exists
+(10,2,2) with facesSizes 5 7 doesn't exists
+(10,3,2) with facesSizes 5 7 exists
+(10,3,3) with facesSizes 5 7 doesn't exists
+(10,4,2) with facesSizes 5 7 doesn't exists
+(10,4,3) with facesSizes 5 7 exists
+(10,4,4) with facesSizes 5 7 exists
+(10,5,2) with facesSizes 5 7 doesn't exists
+(10,5,3) with facesSizes 5 7 exists
+(10,5,4) with facesSizes 5 7 doesn't exists
+(10,5,5) with facesSizes 5 7 exists
+(10,6,2) with facesSizes 5 7 doesn't exists
+(10,6,3) with facesSizes 5 7 exists
+(10,6,4) with facesSizes 5 7 doesn't exists
+(10,6,5) with facesSizes 5 7 exists
+(10,6,6) with facesSizes 5 7 exists
+(10,7,2) with facesSizes 5 7 doesn't exists
+(10,7,3) with facesSizes 5 7 exists
+(10,7,4) with facesSizes 5 7 exists
+(10,7,5) with facesSizes 5 7 doesn't exists
+(10,7,6) with facesSizes 5 7 doesn't exists
+(10,7,7) with facesSizes 5 7 exists
+(10,8,2) with facesSizes 5 7 doesn't exists
+(10,8,3) with facesSizes 5 7 exists
+(10,8,4) with facesSizes 5 7 exists
+(10,8,5) with facesSizes 5 7 doesn't exists
+(10,8,6) with facesSizes 5 7 exists
+(10,8,7) with facesSizes 5 7 doesn't exists
+(10,8,8) with facesSizes 5 7 doesn't exists
+(10,9,2) with facesSizes 5 7 doesn't exists
+(10,9,3) with facesSizes 5 7 exists
+(10,9,4) with facesSizes 5 7 doesn't exists
+(10,9,5) with facesSizes 5 7 exists
+(10,9,6) with facesSizes 5 7 exists
+(10,9,7) with facesSizes 5 7 doesn't exists
+(10,9,8) with facesSizes 5 7 doesn't exists
+(10,9,9) with facesSizes 5 7 doesn't exists
+(10,10,2) with facesSizes 5 7 doesn't exists
+(10,10,3) with facesSizes 5 7 exists
+(10,10,4) with facesSizes 5 7 exists
+(10,10,5) with facesSizes 5 7 doesn't exists
+(10,10,6) with facesSizes 5 7 exists
+(10,10,7) with facesSizes 5 7 exists
+(10,10,8) with facesSizes 5 7 doesn't exists
+(10,10,9) with facesSizes 5 7 exists
+(10,10,10) with facesSizes 5 7 doesn't exists
+(11,2,2) with facesSizes 5 7 doesn't exists
+(11,3,2) with facesSizes 5 7 exists
+(11,3,3) with facesSizes 5 7 doesn't exists
+(11,4,2) with facesSizes 5 7 doesn't exists
+(11,4,3) with facesSizes 5 7 exists
+(11,4,4) with facesSizes 5 7 exists
+(11,5,2) with facesSizes 5 7 doesn't exists
+(11,5,3) with facesSizes 5 7 exists
+(11,5,4) with facesSizes 5 7 doesn't exists
+(11,5,5) with facesSizes 5 7 exists
+(11,6,2) with facesSizes 5 7 doesn't exists
+(11,6,3) with facesSizes 5 7 exists
+(11,6,4) with facesSizes 5 7 doesn't exists
+(11,6,5) with facesSizes 5 7 exists
+(11,6,6) with facesSizes 5 7 exists
+(11,7,2) with facesSizes 5 7 doesn't exists
+(11,7,3) with facesSizes 5 7 exists
+(11,7,4) with facesSizes 5 7 exists
+(11,7,5) with facesSizes 5 7 doesn't exists
+(11,7,6) with facesSizes 5 7 doesn't exists
+(11,7,7) with facesSizes 5 7 doesn't exists
+(11,8,2) with facesSizes 5 7 doesn't exists
+(11,8,3) with facesSizes 5 7 exists
+(11,8,4) with facesSizes 5 7 exists
+(11,8,5) with facesSizes 5 7 exists
+(11,8,6) with facesSizes 5 7 exists
+(11,8,7) with facesSizes 5 7 exists
+(11,8,8) with facesSizes 5 7 doesn't exists
+(11,9,2) with facesSizes 5 7 doesn't exists
+(11,9,3) with facesSizes 5 7 exists
+(11,9,4) with facesSizes 5 7 exists
+(11,9,5) with facesSizes 5 7 doesn't exists
+(11,9,6) with facesSizes 5 7 exists
+(11,9,7) with facesSizes 5 7 doesn't exists
+(11,9,8) with facesSizes 5 7 exists
+(11,9,9) with facesSizes 5 7 exists
+(11,10,2) with facesSizes 5 7 doesn't exists
+(11,10,3) with facesSizes 5 7 exists
+(11,10,4) with facesSizes 5 7 exists
+(11,10,5) with facesSizes 5 7 exists
+(11,10,6) with facesSizes 5 7 doesn't exists
+(11,10,7) with facesSizes 5 7 exists
+(11,10,8) with facesSizes 5 7 exists
+(11,10,9) with facesSizes 5 7 exists
+(11,10,10) with facesSizes 5 7 exists
+(11,11,2) with facesSizes 5 7 doesn't exists
+(11,11,3) with facesSizes 5 7 exists
+(11,11,4) with facesSizes 5 7 exists
+(11,11,5) with facesSizes 5 7 doesn't exists
+(11,11,6) with facesSizes 5 7 exists
+(11,11,7) with facesSizes 5 7 exists
+(11,11,8) with facesSizes 5 7 doesn't exists
+(11,11,9) with facesSizes 5 7 exists
+(12,2,2) with facesSizes 5 7 doesn't exists
+(12,3,2) with facesSizes 5 7 exists
+(12,3,3) with facesSizes 5 7 doesn't exists
+(12,4,2) with facesSizes 5 7 doesn't exists
+(12,4,3) with facesSizes 5 7 exists
+(12,4,4) with facesSizes 5 7 doesn't exists
+(12,5,2) with facesSizes 5 7 doesn't exists
+(12,5,3) with facesSizes 5 7 doesn't exists
+(12,5,4) with facesSizes 5 7 doesn't exists
+(12,5,5) with facesSizes 5 7 exists
+(12,6,2) with facesSizes 5 7 doesn't exists
+(12,6,3) with facesSizes 5 7 exists
+(12,6,4) with facesSizes 5 7 exists
+(12,6,5) with facesSizes 5 7 exists
+(12,6,6) with facesSizes 5 7 doesn't exists
+(12,7,2) with facesSizes 5 7 doesn't exists
+(12,7,3) with facesSizes 5 7 exists
+(12,7,4) with facesSizes 5 7 exists
+(12,7,5) with facesSizes 5 7 doesn't exists
+(12,7,6) with facesSizes 5 7 doesn't exists
+(12,7,7) with facesSizes 5 7 exists
+(12,8,2) with facesSizes 5 7 doesn't exists
+(12,8,3) with facesSizes 5 7 exists
+(12,8,4) with facesSizes 5 7 exists
+(12,8,5) with facesSizes 5 7 exists
+(12,8,6) with facesSizes 5 7 exists
+(12,8,7) with facesSizes 5 7 exists
+(12,8,8) with facesSizes 5 7 exists
+(12,9,2) with facesSizes 5 7 doesn't exists
+(12,9,3) with facesSizes 5 7 exists
+(12,9,4) with facesSizes 5 7 exists
+(12,9,5) with facesSizes 5 7 exists
+(12,9,6) with facesSizes 5 7 doesn't exists
+(12,9,7) with facesSizes 5 7 exists
+(12,9,8) with facesSizes 5 7 exists
+(12,9,9) with facesSizes 5 7 exists
+(12,10,2) with facesSizes 5 7 doesn't exists
+(12,10,3) with facesSizes 5 7 exists
+(12,10,4) with facesSizes 5 7 exists
+(12,10,5) with facesSizes 5 7 doesn't exists
+(12,10,6) with facesSizes 5 7 doesn't exists
+(12,10,7) with facesSizes 5 7 doesn't exists
+(12,10,8) with facesSizes 5 7 exists
+(12,10,9) with facesSizes 5 7 exists
+(12,11,2) with facesSizes 5 7 doesn't exists
+(12,11,3) with facesSizes 5 7 exists
+(12,11,4) with facesSizes 5 7 exists
+(12,11,5) with facesSizes 5 7 exists
+(12,11,6) with facesSizes 5 7 exists
+(12,11,7) with facesSizes 5 7 exists
+(12,11,8) with facesSizes 5 7 exists
+(12,12,2) with facesSizes 5 7 doesn't exists
+(12,12,3) with facesSizes 5 7 exists
+(12,12,4) with facesSizes 5 7 exists
+(12,12,5) with facesSizes 5 7 doesn't exists
+(12,12,6) with facesSizes 5 7 exists
+(12,12,7) with facesSizes 5 7 exists
+(13,2,2) with facesSizes 5 7 doesn't exists
+(13,3,2) with facesSizes 5 7 exists
+(13,3,3) with facesSizes 5 7 doesn't exists
+(13,4,2) with facesSizes 5 7 doesn't exists
+(13,4,3) with facesSizes 5 7 exists
+(13,4,4) with facesSizes 5 7 exists
+(13,5,2) with facesSizes 5 7 doesn't exists
+(13,5,3) with facesSizes 5 7 exists
+(13,5,4) with facesSizes 5 7 doesn't exists
+(13,5,5) with facesSizes 5 7 exists
+(13,6,2) with facesSizes 5 7 doesn't exists
+(13,6,3) with facesSizes 5 7 exists
+(13,6,4) with facesSizes 5 7 exists
+(13,6,5) with facesSizes 5 7 doesn't exists
+(13,6,6) with facesSizes 5 7 doesn't exists
+(13,7,2) with facesSizes 5 7 doesn't exists
+(13,7,3) with facesSizes 5 7 exists
+(13,7,4) with facesSizes 5 7 exists
+(13,7,5) with facesSizes 5 7 doesn't exists
+(13,7,6) with facesSizes 5 7 doesn't exists
+(13,7,7) with facesSizes 5 7 doesn't exists
+(13,8,2) with facesSizes 5 7 doesn't exists
+(13,8,3) with facesSizes 5 7 exists
+(13,8,4) with facesSizes 5 7 exists
+(13,8,5) with facesSizes 5 7 doesn't exists
+(13,8,6) with facesSizes 5 7 doesn't exists
+(13,8,7) with facesSizes 5 7 doesn't exists
+(13,8,8) with facesSizes 5 7 exists
+(13,9,2) with facesSizes 5 7 doesn't exists
+(13,9,3) with facesSizes 5 7 exists
+(13,9,4) with facesSizes 5 7 exists
+(13,9,5) with facesSizes 5 7 exists
+(13,9,6) with facesSizes 5 7 exists
+(13,9,7) with facesSizes 5 7 doesn't exists
+(13,9,8) with facesSizes 5 7 exists
+(13,9,9) with facesSizes 5 7 exists
+(13,10,2) with facesSizes 5 7 doesn't exists
+(13,10,3) with facesSizes 5 7 exists
+(13,10,4) with facesSizes 5 7 exists
+(13,10,5) with facesSizes 5 7 doesn't exists
+(13,10,6) with facesSizes 5 7 exists
+(13,10,7) with facesSizes 5 7 exists
+(13,10,8) with facesSizes 5 7 exists
+(13,11,2) with facesSizes 5 7 doesn't exists
+(13,11,3) with facesSizes 5 7 exists
+(13,11,4) with facesSizes 5 7 exists
+(13,11,5) with facesSizes 5 7 doesn't exists
+(13,11,6) with facesSizes 5 7 doesn't exists
+(13,11,7) with facesSizes 5 7 exists
+(13,12,2) with facesSizes 5 7 doesn't exists
+(13,12,3) with facesSizes 5 7 exists
+(13,12,4) with facesSizes 5 7 exists
+(13,12,5) with facesSizes 5 7 doesn't exists
+(13,12,6) with facesSizes 5 7 exists
+(13,13,2) with facesSizes 5 7 doesn't exists
+(13,13,3) with facesSizes 5 7 exists
+(13,13,4) with facesSizes 5 7 exists
+(13,13,5) with facesSizes 5 7 doesn't exists
+(14,2,2) with facesSizes 5 7 doesn't exists
+(14,3,2) with facesSizes 5 7 exists
+(14,3,3) with facesSizes 5 7 doesn't exists
+(14,4,2) with facesSizes 5 7 doesn't exists
+(14,4,3) with facesSizes 5 7 doesn't exists
+(14,4,4) with facesSizes 5 7 exists
+(14,5,2) with facesSizes 5 7 doesn't exists
+(14,5,3) with facesSizes 5 7 exists
+(14,5,4) with facesSizes 5 7 doesn't exists
+(14,5,5) with facesSizes 5 7 exists
+(14,6,2) with facesSizes 5 7 doesn't exists
+(14,6,3) with facesSizes 5 7 exists
+(14,6,4) with facesSizes 5 7 exists
+(14,6,5) with facesSizes 5 7 doesn't exists
+(14,6,6) with facesSizes 5 7 doesn't exists
+(14,7,2) with facesSizes 5 7 doesn't exists
+(14,7,3) with facesSizes 5 7 exists
+(14,7,4) with facesSizes 5 7 exists
+(14,7,5) with facesSizes 5 7 doesn't exists
+(14,7,6) with facesSizes 5 7 doesn't exists
+(14,7,7) with facesSizes 5 7 exists
+(14,8,2) with facesSizes 5 7 doesn't exists
+(14,8,3) with facesSizes 5 7 exists
+(14,8,4) with facesSizes 5 7 exists
+(14,8,5) with facesSizes 5 7 doesn't exists
+(14,8,6) with facesSizes 5 7 doesn't exists
+(14,8,7) with facesSizes 5 7 doesn't exists
+(14,8,8) with facesSizes 5 7 exists
+(14,9,2) with facesSizes 5 7 doesn't exists
+(14,9,3) with facesSizes 5 7 exists
+(14,9,4) with facesSizes 5 7 doesn't exists
+(14,9,5) with facesSizes 5 7 doesn't exists
+(14,9,6) with facesSizes 5 7 exists
+(14,9,7) with facesSizes 5 7 doesn't exists
+(14,9,8) with facesSizes 5 7 doesn't exists
+(14,10,2) with facesSizes 5 7 doesn't exists
+(14,10,3) with facesSizes 5 7 exists
+(14,10,4) with facesSizes 5 7 exists
+(14,10,5) with facesSizes 5 7 doesn't exists
+(14,10,6) with facesSizes 5 7 doesn't exists
+(14,10,7) with facesSizes 5 7 doesn't exists
+(14,11,2) with facesSizes 5 7 doesn't exists
+(14,11,3) with facesSizes 5 7 exists
+(14,11,4) with facesSizes 5 7 exists
+(14,11,5) with facesSizes 5 7 doesn't exists
+(14,11,6) with facesSizes 5 7 exists
+(14,12,2) with facesSizes 5 7 doesn't exists
+(14,12,3) with facesSizes 5 7 exists
+(14,12,4) with facesSizes 5 7 exists
+(14,12,5) with facesSizes 5 7 doesn't exists
+(14,13,2) with facesSizes 5 7 doesn't exists
+(14,13,3) with facesSizes 5 7 exists
+(14,13,4) with facesSizes 5 7 exists
+(14,14,2) with facesSizes 5 7 doesn't exists
+(14,14,3) with facesSizes 5 7 exists
+(15,2,2) with facesSizes 5 7 doesn't exists
+(15,3,2) with facesSizes 5 7 exists
+(15,3,3) with facesSizes 5 7 doesn't exists
+(15,4,2) with facesSizes 5 7 doesn't exists
+(15,4,3) with facesSizes 5 7 exists
+(15,4,4) with facesSizes 5 7 doesn't exists
+(15,5,2) with facesSizes 5 7 doesn't exists
+(15,5,3) with facesSizes 5 7 exists
+(15,5,4) with facesSizes 5 7 doesn't exists
+(15,5,5) with facesSizes 5 7 exists
+(15,6,2) with facesSizes 5 7 doesn't exists
+(15,6,3) with facesSizes 5 7 exists
+(15,6,4) with facesSizes 5 7 exists
+(15,6,5) with facesSizes 5 7 doesn't exists
+(15,6,6) with facesSizes 5 7 doesn't exists
+(15,7,2) with facesSizes 5 7 doesn't exists
+(15,7,3) with facesSizes 5 7 exists
+(15,7,4) with facesSizes 5 7 exists
+(15,7,5) with facesSizes 5 7 doesn't exists
+(15,7,6) with facesSizes 5 7 doesn't exists
+(15,7,7) with facesSizes 5 7 exists
+(15,8,2) with facesSizes 5 7 doesn't exists
+(15,8,3) with facesSizes 5 7 doesn't exists
+(15,8,4) with facesSizes 5 7 exists
+(15,8,5) with facesSizes 5 7 doesn't exists
+(15,8,6) with facesSizes 5 7 exists
+(15,8,7) with facesSizes 5 7 doesn't exists
+(15,8,8) with facesSizes 5 7 exists
+(15,9,2) with facesSizes 5 7 doesn't exists
+(15,9,3) with facesSizes 5 7 exists
+(15,9,4) with facesSizes 5 7 exists
+(15,9,5) with facesSizes 5 7 doesn't exists
+(15,9,6) with facesSizes 5 7 doesn't exists
+(15,9,7) with facesSizes 5 7 doesn't exists
+(15,10,2) with facesSizes 5 7 doesn't exists
+(15,10,3) with facesSizes 5 7 exists
+(15,10,4) with facesSizes 5 7 exists
+(15,10,5) with facesSizes 5 7 doesn't exists
+(15,10,6) with facesSizes 5 7 doesn't exists
+(15,11,2) with facesSizes 5 7 doesn't exists
+(15,11,3) with facesSizes 5 7 exists
+(15,11,4) with facesSizes 5 7 exists
+(15,11,5) with facesSizes 5 7 doesn't exists
+(15,12,2) with facesSizes 5 7 doesn't exists
+(15,12,3) with facesSizes 5 7 exists
+(15,12,4) with facesSizes 5 7 exists
+(15,13,2) with facesSizes 5 7 doesn't exists
+(15,13,3) with facesSizes 5 7 exists
+(15,14,2) with facesSizes 5 7 doesn't exists
+(16,2,2) with facesSizes 5 7 doesn't exists
+(16,3,2) with facesSizes 5 7 exists
+(16,3,3) with facesSizes 5 7 doesn't exists
+(16,4,2) with facesSizes 5 7 doesn't exists
+(16,4,3) with facesSizes 5 7 doesn't exists
+(16,4,4) with facesSizes 5 7 exists
+(16,5,2) with facesSizes 5 7 doesn't exists
+(16,5,3) with facesSizes 5 7 exists
+(16,5,4) with facesSizes 5 7 doesn't exists
+(16,5,5) with facesSizes 5 7 exists
+(16,6,2) with facesSizes 5 7 doesn't exists
+(16,6,3) with facesSizes 5 7 exists
+(16,6,4) with facesSizes 5 7 exists
+(16,6,5) with facesSizes 5 7 doesn't exists
+(16,6,6) with facesSizes 5 7 doesn't exists
+(16,7,2) with facesSizes 5 7 doesn't exists
+(16,7,3) with facesSizes 5 7 exists
+(16,7,4) with facesSizes 5 7 exists
+(16,7,5) with facesSizes 5 7 doesn't exists
+(16,7,6) with facesSizes 5 7 exists
+(16,7,7) with facesSizes 5 7 doesn't exists
+(16,8,2) with facesSizes 5 7 doesn't exists
+(16,8,3) with facesSizes 5 7 exists
+(16,8,4) with facesSizes 5 7 exists
+(16,8,5) with facesSizes 5 7 doesn't exists
+(16,8,6) with facesSizes 5 7 doesn't exists
+(16,8,7) with facesSizes 5 7 doesn't exists
+(16,9,2) with facesSizes 5 7 doesn't exists
+(16,9,3) with facesSizes 5 7 exists
+(16,9,4) with facesSizes 5 7 exists
+(16,9,5) with facesSizes 5 7 doesn't exists
+(16,9,6) with facesSizes 5 7 exists
+(16,10,2) with facesSizes 5 7 doesn't exists
+(16,10,3) with facesSizes 5 7 exists
+(16,10,4) with facesSizes 5 7 exists
+(16,10,5) with facesSizes 5 7 doesn't exists
+(16,11,2) with facesSizes 5 7 doesn't exists
+(16,11,3) with facesSizes 5 7 exists
+(16,11,4) with facesSizes 5 7 exists
+(16,12,2) with facesSizes 5 7 doesn't exists
+(16,12,3) with facesSizes 5 7 exists
+(16,13,2) with facesSizes 5 7 doesn't exists
+(17,2,2) with facesSizes 5 7 doesn't exists
+(17,3,2) with facesSizes 5 7 exists
+(17,3,3) with facesSizes 5 7 doesn't exists
+(17,4,2) with facesSizes 5 7 doesn't exists
+(17,4,3) with facesSizes 5 7 doesn't exists
+(17,4,4) with facesSizes 5 7 doesn't exists
+(17,5,2) with facesSizes 5 7 doesn't exists
+(17,5,3) with facesSizes 5 7 exists
+(17,5,4) with facesSizes 5 7 doesn't exists
+(17,5,5) with facesSizes 5 7 exists
+(17,6,2) with facesSizes 5 7 doesn't exists
+(17,6,3) with facesSizes 5 7 doesn't exists
+(17,6,4) with facesSizes 5 7 exists
+(17,6,5) with facesSizes 5 7 doesn't exists
+(17,6,6) with facesSizes 5 7 exists
+(17,7,2) with facesSizes 5 7 doesn't exists
+(17,7,3) with facesSizes 5 7 doesn't exists
+(17,7,4) with facesSizes 5 7 exists
+(17,7,5) with facesSizes 5 7 doesn't exists
+(17,7,6) with facesSizes 5 7 exists
+(17,7,7) with facesSizes 5 7 doesn't exists
+(17,8,2) with facesSizes 5 7 doesn't exists
+(17,8,3) with facesSizes 5 7 doesn't exists
+(17,8,4) with facesSizes 5 7 exists
+(17,8,5) with facesSizes 5 7 doesn't exists
+(17,8,6) with facesSizes 5 7 doesn't exists
+(17,9,2) with facesSizes 5 7 doesn't exists
+(17,9,3) with facesSizes 5 7 doesn't exists
+(17,9,4) with facesSizes 5 7 exists
+(17,9,5) with facesSizes 5 7 doesn't exists
+(17,10,2) with facesSizes 5 7 doesn't exists
+(17,10,3) with facesSizes 5 7 exists
+(17,10,4) with facesSizes 5 7 doesn't exists
+(17,11,2) with facesSizes 5 7 doesn't exists
+(17,11,3) with facesSizes 5 7 doesn't exists
+(17,12,2) with facesSizes 5 7 doesn't exists
+(18,2,2) with facesSizes 5 7 doesn't exists
+(18,3,2) with facesSizes 5 7 exists
+(18,3,3) with facesSizes 5 7 doesn't exists
+(18,4,2) with facesSizes 5 7 doesn't exists
+(18,4,3) with facesSizes 5 7 exists
+(18,4,4) with facesSizes 5 7 doesn't exists
+(18,5,2) with facesSizes 5 7 doesn't exists
+(18,5,3) with facesSizes 5 7 exists
+(18,5,4) with facesSizes 5 7 doesn't exists
+(18,5,5) with facesSizes 5 7 exists
+(18,6,2) with facesSizes 5 7 doesn't exists
+(18,6,3) with facesSizes 5 7 doesn't exists
+(18,6,4) with facesSizes 5 7 exists
+(18,6,5) with facesSizes 5 7 doesn't exists
+(18,6,6) with facesSizes 5 7 doesn't exists
+(18,7,2) with facesSizes 5 7 doesn't exists
+(18,7,3) with facesSizes 5 7 exists
+(18,7,4) with facesSizes 5 7 doesn't exists
+(18,7,5) with facesSizes 5 7 doesn't exists
+(18,7,6) with facesSizes 5 7 exists
+(18,8,2) with facesSizes 5 7 doesn't exists
+(18,8,3) with facesSizes 5 7 doesn't exists
+(18,8,4) with facesSizes 5 7 doesn't exists
+(18,8,5) with facesSizes 5 7 doesn't exists
+(18,9,2) with facesSizes 5 7 doesn't exists
+(18,9,3) with facesSizes 5 7 exists
+(18,9,4) with facesSizes 5 7 exists
+(18,10,2) with facesSizes 5 7 doesn't exists
+(18,10,3) with facesSizes 5 7 doesn't exists
+(18,11,2) with facesSizes 5 7 doesn't exists
+(19,2,2) with facesSizes 5 7 doesn't exists
+(19,3,2) with facesSizes 5 7 exists
+(19,3,3) with facesSizes 5 7 doesn't exists
+(19,4,2) with facesSizes 5 7 doesn't exists
+(19,4,3) with facesSizes 5 7 doesn't exists
+(19,4,4) with facesSizes 5 7 doesn't exists
+(19,5,2) with facesSizes 5 7 doesn't exists
+(19,5,3) with facesSizes 5 7 exists
+(19,5,4) with facesSizes 5 7 doesn't exists
+(19,5,5) with facesSizes 5 7 exists
+(19,6,2) with facesSizes 5 7 doesn't exists
+(19,6,3) with facesSizes 5 7 doesn't exists
+(19,6,4) with facesSizes 5 7 exists
+(19,6,5) with facesSizes 5 7 doesn't exists
+(19,6,6) with facesSizes 5 7 doesn't exists
+(19,7,2) with facesSizes 5 7 doesn't exists
+(19,7,3) with facesSizes 5 7 doesn't exists
+(19,7,4) with facesSizes 5 7 doesn't exists
+(19,7,5) with facesSizes 5 7 doesn't exists
+(19,8,2) with facesSizes 5 7 doesn't exists
+(19,8,3) with facesSizes 5 7 doesn't exists
+(19,8,4) with facesSizes 5 7 exists
+(19,9,2) with facesSizes 5 7 doesn't exists
+(19,9,3) with facesSizes 5 7 exists
+(19,10,2) with facesSizes 5 7 doesn't exists
+(20,2,2) with facesSizes 5 7 doesn't exists
+(20,3,2) with facesSizes 5 7 exists
+(20,3,3) with facesSizes 5 7 doesn't exists
+(20,4,2) with facesSizes 5 7 doesn't exists
+(20,4,3) with facesSizes 5 7 exists
+(20,4,4) with facesSizes 5 7 doesn't exists
+(20,5,2) with facesSizes 5 7 doesn't exists
+(20,5,3) with facesSizes 5 7 exists
+(20,5,4) with facesSizes 5 7 doesn't exists
+(20,5,5) with facesSizes 5 7 exists
+(20,6,2) with facesSizes 5 7 doesn't exists
+(20,6,3) with facesSizes 5 7 exists
+(20,6,4) with facesSizes 5 7 exists
+(20,6,5) with facesSizes 5 7 doesn't exists
+(20,7,2) with facesSizes 5 7 doesn't exists
+(20,7,3) with facesSizes 5 7 doesn't exists
+(20,7,4) with facesSizes 5 7 doesn't exists
+(20,8,2) with facesSizes 5 7 doesn't exists
+(20,8,3) with facesSizes 5 7 exists
+(20,9,2) with facesSizes 5 7 doesn't exists
+(21,2,2) with facesSizes 5 7 doesn't exists
+(21,3,2) with facesSizes 5 7 exists
+(21,3,3) with facesSizes 5 7 doesn't exists
+(21,4,2) with facesSizes 5 7 doesn't exists
+(21,4,3) with facesSizes 5 7 doesn't exists
+(21,4,4) with facesSizes 5 7 doesn't exists
+(21,5,2) with facesSizes 5 7 doesn't exists
+(21,5,3) with facesSizes 5 7 exists
+(21,5,4) with facesSizes 5 7 doesn't exists
+(21,5,5) with facesSizes 5 7 doesn't exists
+(21,6,2) with facesSizes 5 7 doesn't exists
+(21,6,3) with facesSizes 5 7 doesn't exists
+(21,6,4) with facesSizes 5 7 exists
+(21,7,2) with facesSizes 5 7 doesn't exists
+(21,7,3) with facesSizes 5 7 doesn't exists
+(21,8,2) with facesSizes 5 7 doesn't exists
+(22,2,2) with facesSizes 5 7 doesn't exists
+(22,3,2) with facesSizes 5 7 exists
+(22,3,3) with facesSizes 5 7 doesn't exists
+(22,4,2) with facesSizes 5 7 doesn't exists
+(22,4,3) with facesSizes 5 7 doesn't exists
+(22,4,4) with facesSizes 5 7 doesn't exists
+(22,5,2) with facesSizes 5 7 doesn't exists
+(22,5,3) with facesSizes 5 7 exists
+(22,5,4) with facesSizes 5 7 doesn't exists
+(22,6,2) with facesSizes 5 7 doesn't exists
+(22,6,3) with facesSizes 5 7 doesn't exists
+(22,7,2) with facesSizes 5 7 doesn't exists
+(23,2,2) with facesSizes 5 7 doesn't exists
+(23,3,2) with facesSizes 5 7 exists
+(23,3,3) with facesSizes 5 7 doesn't exists
+(23,4,2) with facesSizes 5 7 doesn't exists
+(23,4,3) with facesSizes 5 7 doesn't exists
+(23,4,4) with facesSizes 5 7 doesn't exists
+(23,5,2) with facesSizes 5 7 doesn't exists
+(23,5,3) with facesSizes 5 7 

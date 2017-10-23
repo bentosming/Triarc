@@ -33,7 +33,7 @@ namespace Triarc
 		/// <summary>
 		/// SetBits array allows direct acces to n-th bit.
 		/// </summary>
-		static long[] SetBits = new long[LengthOfStruct]
+		static readonly long[] SetBits = new long[LengthOfStruct]
 		{
 		0x1, 0x2, 0x4, 0x8 ,
 		0x10, 0x20, 0x40, 0x80,
@@ -152,13 +152,7 @@ namespace Triarc
 			return value - (value >> 1);
 		}
 
-		/// <summary>
-		/// Takes positive int and returns order of highest bit set. Lowest bit's order is 0 and highest's is 63.
-		/// For zero returns -1.
-		/// </summary>
-		/// <param name="value"></param>
-		/// <returns></returns>
-		public static int OrderOfHighestSetBit(this long value)
+		static int OLDOrderOfHighestSetBit(this long value)
 		{
 			if (value < 0)
 			{
@@ -178,6 +172,45 @@ namespace Triarc
 			}
 
 			return result;
+		}
+		
+		/// <summary>
+		/// Takes positive int and returns order of highest bit set. Lowest bit's order is 0 and highest's is 63.
+		/// For zero returns -1.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public static int OrderOfHighestSetBit(this long value)
+		{
+			if (value < 0)
+			{
+				return LengthOfStruct - 1;
+			}
+			if (value == 0)
+			{
+				return -1;
+			}
+			if (value==1)
+			{
+				return 0;
+			}
+			long temp = value>>32;
+			int i = 32;
+			int diff = 16;
+			while (temp!=1)
+			{
+				if (temp>0)
+				{
+					i = i +diff; 
+				}
+				else
+				{
+					i = i - diff; //
+				}
+				temp = value >> i;
+				diff >>= 1;
+			}
+			return i;
 		}
 
 		/// <summary>

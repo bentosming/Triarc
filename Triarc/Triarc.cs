@@ -66,6 +66,7 @@ namespace Triarc
 		/// <param name="limit">Number of states to discover (per triarc) before giving up on a triarc.</param>
 		public static void DoTriarcsExist(TextWriter textWriter, IList<int> facesSizes, int limit)
 		{
+			
 			var facesToString = FacesToString(facesSizes);
 			for (int x = 2; x < 30; x++)
 			{
@@ -96,12 +97,53 @@ namespace Triarc
 				}
 			}
 		}
+		public static void Do_nnn_TriarcsExist(IList<int> facesSizes, int limit)
+		{
 
+			var textWriter = new StreamWriter("(n,n,n)Triarcs " + FacesToString(facesSizes));
+
+			var facesToString = FacesToString(facesSizes);
+			for (int x = 2; x < 11; x++)
+			{
+				Console.Write("(" + x + "," + x + "," + x + ") with facesSizes " + facesToString);
+				if (DoesTriarcExist(x, x, x, facesSizes, limit))
+				{
+					textWriter.WriteLine("(" + x + "," + x + "," + x + ") with facesSizes " + facesToString + "exists");
+					Console.WriteLine("Exists");
+				}
+				else
+				{
+					textWriter.WriteLine("(" + x + "," + x + "," + x + ") with facesSizes " + facesToString + "doesn't exists");
+					Console.WriteLine("Doesn't exists");
+				}
+			}
+			textWriter.Close();
+
+		}
+		public static void Do_nnn1_TriarcsExist(IList<int> facesSizes, int limit)
+		{
+
+				var textWriter = new StreamWriter("(n,n,n-1)Triarcs " + FacesToString(facesSizes));
+			
+			var facesToString = FacesToString(facesSizes);
+			for (int x = 2; x < 11; x++)
+			{
+				Console.Write("(" + x + "," + x + "," + (x-1) + ") with facesSizes " + facesToString);
+				if (DoesTriarcExist(x, x, x-1, facesSizes, limit))
+				{
+					textWriter.WriteLine("(" + x + "," + x + "," + (x-1) + ") with facesSizes " + facesToString + "exists");
+					Console.WriteLine("Exists");
+				}
+				else
+				{
+					textWriter.WriteLine("(" + x + "," + x + "," + (x-1) + ") with facesSizes " + facesToString + "doesn't exists");
+					Console.WriteLine("Doesn't exists");
+				}
+			}
+			textWriter.Close();
+		}
 
 
 
 	}
-
-
-	
 }

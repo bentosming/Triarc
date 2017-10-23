@@ -100,6 +100,18 @@ namespace Triarc
 
 		}
 
+		public TriarcSolving(long startingBoundary, int[]facesSizes, int taskCount=1)
+		{
+			this.TaskCount = taskCount;
+			this.Name = "(" +Convert.ToString(startingBoundary,2) + ")";
+			this.FacesSizes = facesSizes;
+			StartingBoundary = startingBoundary;
+			Faces = new long[facesSizes.Length];
+			for (int i = 0; i < Faces.Length; i++)
+			{
+				Faces[i] = BoundaryLong.FaceToBoundary(FacesSizes[i]);
+			}
+		}
 
 
 		/// <summary>
@@ -156,8 +168,8 @@ namespace Triarc
 			Boundary <<= 2;
 			return Boundary.BoundaryToStandardizedForm();
 		}
-
-
+		
+		
 
 		/// <summary>
 		/// Adds edge or chain between first and second ones and adds the transition.

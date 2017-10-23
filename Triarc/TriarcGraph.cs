@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Triarc
 {
-	class TriarcGraph
+	class TriarcGraph :IReconstructionGraph
 	{
 		
 		public string Name { get;  set; }

@@ -47,7 +47,7 @@ namespace Triarc
 		/// </summary>
 		/// <param name="triarcGraph">triarcGraph containing only boundary that is the same as last state from sequence.</param>
 		/// <param name="sequenceOfStatesLeadingToResult">Solution of finding triarc.</param>
-		public TriarcReconstruction(TriarcGraph triarcGraph, List<long> sequenceOfStatesLeadingToResult)
+		public TriarcReconstruction(ITriarcReconstruction triarcGraph, List<long> sequenceOfStatesLeadingToResult)
 		{
 			triarc = triarcGraph;
 			maxNumberOfVertices = int.MaxValue;

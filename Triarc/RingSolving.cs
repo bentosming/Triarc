@@ -12,12 +12,11 @@ namespace Triarc
 		public List<long> ring { get; set; }
 		public RingSolving(int a, int b, int[] facesSizes, int limit)
 		{
-			var bla = 0x0000000000154aa4L;
-			bla = bla.BoundaryToStandardizedForm();
 			var solving = new TriarcSolving(CreateOuterBoundaryOfBiarc(a, b), facesSizes);
 			solving.TransitionLimit = limit;
 			this.ring = solving.SolveTriarc();
 		}
+		
 
 		static string FacesToString(IList<int> facesSizes)
 		{
@@ -58,7 +57,7 @@ namespace Triarc
 			writer.Close();
 		}
 
-		static long CreateOuterBoundaryOfBiarc(int a, int b)
+		public static long CreateOuterBoundaryOfBiarc(int a, int b)
 		{
 			//Starting from first main vertex of triarc and adding 0 or 1 for each vertex. 
 			long Boundary = 0;

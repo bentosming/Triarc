@@ -47,8 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BiarcGraph.cs" />
     <Compile Include="BinaryStates.cs" />
     <Compile Include="BoundaryLong.cs" />
+    <Compile Include="ConsoleArguments.cs" />
+    <Compile Include="IReconstructionGraph.cs" />
     <Compile Include="IStates.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

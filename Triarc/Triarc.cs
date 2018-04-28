@@ -23,11 +23,9 @@ namespace Triarc
 		/// <returns>True if such triarc exist with activ boundary of maximum length 63.</returns>
 		public static bool FindAndBuildTriarc(int x, int y, int z, List<int> facesSizes)
 		{
-			var triarcGraph = new TriarcGraph(4, 4, 3, facesSizes);
-			var solving = new TriarcSolving(4, 4, 3, facesSizes.ToArray());
-
+			var triarcGraph = new TriarcGraph(x,y,z, facesSizes);
+			var solving = new TriarcSolving(x,y,z, facesSizes.ToArray());
 			var reconstruction = new TriarcReconstruction(triarcGraph, solving.SolveTriarc());
-
 			return reconstruction.ReconstructTriarc();
 		}
 
@@ -47,6 +45,34 @@ namespace Triarc
 			solving.TransitionLimit = limit;
 			return solving.SolveTriarc() != null;
 		}
+		public static bool DoesBiarcExist(int x, int y, List<int> facesSizes, int limit)
+		{
+			var solving = new RingSolving(x, y, facesSizes.ToArray(),limit);
+			var solution = solving.ring;
+			var graph = new BiarcGraph(RingSolving.CreateOuterBoundaryOfBiarc(x, y), "Birac" + x + "," + y, facesSizes);
+			if (solution != null)
+			{
+				var reconstruction = new TriarcReconstruction(graph, solution);
+				reconstruction.ReconstructTriarc();
+				return true;
+			}
+			return false;
+		}
+
+		public static bool DoesGeneralBoundaryExistAndConstruct(long boundary, List<int> facesSizes, int limit)
+		{
+			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray());
+			if( solving.SolveTriarc() != null)
+			{
+				var triarcGraph = new BiarcGraph(boundary.BoundaryToStandardizedForm(), Convert.ToString(boundary, 16), facesSizes);
+
+				var reconstruction = new TriarcReconstruction(triarcGraph, solving.SolveTriarc());
+
+				reconstruction.ReconstructTriarc();
+				return true;
+			}
+			return false;
+		}
 
 		static string FacesToString(IList<int> facesSizes)
 		{
@@ -58,6 +84,7 @@ namespace Triarc
 			return temp.ToString();
 		}
 
+		
 		/// <summary>
 		/// Goes trough all triarc with outter boarder of length 63 and less and determines, if they can be found within limit.
 		/// </summary>
@@ -144,6 +171,29 @@ namespace Triarc
 		}
 
 
+		public static void DonnBiarcsExist(List<int> facesSizes, int limit)
+		{
+
+			var textWriter = new StreamWriter("(n,n)Biarcs " + FacesToString(facesSizes));
+
+			var facesToString = FacesToString(facesSizes);
+			for (int x = 2; x < 11; x++)
+			{
+				Console.Write("(" + x + "," + x + ") with facesSizes " + facesToString);
+				if (DoesBiarcExist(x, x, facesSizes, limit))
+				{
+					textWriter.WriteLine("(" + x + "," + x + ") with facesSizes " + facesToString + "exists");
+					Console.WriteLine("Exists");
+				}
+				else
+				{
+					textWriter.WriteLine("(" + x + "," + x + ") with facesSizes " + facesToString + "doesn't exists");
+					Console.WriteLine("Doesn't exists");
+				}
+			}
+			textWriter.Close();
+
+		}
 
 	}
 }

@@ -9,7 +9,7 @@ namespace Triarc
 
 	interface IStates<T>
 	{
-		T VerticesToState(IList<TriarcGraph.VertexStack> list);
+		T VerticesToState(IList<VertexStack> list);
 		/// <summary>
 		/// Adds state, returns false if state has already been in.
 		/// </summary>
@@ -17,14 +17,14 @@ namespace Triarc
 		/// <returns></returns>
 		bool Add(T item);
 		int Count();
-		bool Add(IList<TriarcGraph.VertexStack> list);
-		string VerticesToString(IList<TriarcGraph.VertexStack> list);
+		bool Add(IList<VertexStack> list);
+		string VerticesToString(IList<VertexStack> list);
 	}
 	interface IStates
 	{
 
 		int Count();
-		bool Add(IList<TriarcGraph.VertexStack> list);
-		string VerticesToString(IList<TriarcGraph.VertexStack> list);
+		bool Add(IList<VertexStack> list);
+		string VerticesToString(IList<VertexStack> list);
 	}
 }

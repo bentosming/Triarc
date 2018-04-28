@@ -15,7 +15,7 @@ namespace Triarc
 		/// Collection of all 
 		/// </summary>
 		HashSet<long> states = new HashSet<long>();
-		public bool Add(IList<TriarcGraph.VertexStack> list)
+		public bool Add(IList<VertexStack> list)
 		{
 			return Add(this.VerticesToState(list));
 		}
@@ -35,14 +35,14 @@ namespace Triarc
 		/// </summary>
 		/// <param name="list"></param>
 		/// <returns></returns>
-		public long VerticesToState(IList<TriarcGraph.VertexStack> list)
+		public long VerticesToState(IList<VertexStack> list)
 		{
 			return LongBinaryStatesWithHashSet.VerticesToStateStatic(list);
 		}
 
-		public static long VerticesToStateStatic(IList<TriarcGraph.VertexStack> list)
+		public static long VerticesToStateStatic(IList<VertexStack> list)
 		{
-			Func<TriarcGraph.VertexStack, long> vertexToLong = x =>
+			Func<VertexStack, long> vertexToLong = x =>
 			{
 				if (x.HasAllThreeNeighbours())
 				{
@@ -85,7 +85,7 @@ namespace Triarc
 			return max;
 		}
 
-		public string VerticesToString(IList<TriarcGraph.VertexStack> list)
+		public string VerticesToString(IList<VertexStack> list)
 		{
 			return Convert.ToString(VerticesToState(list), 2);
 		}

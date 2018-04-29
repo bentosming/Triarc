@@ -100,9 +100,10 @@ namespace Triarc
 
 		}
 
-		public TriarcSolving(long startingBoundary, int[]facesSizes, int taskCount=1)
+		public TriarcSolving(long startingBoundary, int[]facesSizes, int limit=100000, int taskCount = 1)
 		{
 			this.TaskCount = taskCount;
+			this.TransitionLimit = limit;
 			this.Name = "(" +Convert.ToString(startingBoundary,2) + ")";
 			this.FacesSizes = facesSizes;
 			StartingBoundary = startingBoundary;

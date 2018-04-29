@@ -53,6 +53,7 @@
     <Compile Include="ConsoleArguments.cs" />
     <Compile Include="IReconstructionGraph.cs" />
     <Compile Include="IStates.cs" />
+    <Compile Include="NeutralSequenceHelpingGraphs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RingSolving.cs" />

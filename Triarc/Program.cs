@@ -67,6 +67,8 @@ namespace Triarc
 			Console.WriteLine("-g .................. start GUI");
 			Console.WriteLine("-t a b c ............ builds triarc of lengths abc");
 			Console.WriteLine("-a x ................ builds arc of boudary x (has to start with 1)");
+			Console.WriteLine("-n .................. finds parameters for all graphs needed");
+			Console.WriteLine("                      to finish the proof");
 			Console.WriteLine("-f [list of ints] ... to specify face sizes");
 		}
 
@@ -295,6 +297,11 @@ namespace Triarc
 					{
 						Console.WriteLine("Doesn't exist");
 					}
+				}
+				else if (ca.NeutralSequence)
+				{
+					var ns = new NeutralSequenceHelpingGraphs(ca.faces);
+					ns.Find();
 				}
 				else { Console.WriteLine("try -h"); }
 			}

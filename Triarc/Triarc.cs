@@ -59,14 +59,14 @@ namespace Triarc
 			return false;
 		}
 
-		public static bool DoesGeneralBoundaryExistAndConstruct(long boundary, List<int> facesSizes, int limit)
+		public static bool DoesGeneralBoundaryExistAndConstruct(long boundary, List<int> facesSizes, int limit, string path="")
 		{
-			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray());
+			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray(),limit);
 			if( solving.SolveTriarc() != null)
 			{
 				var triarcGraph = new BiarcGraph(boundary.BoundaryToStandardizedForm(), Convert.ToString(boundary, 16), facesSizes);
 
-				var reconstruction = new TriarcReconstruction(triarcGraph, solving.SolveTriarc());
+				var reconstruction = new TriarcReconstruction(triarcGraph, solving.SolveTriarc(), path);
 
 				reconstruction.ReconstructTriarc();
 				return true;
@@ -74,7 +74,7 @@ namespace Triarc
 			return false;
 		}
 
-		static string FacesToString(IList<int> facesSizes)
+		static public string FacesToString(IList<int> facesSizes)
 		{
 			StringBuilder temp = new StringBuilder();
 			foreach (var item in facesSizes)

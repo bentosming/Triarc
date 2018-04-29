@@ -12,6 +12,7 @@ namespace Triarc
 		public bool Triarc;
 		public bool Arc;
 		public bool Help;
+		public bool NeutralSequence;
 		string[] args;
 		string input;
 
@@ -21,6 +22,7 @@ namespace Triarc
 			Triarc = args.Contains("-t");
 			Arc = args.Contains("-a");
 			Help = args.Contains("-h");
+			NeutralSequence = args.Contains("-n");
 			this.args = args;
 			input = string.Join(" ", args);
 		}

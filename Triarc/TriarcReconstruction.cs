@@ -35,6 +35,7 @@ namespace Triarc
 		/// </summary>
 		public ReconstructionGraph triarc;
 
+		string path;
 
 		/// <summary>
 		/// Indicates state of reconstructing triarc.
@@ -47,8 +48,9 @@ namespace Triarc
 		/// </summary>
 		/// <param name="triarcGraph">triarcGraph containing only boundary that is the same as last state from sequence.</param>
 		/// <param name="sequenceOfStatesLeadingToResult">Solution of finding triarc.</param>
-		public TriarcReconstruction(ReconstructionGraph triarcGraph, List<long> sequenceOfStatesLeadingToResult)
+		public TriarcReconstruction(ReconstructionGraph triarcGraph, List<long> sequenceOfStatesLeadingToResult, string path = "" )
 		{
+			this.path = path;
 			triarc = triarcGraph;
 			triarc.Faces = new List<List<int>>();
 			maxNumberOfVertices = int.MaxValue;
@@ -68,23 +70,23 @@ namespace Triarc
 			{
 				return;
 			}
-
+			Directory.CreateDirectory("grafy\\" + path);
 			string fileName = "Triarc" + triarc.Name + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "__"  + "v" + triarc.CountOfVertices;
-			Console.WriteLine("Triarc will be saved into grafy\\" + fileName + " as gv, txt and BAT files.");
-			StreamWriter gWStreamWriter = new StreamWriter("grafy\\" + fileName + ".gv");
-			StreamWriter waStreamWriter = new StreamWriter("grafy\\" + fileName + ".txt");
-			StreamWriter CoCalcStreamWriter = new StreamWriter("grafy\\" + fileName + "_CoCalc.txt");
+			Console.WriteLine("Triarc will be saved into grafy\\" +path+ fileName + " as gv, txt and BAT files.");
+			StreamWriter gWStreamWriter = new StreamWriter("grafy\\" + path + fileName + ".gv");
+			StreamWriter waStreamWriter = new StreamWriter("grafy\\" + path+fileName + ".txt");
+			StreamWriter CoCalcStreamWriter = new StreamWriter("grafy\\" +path+ fileName + "_CoCalc.txt");
 			triarc.WAWrite(waStreamWriter);
 			waStreamWriter.Close();
 			triarc.GWWrite(gWStreamWriter);
 			gWStreamWriter.Close();
 
-			gWStreamWriter = new StreamWriter("grafy\\" + fileName + ".BAT");
+			gWStreamWriter = new StreamWriter("grafy\\" +path+ fileName + ".BAT");
 			triarc.BATWrite(gWStreamWriter, fileName);
 			gWStreamWriter.Close();
 			triarc.CoCalcWrite(CoCalcStreamWriter);
 			CoCalcStreamWriter.Close();
-			StreamWriter faceswriter = new StreamWriter("grafy\\" + fileName + ".faces.txt");
+			StreamWriter faceswriter = new StreamWriter("grafy\\" + path+fileName + ".faces.txt");
 			foreach (var x in triarc.Faces)
 			{
 				faceswriter.WriteLine(string.Join<int>(",", x));
@@ -251,8 +253,8 @@ namespace Triarc
 			//Else remove it to signal that it has been gone trough.
 			SequenceOfStatesLeadingToResult.RemoveAt(SequenceOfStatesLeadingToResult.Count - 1);
 
-			Console.WriteLine(string.Join<string>(", ", active.Select(
-				 x => { return x.ID.ToString() + (x.HasAllThreeNeighbours() == true ? "out" : "in"); })));
+	//		Console.WriteLine(string.Join<string>(", ", active.Select(
+		//		 x => { return x.ID.ToString() + (x.HasAllThreeNeighbours() == true ? "out" : "in"); })));
 
 			#region  If there is a restriction on maximal count of vertices, defaultly set to int.maxValue
 			if (triarc.CountOfVertices > maxNumberOfVertices)

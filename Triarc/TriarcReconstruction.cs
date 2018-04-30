@@ -71,27 +71,30 @@ namespace Triarc
 				return;
 			}
 			Directory.CreateDirectory("grafy\\" + path);
-			string fileName = "Triarc" + triarc.Name + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "__"  + "v" + triarc.CountOfVertices;
-			Console.WriteLine("Triarc will be saved into grafy\\" +path+ fileName + " as gv, txt and BAT files.");
+			string fileName = "Triarc" + triarc.Name + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "__" + "v" + triarc.CountOfVertices;
+			Console.WriteLine("Triarc will be saved into grafy\\" + path + fileName + " as gv and txt files.");
 			StreamWriter gWStreamWriter = new StreamWriter("grafy\\" + path + fileName + ".gv");
-			StreamWriter waStreamWriter = new StreamWriter("grafy\\" + path+fileName + ".txt");
-			StreamWriter CoCalcStreamWriter = new StreamWriter("grafy\\" +path+ fileName + "_CoCalc.txt");
-			triarc.WAWrite(waStreamWriter);
-			waStreamWriter.Close();
 			triarc.GWWrite(gWStreamWriter);
 			gWStreamWriter.Close();
 
-			gWStreamWriter = new StreamWriter("grafy\\" +path+ fileName + ".BAT");
-			triarc.BATWrite(gWStreamWriter, fileName);
-			gWStreamWriter.Close();
+			//	StreamWriter waStreamWriter = new StreamWriter("grafy\\" + path+fileName + ".txt");
+			//	triarc.WAWrite(waStreamWriter);
+			//	waStreamWriter.Close();
+
+			//	gWStreamWriter = new StreamWriter("grafy\\" +path+ fileName + ".BAT");
+			//	triarc.BATWrite(gWStreamWriter, fileName);
+			//	gWStreamWriter.Close();
+
+			StreamWriter CoCalcStreamWriter = new StreamWriter("grafy\\" + path + fileName + "_CoCalc.txt");
 			triarc.CoCalcWrite(CoCalcStreamWriter);
 			CoCalcStreamWriter.Close();
-			StreamWriter faceswriter = new StreamWriter("grafy\\" + path+fileName + ".faces.txt");
-			foreach (var x in triarc.Faces)
-			{
-				faceswriter.WriteLine(string.Join<int>(",", x));
-			}
-			faceswriter.Close();
+
+			//	StreamWriter faceswriter = new StreamWriter("grafy\\" + path+fileName + ".faces.txt");
+			//	foreach (var x in triarc.Faces)
+			//	{
+			//		faceswriter.WriteLine(string.Join<int>(",", x));
+			//	}
+			//	faceswriter.Close();
 		}
 
 

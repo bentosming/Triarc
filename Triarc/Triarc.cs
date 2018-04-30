@@ -21,11 +21,11 @@ namespace Triarc
 		/// <param name="z">Third number that determines triarc.</param>
 		/// <param name="facesSizes">Allowed sizes of faces for triarc.</param>
 		/// <returns>True if such triarc exist with activ boundary of maximum length 63.</returns>
-		public static bool FindAndBuildTriarc(int x, int y, int z, List<int> facesSizes)
+		public static bool FindAndBuildTriarc(int x, int y, int z, List<int> facesSizes, string path ="")
 		{
 			var triarcGraph = new TriarcGraph(x,y,z, facesSizes);
 			var solving = new TriarcSolving(x,y,z, facesSizes.ToArray());
-			var reconstruction = new TriarcReconstruction(triarcGraph, solving.SolveTriarc());
+			var reconstruction = new TriarcReconstruction(triarcGraph, solving.SolveTriarc(), path);
 			return reconstruction.ReconstructTriarc();
 		}
 
@@ -59,10 +59,15 @@ namespace Triarc
 			return false;
 		}
 
-		public static bool DoesGeneralBoundaryExistAndConstruct(long boundary, List<int> facesSizes, int limit, string path="")
+		public static bool DoesGeneralBoundaryExist(long boundary, List<int> facesSizes, int limit, string path = "")
 		{
-			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray(),limit);
-			if( solving.SolveTriarc() != null)
+			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray(), limit);
+			return solving.SolveTriarc() != null;
+		}
+		public static bool DoesGeneralBoundaryExistAndConstruct(long boundary, List<int> facesSizes, int limit, string path = "")
+		{
+			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray(), limit);
+			if (solving.SolveTriarc() != null)
 			{
 				var triarcGraph = new BiarcGraph(boundary.BoundaryToStandardizedForm(), Convert.ToString(boundary, 16), facesSizes);
 

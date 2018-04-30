@@ -294,13 +294,13 @@ namespace Triarc
 			}
 			tw.WriteLine("k=" + this.NumberOfVerticesInOuterBoundary);
 			tw.WriteLine("l=" + this.CountOfVertices);
-			for (int i = 0; i < Faces.Count; i++)
-			{
-				foreach (var vertex in Faces[i])
-				{
-					tw.WriteLine("G.add_edge(" + (i + this.CountOfVertices) + ", " + vertex + ")");
-				}
-			}
+		//	for (int i = 0; i < Faces.Count; i++)
+		//	{
+		//		foreach (var vertex in Faces[i])
+		//		{
+		//			tw.WriteLine("G.add_edge(" + (i + this.CountOfVertices) + ", " + vertex + ")");
+		//		}
+		//	}
 		}
 
 		/// <summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Triarc
@@ -29,7 +30,7 @@ namespace Triarc
 		{
 
 			FindCD();
-			Bstrings=strings.Where(x=>Triarc.DoesGeneralBoundaryExistAndConstruct(Convert.ToInt64(B(x), 2), FaceSizes, 100000, path + "B\\"));
+			Bstrings=strings.Where(x=>Triarc.DoesGeneralBoundaryExist(Convert.ToInt64(B(x), 2), FaceSizes, 100000, path + "B\\"));
 			Findk();
 
 			Console.WriteLine("----------------------------------------");
@@ -41,9 +42,21 @@ namespace Triarc
 			{
 				Console.WriteLine();
 				Console.WriteLine("Saving all helping graphs");
+				Triarc.FindAndBuildTriarc(k.Value, k.Value, k.Value, FaceSizes, path + "(k,k,k)\\");
+				Triarc.FindAndBuildTriarc(k.Value, k.Value, k.Value-1, FaceSizes, path + "(k,k,k-1)\\");
+				Triarc.DoesGeneralBoundaryExistAndConstruct(Convert.ToInt64(A(AString, k.Value), 2), FaceSizes, 100000, path + "A\\");
+				Triarc.DoesGeneralBoundaryExistAndConstruct(Convert.ToInt64(B(AString), 2), FaceSizes, 100000, path + "B\\");
+				Triarc.DoesGeneralBoundaryExistAndConstruct(Convert.ToInt64(C(CDString), 2), FaceSizes, 100000, path + "C\\");
+				Triarc.DoesGeneralBoundaryExistAndConstruct(Convert.ToInt64(D(CDString), 2), FaceSizes, 100000, path + "D\\");
+				StreamWriter info = new StreamWriter("grafy\\" + path + "info.txt");
+				info.WriteLine("Nalezeno:");
+				info.WriteLine("AB řetízek: " + AString);
+				info.WriteLine("CD řežízek: " + CDString);
+				info.WriteLine("k: " + k);
+				info.Close();
 
 			}
-						
+
 		}
 
 		void Save()
@@ -55,9 +68,9 @@ namespace Triarc
 		{
 			foreach (var R in strings)
 			{
-				if (Triarc.DoesGeneralBoundaryExistAndConstruct(Convert.ToInt64(C(R), 2), this.FaceSizes, 100000, path + "C\\"))
+				if (Triarc.DoesGeneralBoundaryExist(Convert.ToInt64(C(R), 2), this.FaceSizes, 100000, path + "C\\"))
 				{
-					if (Triarc.DoesGeneralBoundaryExistAndConstruct(Convert.ToInt64(D(R), 2), FaceSizes, 100000, path + "D\\"))
+					if (Triarc.DoesGeneralBoundaryExist(Convert.ToInt64(D(R), 2), FaceSizes, 100000, path + "D\\"))
 					{
 						CDString = R;
 						return true;
@@ -75,17 +88,17 @@ namespace Triarc
 				Console.WriteLine("k=" + k);
 				if (Triarc.DoesTriarcExist(k, k, k, FaceSizes, 100000))
 				{
-					Console.WriteLine("	Existuje (k,k,k)");
+					//Console.WriteLine("	Existuje (k,k,k)");
 
 					if (Triarc.DoesTriarcExist(k, k, k - 1, FaceSizes, 100000))
 					{
-						Console.WriteLine("	Existuje (k,k,k-1)");
+						//Console.WriteLine("	Existuje (k,k,k-1)");
 
 						foreach (var r in Bstrings)
 						{
-							if (Triarc.DoesGeneralBoundaryExistAndConstruct(Convert.ToInt64(A(r, k), 2), FaceSizes, 100000, path + "A\\"))
+							if (Triarc.DoesGeneralBoundaryExist(Convert.ToInt64(A(r, k), 2), FaceSizes, 100000, path + "A\\"))
 							{
-								Console.WriteLine("	A s řetízkem " + r + " existuje");
+						//		Console.WriteLine("	A s řetízkem " + r + " existuje");
 								this.k = k;
 								this.AString = r;
 								return true;

@@ -47,6 +47,24 @@ namespace Triarc
 			}
 		}
 
+		public int Limit
+		{
+			get
+			{
+				try
+				{
+					int value;
+					int.TryParse(args[Array.IndexOf<string>(args, "-l") + 1], out value);
+					return value;
+				}
+				catch (Exception)
+				{
+					Console.WriteLine("Invalid argument, LIMIT");
+					throw new ArgumentException("LIMIT");
+				}
+			}
+		}
+
 		public int TriarcX
 		{
 			get

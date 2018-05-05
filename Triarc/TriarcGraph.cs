@@ -311,74 +311,7 @@ namespace Triarc
 
 
 
-
-
-/*	class StringStatesWithHasSetAndRedundants : IStates<string>, IStates
-	{
-		int numberOfDifferent = 0;
-		HashSet<string> states = new HashSet<string>();
-
-		public bool Add(IList<TriarcGraph.VertexStack> list)
-		{
-			return Add(VerticesToState(list));
-		}
-
-		public bool Add(string s)
-		{
-			if (states.Contains(s))
-			{
-				return false;
-			}
-			for (int i = 0; i < s.Length; i++)
-			{
-				states.Add(s);
-				s = s.Substring(1, s.Length - 1) + s[0];
-			}
-			StringBuilder rSB = new StringBuilder();
-			for (int i = s.Length - 1; i >= 0; i--)
-			{
-				rSB.Append(s[i]);
-			}
-			string r = rSB.ToString();
-			for (int i = 0; i < r.Length; i++)
-			{
-				states.Add(r);
-				r = r.Substring(1, r.Length - 1) + r[0];
-			}
-			numberOfDifferent++;
-			return true;
-		}
-
-		public int Count()
-		{
-			return numberOfDifferent;
-		}
-		public string VerticesToString(IList<TriarcGraph.VertexStack> list)
-		{
-			return VerticesToState(list);
-		}
-
-		public string VerticesToState(IList<TriarcGraph.VertexStack> list)
-		{
-
-			Func<TriarcGraph.VertexStack, char> toState = x =>
-			{
-				if (x.HasAllThreeNeighbours())
-				{
-					return 'O';
-				}
-				return 'I';
-			};
-			StringBuilder sb = new StringBuilder(); ;
-			foreach (var item in list)
-			{
-				sb.Append(toState(item));
-			}
-			return sb.ToString();
-		}
-	}
-
-	*/
+	
 }
 
 

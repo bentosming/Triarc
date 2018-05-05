@@ -270,18 +270,14 @@ namespace Triarc
 	//		}
 		}
 
-		public void CoCalcWrite(TextWriter tw)
+		public void SageMathScriptForTuttesEmbeddingWrite(TextWriter tw)
 		{
+			tw.WriteLine("G = Graph()");
 			foreach (var item in vertices)
 			{
-				//outer boundary has fixed position on a circle and the circle is in bold
-				//	if (item.ID < NumberOfVerticesInOuterBoundary)
-				//	
-
-
 				if (item.ID < item.A.ID)
 				{
-					tw.WriteLine("G.add_edge("+ item.ID + ", " + item.A.ID + ")");
+					tw.WriteLine("G.add_edge(" + item.ID + ", " + item.A.ID + ")");
 				}
 				if (item.ID < item.B.ID)
 				{
@@ -292,15 +288,49 @@ namespace Triarc
 					tw.WriteLine("G.add_edge(" + item.ID + ", " + item.C.ID + ")");
 				}
 			}
-			tw.WriteLine("k=" + this.NumberOfVerticesInOuterBoundary);
-			tw.WriteLine("l=" + this.CountOfVertices);
-		//	for (int i = 0; i < Faces.Count; i++)
-		//	{
-		//		foreach (var vertex in Faces[i])
-		//		{
-		//			tw.WriteLine("G.add_edge(" + (i + this.CountOfVertices) + ", " + vertex + ")");
-		//		}
-		//	}
+			tw.WriteLine("outerSize=" + this.NumberOfVerticesInOuterBoundary);
+			tw.WriteLine("countOfVertices=" + this.CountOfVertices);
+			tw.WriteLine("#Now adding vertices for each face, so that the graph is 3-connected.");
+			for (int i = 0; i < Faces.Count; i++)
+			{
+				foreach (var vertex in Faces[i])
+				{
+					tw.WriteLine("G.add_edge(" + (i + this.CountOfVertices) + ", " + vertex + ")");
+				}
+			}
+
+			tw.WriteLine(@"def scaling(x,i,j,n):");
+			tw.WriteLine(@"    return x*(n-j)");
+			tw.WriteLine();
+			tw.WriteLine(@"A = G.adjacency_matrix();");
+			tw.WriteLine();
+			tw.WriteLine(@"n = G.num_verts()");
+			tw.WriteLine(@"Munscaled = matrix(QQ, n,n, lambda i,j:-A[i,j]/G.degree(i) if i>=outerSize else 0) + identity_matrix(n)");
+			tw.WriteLine(@"M=matrix(QQ,n,n,lambda i,j: scaling(Munscaled[i,j],i,j,n) if i>j & i<countOfVertices else Munscaled[i,j])");
+			tw.WriteLine(@"jednicky = matrix(QQ,n,1,lambda i,j: -1)");
+			tw.WriteLine(@"soucty = M*jednicky");
+			tw.WriteLine(@"for i in range (n-outerSize):");
+			tw.WriteLine(@"    M[i+outerSize,i+outerSize]+=soucty[i+outerSize,0]");
+			tw.WriteLine();
+			tw.WriteLine(@"vy = matrix(QQ,n,1, lambda i,j:round(sin(i/outerSize*2*pi)*1000) if i<outerSize else 0)");
+			tw.WriteLine(@"vx = matrix(QQ,n,1, lambda i,j:round(cos(i/outerSize*2*pi)*1000) if i<outerSize else 0)");
+			tw.WriteLine(@"resX=M.inverse() * vx");
+			tw.WriteLine(@"resY=M.inverse()*vy");
+			tw.WriteLine(@"i=0");
+			tw.WriteLine(@"d=[[resX[i],resY[i]] for i in range(n)]");
+			tw.WriteLine();
+			tw.WriteLine(@"G.graphplot(save_pos=True)");
+			tw.WriteLine(@"dd=G.get_pos()");
+			tw.WriteLine(@"");
+			tw.WriteLine(@"for i in range(n):");
+			tw.WriteLine(@"    dd[i]=[resX[i,0],resY[i,0]]");
+			tw.WriteLine();
+			tw.WriteLine(@"G.set_pos(dd)");
+			tw.WriteLine(@"#removing vertices that were used to make graph 3-connected");
+			tw.WriteLine(@"ran = range(countOfVertices, n)");
+			tw.WriteLine(@"G.delete_vertices(ran)");
+			tw.WriteLine(@"G.show()");
+
 		}
 
 		/// <summary>

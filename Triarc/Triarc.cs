@@ -59,14 +59,14 @@ namespace Triarc
 			return false;
 		}
 
-		public static bool DoesGeneralBoundaryExist(long boundary, List<int> facesSizes, int limit, string path = "")
+		public static bool DoesGeneralBoundaryExist(long boundary, List<int> facesSizes)
 		{
-			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray(), limit);
+			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray());
 			return solving.SolveTriarc() != null;
 		}
-		public static bool DoesGeneralBoundaryExistAndConstruct(long boundary, List<int> facesSizes, int limit, string path = "")
+		public static bool DoesGeneralBoundaryExistAndConstruct(long boundary, List<int> facesSizes, string path = "")
 		{
-			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray(), limit);
+			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray());
 			if (solving.SolveTriarc() != null)
 			{
 				var triarcGraph = new BiarcGraph(boundary.BoundaryToStandardizedForm(), Convert.ToString(boundary, 16), facesSizes);
@@ -131,7 +131,7 @@ namespace Triarc
 		}
 		public static void Do_nnn_TriarcsExist(IList<int> facesSizes, int limit)
 		{
-
+			Global.Limit = limit;
 			var textWriter = new StreamWriter("(n,n,n)Triarcs " + FacesToString(facesSizes));
 
 			var facesToString = FacesToString(facesSizes);
@@ -158,7 +158,7 @@ namespace Triarc
 				var textWriter = new StreamWriter("(n,n,n-1)Triarcs " + FacesToString(facesSizes));
 			
 			var facesToString = FacesToString(facesSizes);
-			for (int x = 2; x < 11; x++)
+			for (int x = 3; x < 11; x++)
 			{
 				Console.Write("(" + x + "," + x + "," + (x-1) + ") with facesSizes " + facesToString);
 				if (DoesTriarcExist(x, x, x-1, facesSizes, limit))

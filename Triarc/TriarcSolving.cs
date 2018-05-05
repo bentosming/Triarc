@@ -89,6 +89,7 @@ namespace Triarc
 		public TriarcSolving(int a, int b, int c, int[] facesSizes, int taskCount = 4)
 		{
 			this.TaskCount = taskCount;
+			this.TransitionLimit = Global.Limit;
 			this.Name = "(" + a + "," + b + "," + c + ")";
 			this.FacesSizes = facesSizes;
 			StartingBoundary = CreateOuterBoundaryOfTriarc(a, b, c);
@@ -100,10 +101,10 @@ namespace Triarc
 
 		}
 
-		public TriarcSolving(long startingBoundary, int[]facesSizes, int limit=100000, int taskCount = 1)
+		public TriarcSolving(long startingBoundary, int[]facesSizes)
 		{
-			this.TaskCount = taskCount;
-			this.TransitionLimit = limit;
+			this.TaskCount = Global.TaskCount;
+			this.TransitionLimit = Global.Limit;
 			this.Name = "(" +Convert.ToString(startingBoundary,2) + ")";
 			this.FacesSizes = facesSizes;
 			StartingBoundary = startingBoundary;
@@ -255,7 +256,7 @@ namespace Triarc
 
 			foreach (var face in FacesSizes)
 			{
-				//If  connecting first and second one by an edge causes that bouth new faces are in allowed, than solution has been found
+				//If  connecting first and second one by an edge causes that both new faces are in allowed, than solution has been found
 				if (shorterSequenceOfNulls + 2 == face && FacesSizes.Contains(longerSequenceOfNulls + 2))
 				{
 					long newBoundary = BoundaryLong.FaceToBoundary(face);
@@ -285,7 +286,7 @@ namespace Triarc
 					{
 						newBoundary |= SetBits[i];
 					}
-
+			
 					if (IsValid(newBoundary) && AddTransition(boundary, newBoundary))
 					{
 						ResolveBoundary(newBoundary);
@@ -570,6 +571,7 @@ namespace Triarc
 
 				}
 			}
+			Directory.CreateDirectory("solutions\\");
 			ExtractResultingSequence(new StreamWriter("solutions\\" +Name + "-" + FaceSizesToString() + ".txt"));
 			return ResultingSequenceOfBoundaries;
 		}

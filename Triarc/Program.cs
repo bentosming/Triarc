@@ -70,6 +70,8 @@ namespace Triarc
 			Console.WriteLine("-n .................. finds parameters for all graphs needed");
 			Console.WriteLine("                      to finish the proof");
 			Console.WriteLine("-f [list of ints] ... to specify face sizes");
+			Console.WriteLine("-l x ................ to set limit for number of transition spend of solving one graph");
+			Console.WriteLine("                      default is "+Global.Limit);
 		}
 
 		static void GUI()
@@ -129,11 +131,6 @@ namespace Triarc
 						{
 							try
 							{
-
-								Console.WriteLine("Enter output file name");
-
-								//	var writer = new StreamWriter(Console.ReadLine());
-								//	Console.WriteLine();
 								int limit = 0;
 								bool limitEntered = false;
 								while (!limitEntered)
@@ -245,7 +242,7 @@ namespace Triarc
 							Console.WriteLine("Enter boundary se binary number");
 							string boundaryString = Console.ReadLine();
 							long boundary = Convert.ToInt64(boundaryString, 2);
-							if (Triarc.DoesGeneralBoundaryExistAndConstruct(boundary, ReadFaces(), 1000000))
+							if (Triarc.DoesGeneralBoundaryExistAndConstruct(boundary, ReadFaces()))
 							{
 								Console.WriteLine("Exists");
 							}
@@ -272,13 +269,37 @@ namespace Triarc
 
 		}
 
+		static bool Comprime(int a, int b)
+		{
+			return b == 0 ? a!=1 : Comprime(b, a % b);
+		}
 
 		static void Main(string[] args)
 		{
 			var ca = new ConsoleArguments(args);
+			if (ca.Limit > 0)
+			{
+				Global.Limit = ca.Limit;
+			}
 			try
 			{
-
+				//for (int i = 3; i < 6; i++)
+				//{
+				//	for (int j = 7; j < 20; j++)
+				//	{
+				//		if (Comprime(i, j))
+				//		{
+				//
+				//			Triarc.Do_nnn_TriarcsExist(new List<int> { i, j }, ca.Limit);
+				//			Console.WriteLine(i + "  " + j);
+				//			var fc = new List<int> { i, j };
+				//			var ns = new NeutralSequenceHelpingGraphs(fc);
+				//			ns.Find();
+				//
+				//		}
+				//	}
+				//}
+				
 				if (ca.GUI)
 				{
 					GUI();
@@ -293,7 +314,7 @@ namespace Triarc
 				}
 				else if (ca.Arc)
 				{
-					if (!Triarc.DoesGeneralBoundaryExistAndConstruct(ca.ArcBoundary, ca.faces, 1000000))
+					if (!Triarc.DoesGeneralBoundaryExistAndConstruct(ca.ArcBoundary, ca.faces))
 					{
 						Console.WriteLine("Doesn't exist");
 					}
@@ -305,8 +326,7 @@ namespace Triarc
 				}
 				else { Console.WriteLine("try -h"); }
 			}
-
-			
+		
 			catch (ArgumentException ex)
 			{
 				Console.WriteLine(ex.Message);
@@ -314,41 +334,11 @@ namespace Triarc
 			Console.ReadKey();
 		}
 	}
-
-
-
-	//	var writer = new StreamWriter("existing-5,7 Limit FFFF.txt");
-	//	Triarc.DoTriarcsExist(writer,new int[2]{ 5,7},0xFFFF);
-	//	writer.Close();
-
-	//	Triarc.FindAndBuildTriarc(4,3,4, new List<int> { 4, 7 });
-	//	Console.ReadKey();
-	//	TriarcSolving bla = new TriarcSolving(4, 3, 4, new int[2] { 4, 7 });
-
-
-	/*
-	string[] parts = new string[7] {
-				"1000010100010",
-				"10000101010001010",
-				"100001010101000101010",
-				"1000010101010100010101010",
-				"10000101010101010001010101010",
-				"100001010101010101000101010101010",
-				"1000010101010101010100010101010101010" };
-			foreach (var item in parts)
-			{
-				//var item = "1000010100010";
-				Console.WriteLine(item);
-				long boundary = Convert.ToInt64(item, 2);
-				if (Triarc.DoesGeneralBoundaryExistAndConstruct(boundary, new List<int> { 4, 7 }, 1000000))
-				{
-					Console.WriteLine("Exists");
-				}
-				else
-				{
-					Console.WriteLine("Doesn't exist");
-				}
-				*/
+	static class Global
+	{
+		public static int Limit = 100000;
+		public static int TaskCount = 1;
+	}
 }
 
 

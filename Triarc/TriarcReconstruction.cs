@@ -85,8 +85,8 @@ namespace Triarc
 			//	triarc.BATWrite(gWStreamWriter, fileName);
 			//	gWStreamWriter.Close();
 
-			StreamWriter CoCalcStreamWriter = new StreamWriter("grafy\\" + path + fileName + "_CoCalc.txt");
-			triarc.CoCalcWrite(CoCalcStreamWriter);
+			StreamWriter CoCalcStreamWriter = new StreamWriter("grafy\\" + path + fileName + "_SageMathScript.txt");
+			triarc.SageMathScriptForTuttesEmbeddingWrite(CoCalcStreamWriter);
 			CoCalcStreamWriter.Close();
 
 			//	StreamWriter faceswriter = new StreamWriter("grafy\\" + path+fileName + ".faces.txt");

@@ -283,22 +283,22 @@ namespace Triarc
 			}
 			try
 			{
-				//for (int i = 3; i < 6; i++)
-				//{
-				//	for (int j = 7; j < 20; j++)
-				//	{
-				//		if (Comprime(i, j))
-				//		{
-				//
-				//			Triarc.Do_nnn_TriarcsExist(new List<int> { i, j }, ca.Limit);
-				//			Console.WriteLine(i + "  " + j);
-				//			var fc = new List<int> { i, j };
-				//			var ns = new NeutralSequenceHelpingGraphs(fc);
-				//			ns.Find();
-				//
-				//		}
-				//	}
-				//}
+				for (int i = 3; i < 6; i++)
+				{
+					for (int j = 7; j < 17; j++)
+					{
+						if (!Comprime(i, j))
+						{
+				
+							
+							Console.WriteLine(i + "  " + j);
+							var fc = new List<int> { i, j };
+							var ns = new NeutralSequenceHelpingGraphs(fc);
+							ns.Find();
+				
+						}
+					}
+				}
 				
 				if (ca.GUI)
 				{

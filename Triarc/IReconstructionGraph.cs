@@ -199,6 +199,9 @@ namespace Triarc
 		{
 			EvaluateVertexPositions();
 			int diameter = vertices.Select(x => x.level).OrderBy(x => -x).FirstOrDefault()+1;
+			var conn = "Inside of this graph " + (ThreeConnected.IsGraph3Connected(this) ? "is" : "isn't") + " 3-connected";
+			tw.WriteLine(conn);
+			Console.WriteLine(conn);
 			tw.WriteLine("graph G {");
 			
 
@@ -387,6 +390,46 @@ namespace Triarc
 		{
 			textWriter.WriteLine("cd \"C:\\Users\\Zuzana\\Documents\\Visual Studio 2015\\Projects\\Triarc\\Triarc\\bin\\Debug\"");
 			textWriter.WriteLine("  \"C:\\Program Files (x86)\\Graphviz2.38\\bin\\neato.exe\" -o \"grafy\\" + name + ".png\" -Tpng   \"grafy\\" + name + ".gv\"");
+		}
+
+		public class ThreeConnected
+		{
+			public static bool IsGraph3Connected(ReconstructionGraph G)
+			{
+				for (int i = G.NumberOfVerticesInOuterBoundary; i < G.CountOfVertices; i++)
+				{
+					for (int j = G.NumberOfVerticesInOuterBoundary; j < G.CountOfVertices; j++)
+					{
+						if (i<j)
+						{
+							if (!Search(G, i, j))
+							{
+								return false;
+							}
+							
+						}
+					}
+				}
+				return true;
+			} 
+			private static bool Search(ReconstructionGraph G, int i, int j)
+			{
+				var visited = new List<VertexStack>();
+				var queue = new Queue<VertexStack>();
+				queue.Enqueue(G.vertices.First(x => x.ID == 0));
+				while (queue.Count>0)
+				{
+					var v = queue.Dequeue();
+					visited.Add(v);
+					var unvisitedNeighbours = v.ABC.Where(x=>!visited.Contains(x) && x.ID!=i && x.ID!=j && !queue.Contains(x) && x.ID!=-1);
+					foreach (var item in unvisitedNeighbours)
+					{
+						queue.Enqueue(item);
+					}				
+				}
+				return visited.Count == G.CountOfVertices - 2;
+				
+			}
 		}
 
 	}

@@ -55,6 +55,7 @@ namespace Triarc
 			triarc.Faces = new List<List<int>>();
 			maxNumberOfVertices = int.MaxValue;
 			this.SequenceOfStatesLeadingToResult = sequenceOfStatesLeadingToResult;
+	
 		}
 
 
@@ -95,6 +96,11 @@ namespace Triarc
 			//		faceswriter.WriteLine(string.Join<int>(",", x));
 			//	}
 			//	faceswriter.Close();
+
+			if (ReconstructionGraph.ThreeConnected.IsGraph3Connected(triarc))
+			{
+				Console.WriteLine("Graph is 3-connected");
+			}
 		}
 
 

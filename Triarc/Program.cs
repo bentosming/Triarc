@@ -68,7 +68,9 @@ namespace Triarc
 			Console.WriteLine("-t a b c ............ builds triarc of lengths abc");
 			Console.WriteLine("-a x ................ builds arc of boudary x (has to start with 1)");
 			Console.WriteLine("-n .................. finds parameters for all graphs needed");
-			Console.WriteLine("                      to finish the proof");
+			Console.WriteLine("                      to finish the proof for concrete faces");
+			Console.WriteLine("-r .................. finds parameters for all graphs needed");
+			Console.WriteLine("                      to finish the proof for all small sequences");
 			Console.WriteLine("-f [list of ints] ... to specify face sizes");
 			Console.WriteLine("-l x ................ to set limit for number of transition spend of solving one graph");
 			Console.WriteLine("                      default is "+Global.Limit);
@@ -283,22 +285,6 @@ namespace Triarc
 			}
 			try
 			{
-				for (int i = 3; i < 6; i++)
-				{
-					for (int j = 7; j < 17; j++)
-					{
-						if (!Comprime(i, j))
-						{
-				
-							
-							Console.WriteLine(i + "  " + j);
-							var fc = new List<int> { i, j };
-							var ns = new NeutralSequenceHelpingGraphs(fc);
-							ns.Find();
-				
-						}
-					}
-				}
 				
 				if (ca.GUI)
 				{
@@ -324,6 +310,19 @@ namespace Triarc
 					var ns = new NeutralSequenceHelpingGraphs(ca.faces);
 					ns.Find();
 				}
+				else if (ca.AllNeutralSequences)
+				{
+					for (int i = 3; i < 6; i++)
+					{
+						for (int j = 7; j < 19; j++)
+						{
+							Console.WriteLine("Faces are " + i + " and  " + j);
+							var fc = new List<int> { i, j };
+							var ns = new NeutralSequenceHelpingGraphs(fc);
+							ns.Find();
+						}
+					}
+				}
 				else { Console.WriteLine("try -h"); }
 			}
 		
@@ -337,7 +336,7 @@ namespace Triarc
 	static class Global
 	{
 		public static int Limit = 100000;
-		public static int TaskCount = 1;
+		public static int TaskCount = 4;
 	}
 }
 

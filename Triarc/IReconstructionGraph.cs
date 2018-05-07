@@ -199,7 +199,7 @@ namespace Triarc
 		{
 			EvaluateVertexPositions();
 			int diameter = vertices.Select(x => x.level).OrderBy(x => -x).FirstOrDefault()+1;
-			var conn = "Inside of this graph " + (ThreeConnected.IsGraph3Connected(this) ? "is" : "isn't") + " 3-connected";
+			var conn = "//Inside of this graph " + (ThreeConnected.IsGraph3Connected(this) ? "is" : "isn't") + " 3-connected";
 			tw.WriteLine(conn);
 			Console.WriteLine(conn);
 			tw.WriteLine("graph G {");

@@ -262,8 +262,8 @@ namespace Triarc
 			//Else remove it to signal that it has been gone trough.
 			SequenceOfStatesLeadingToResult.RemoveAt(SequenceOfStatesLeadingToResult.Count - 1);
 
-	//		Console.WriteLine(string.Join<string>(", ", active.Select(
-		//		 x => { return x.ID.ToString() + (x.HasAllThreeNeighbours() == true ? "out" : "in"); })));
+			Console.WriteLine(string.Join<string>(", ", active.Select(
+				 x => { return x.ID.ToString() + (x.HasAllThreeNeighbours() == true ? "out" : "in"); })));
 
 			#region  If there is a restriction on maximal count of vertices, defaultly set to int.maxValue
 			if (triarc.CountOfVertices > maxNumberOfVertices)

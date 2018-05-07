@@ -13,6 +13,7 @@ namespace Triarc
 		public bool Arc;
 		public bool Help;
 		public bool NeutralSequence;
+		public bool AllNeutralSequences;
 		string[] args;
 		string input;
 
@@ -23,6 +24,7 @@ namespace Triarc
 			Arc = args.Contains("-a");
 			Help = args.Contains("-h");
 			NeutralSequence = args.Contains("-n");
+			AllNeutralSequences = args.Contains("-r");
 			this.args = args;
 			input = string.Join(" ", args);
 		}
@@ -89,7 +91,7 @@ namespace Triarc
 				try
 				{
 					int value;
-					int.TryParse(args[Array.IndexOf<string>(args, "-t") + 3], out value);
+					int.TryParse(args[Array.IndexOf<string>(args, "-t") + 2], out value);
 					return value;
 				}
 				catch (Exception)

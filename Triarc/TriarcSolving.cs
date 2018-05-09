@@ -571,8 +571,12 @@ namespace Triarc
 
 				}
 			}
-			Directory.CreateDirectory("solutions\\");
-			ExtractResultingSequence(new StreamWriter("solutions\\" +Name + "-" + FaceSizesToString() + ".txt"));
+			if (Global.ExportAsSequence)
+			{
+				Directory.CreateDirectory("solutions\\");
+				ExtractResultingSequence(new StreamWriter("solutions\\" + Name + "-" + FaceSizesToString() + ".txt"));
+			}
+			
 			return ResultingSequenceOfBoundaries;
 		}
 

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Triarc
 {
-	class BiarcGraph : ReconstructionGraph
+	class ArcGraph : ReconstructionGraph
 	{
-		public BiarcGraph(long boundary, string name, List<int> faceSizes)
+		public ArcGraph(long boundary, string name, List<int> faceSizes)
 		{
 			this.FaceSizes = faceSizes;
 			Name = name;

@@ -64,7 +64,7 @@ namespace Triarc
 
 		static void Help()
 		{
-			Console.WriteLine("-g .................. start GUI");
+	//		Console.WriteLine("-g .................. start GUI"); 
 			Console.WriteLine("-t a b c ............ builds triarc of lengths abc");
 			Console.WriteLine("-a x ................ builds arc of boudary x (has to start with 1)");
 			Console.WriteLine("-n .................. finds parameters for all graphs needed");
@@ -73,9 +73,20 @@ namespace Triarc
 			Console.WriteLine("                      to finish the proof for all small sequences");
 			Console.WriteLine("-f [list of ints] ... to specify face sizes");
 			Console.WriteLine("-l x ................ to set limit for number of transition spend of solving one graph");
-			Console.WriteLine("                      default is "+Global.Limit);
+			Console.WriteLine("                      default is " + Global.Limit);
+			Console.WriteLine();
+			Console.WriteLine("other parameters");
+			Console.WriteLine("--ExportAsTutteSageScriptON");
+			Console.WriteLine("--ExportAsSequenceOFF");
+			Console.WriteLine("--ExportAsGraphVizON");
+			Console.WriteLine("--ExportAsStandardGraphOFF");
+			Console.WriteLine("--ExportFacesON");
+			Console.WriteLine("--Count3ConnectivityON");
 		}
 
+		/// <summary>
+		/// GUI, doesn't support some features, depricated.
+		/// </summary>
 		static void GUI()
 		{
 
@@ -271,11 +282,6 @@ namespace Triarc
 
 		}
 
-		static bool Comprime(int a, int b)
-		{
-			return b == 0 ? a!=1 : Comprime(b, a % b);
-		}
-
 		static void Main(string[] args)
 		{
 			var ca = new ConsoleArguments(args);
@@ -283,6 +289,12 @@ namespace Triarc
 			{
 				Global.Limit = ca.Limit;
 			}
+			Global.Count3Connectivity = ca.Count3Connectivity;
+			Global.ExportAsGraphViz = ca.ExportAsGraphViz;
+			Global.ExportAsTutteSageScript = ca.ExportAsTutteSageScript;
+			Global.ExportFaces = ca.ExportFaces;
+			Global.ExportAsSequence = !ca.ExportAsSequence;
+			Global.ExportAsStandardGraph = !ca.ExportAsStandardGraph;
 			try
 			{
 				
@@ -296,7 +308,10 @@ namespace Triarc
 				}
 				else if (ca.Triarc)
 				{
-					Triarc.FindAndBuildTriarc(ca.TriarcX, ca.TriarcY, ca.TriarcZ, ca.faces);
+					if (!Triarc.FindAndBuildTriarc(ca.TriarcX, ca.TriarcY, ca.TriarcZ, ca.faces))
+					{
+						Console.WriteLine("Doesn't exist");
+					}
 				}
 				else if (ca.Arc)
 				{
@@ -336,7 +351,13 @@ namespace Triarc
 	static class Global
 	{
 		public static int Limit = 100000;
-		public static int TaskCount = 4;
+		public static int TaskCount = 1;
+		public static bool ExportAsTutteSageScript = false;
+		public static bool ExportAsSequence = true;
+		public static bool ExportAsGraphViz = false;
+		public static bool ExportAsStandardGraph = true;
+		public static bool ExportFaces = false;
+		public static bool Count3Connectivity = false;
 	}
 }
 

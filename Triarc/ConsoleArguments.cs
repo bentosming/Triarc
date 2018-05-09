@@ -14,6 +14,14 @@ namespace Triarc
 		public bool Help;
 		public bool NeutralSequence;
 		public bool AllNeutralSequences;
+
+		public bool ExportAsTutteSageScript = false;
+		public bool ExportAsSequence = true;
+		public bool ExportAsGraphViz = false;
+		public bool ExportAsStandardGraph = true;
+		public bool ExportFaces = false;
+		public bool Count3Connectivity = false;
+
 		string[] args;
 		string input;
 
@@ -25,6 +33,13 @@ namespace Triarc
 			Help = args.Contains("-h");
 			NeutralSequence = args.Contains("-n");
 			AllNeutralSequences = args.Contains("-r");
+			ExportAsTutteSageScript = args.Contains("--ExportAsTutteSageScriptON");
+			ExportAsSequence = args.Contains("--ExportAsSequenceOFF");
+			ExportAsGraphViz = args.Contains("--ExportAsGraphVizON");
+			ExportAsStandardGraph = args.Contains("--ExportAsStandardGraphOFF");
+			ExportFaces = args.Contains("--ExportFacesON");
+			Count3Connectivity = args.Contains("--Count3ConnectivityON");
+
 			this.args = args;
 			input = string.Join(" ", args);
 		}

@@ -49,7 +49,7 @@ namespace Triarc
 		{
 			var solving = new RingSolving(x, y, facesSizes.ToArray(),limit);
 			var solution = solving.ring;
-			var graph = new BiarcGraph(RingSolving.CreateOuterBoundaryOfBiarc(x, y), "Birac" + x + "," + y, facesSizes);
+			var graph = new ArcGraph(RingSolving.CreateOuterBoundaryOfBiarc(x, y), "Birac" + x + "," + y, facesSizes);
 			if (solution != null)
 			{
 				var reconstruction = new TriarcReconstruction(graph, solution);
@@ -69,7 +69,7 @@ namespace Triarc
 			var solving = new TriarcSolving(boundary.BoundaryToStandardizedForm(), facesSizes.ToArray());
 			if (solving.SolveTriarc() != null)
 			{
-				var triarcGraph = new BiarcGraph(boundary.BoundaryToStandardizedForm(), Convert.ToString(boundary, 16), facesSizes);
+				var triarcGraph = new ArcGraph(boundary.BoundaryToStandardizedForm(), Convert.ToString(boundary, 16) + "{" + string.Join<string>(",", facesSizes.Select(i => i.ToString())) +"}", facesSizes);
 
 				var reconstruction = new TriarcReconstruction(triarcGraph, solving.SolveTriarc(), path);
 

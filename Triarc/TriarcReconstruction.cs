@@ -41,29 +41,27 @@ namespace Triarc
 		/// Indicates state of reconstructing triarc.
 		/// </summary>
 		bool found = false;
-		
+
+		List<string> SequencesOfVerticesLeaidngToResult = new List<string>();
 
 		/// <summary>
 		/// Creates a TriarcReconstruction.
 		/// </summary>
 		/// <param name="triarcGraph">triarcGraph containing only boundary that is the same as last state from sequence.</param>
 		/// <param name="sequenceOfStatesLeadingToResult">Solution of finding triarc.</param>
-		public TriarcReconstruction(ReconstructionGraph triarcGraph, List<long> sequenceOfStatesLeadingToResult, string path = "" )
+		public TriarcReconstruction(ReconstructionGraph triarcGraph, List<long> sequenceOfStatesLeadingToResult, string path = "")
 		{
 			this.path = path;
 			triarc = triarcGraph;
 			triarc.Faces = new List<List<int>>();
 			maxNumberOfVertices = int.MaxValue;
 			this.SequenceOfStatesLeadingToResult = sequenceOfStatesLeadingToResult;
-	
+
 		}
 
 
 		/// <summary>
 		/// Creates set of files representing result
-		/// grafy\name.gv - graphVizard readable.
-		/// grafy\name.BAT - converts .gv file into png.
-		/// grafy\name.txt - WolframAlpha readable.
 		/// </summary>
 		void ExtractResult()
 		{
@@ -72,32 +70,43 @@ namespace Triarc
 				return;
 			}
 			Directory.CreateDirectory("grafy\\" + path);
-			string fileName = "Triarc" + triarc.Name + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "__" + "v" + triarc.CountOfVertices;
-			Console.WriteLine("Triarc will be saved into grafy\\" + path + fileName + " as gv and txt files.");
-			StreamWriter gWStreamWriter = new StreamWriter("grafy\\" + path + fileName + ".gv");
-			triarc.GWWrite(gWStreamWriter);
-			gWStreamWriter.Close();
+			string fileName = "Triarc" + triarc.Name + "__" + "v" + triarc.CountOfVertices;
+			Console.WriteLine("Saving into grafy\\" + path + fileName + ". For more output files change parameters.");
 
-			//	StreamWriter waStreamWriter = new StreamWriter("grafy\\" + path+fileName + ".txt");
-			//	triarc.WAWrite(waStreamWriter);
-			//	waStreamWriter.Close();
 
-			//	gWStreamWriter = new StreamWriter("grafy\\" +path+ fileName + ".BAT");
-			//	triarc.BATWrite(gWStreamWriter, fileName);
-			//	gWStreamWriter.Close();
+			if (Global.ExportAsStandardGraph)
+			{
+				StreamWriter waStreamWriter = new StreamWriter("grafy\\" + path + fileName + ".txt");
+				triarc.Write(waStreamWriter);
+				waStreamWriter.Close();
+			}
 
-			StreamWriter CoCalcStreamWriter = new StreamWriter("grafy\\" + path + fileName + "_SageMathScript.txt");
-			triarc.SageMathScriptForTuttesEmbeddingWrite(CoCalcStreamWriter);
-			CoCalcStreamWriter.Close();
+			if (Global.ExportAsGraphViz)
+			{
+				StreamWriter gWStreamWriter = new StreamWriter("grafy\\" + path + fileName + ".gv");
+				triarc.GWWrite(gWStreamWriter);
+				gWStreamWriter.Close();
+			}
 
-			//	StreamWriter faceswriter = new StreamWriter("grafy\\" + path+fileName + ".faces.txt");
-			//	foreach (var x in triarc.Faces)
-			//	{
-			//		faceswriter.WriteLine(string.Join<int>(",", x));
-			//	}
-			//	faceswriter.Close();
+			if (Global.ExportAsTutteSageScript)
+			{
+				StreamWriter CoCalcStreamWriter = new StreamWriter("grafy\\" + path + fileName + "_SageMathScript.txt");
+				triarc.SageMathScriptForTuttesEmbeddingWrite(CoCalcStreamWriter);
+				CoCalcStreamWriter.Close();
+			}
 
-			if (ReconstructionGraph.ThreeConnected.IsGraph3Connected(triarc))
+			if (Global.ExportFaces)
+			{
+				StreamWriter faceswriter = new StreamWriter("grafy\\" + path + fileName + ".faces.txt");
+				foreach (var x in triarc.Faces)
+				{
+					faceswriter.WriteLine(string.Join<int>(",", x));
+				}
+				faceswriter.Close();
+			}
+
+
+			if (Global.Count3Connectivity && ReconstructionGraph.ThreeConnected.IsGraph3Connected(triarc))
 			{
 				Console.WriteLine("Graph is 3-connected");
 			}
@@ -115,12 +124,12 @@ namespace Triarc
 			var selectedSequences = new List<IList<VertexStack>>();
 			int i = 0;
 			int max = activeBoundary.Count;
-			
+
 			while (i < max && activeBoundary[i].HasAllThreeNeighbours())
 			{
 				i++;
 			}
-			int NumberOfVerticesFromBeginingWithThreeNeighbours	 = i;
+			int NumberOfVerticesFromBeginingWithThreeNeighbours = i;
 
 
 			List<VertexStack> oneSequence = new List<VertexStack>();
@@ -152,8 +161,8 @@ namespace Triarc
 		IEnumerable<IList<VertexStack>> OrderOfExecution(IEnumerable<IList<VertexStack>> selectedSequences)
 		{
 			return from item in selectedSequences
-			orderby item.Count descending
-			select item;
+					 orderby item.Count descending
+					 select item;
 		}
 
 		/// <summary>
@@ -214,12 +223,12 @@ namespace Triarc
 		/// <summary>
 		/// Symbolizes depth of recursion.
 		/// </summary>
-		string depth ="";
+		string depth = "";
 
 
 		public bool ReconstructTriarc()
 		{
-			if (SequenceOfStatesLeadingToResult==null)
+			if (SequenceOfStatesLeadingToResult == null)
 			{
 				return false;
 			}
@@ -246,7 +255,6 @@ namespace Triarc
 			{
 				triarc.Faces.Add(active.Select(x => x.ID).ToList());
 				Console.WriteLine("Triarc has been found, reconstructed and will be saved.");
-				Console.WriteLine();
 				ExtractResult();
 				found = true;
 				return;
@@ -262,8 +270,8 @@ namespace Triarc
 			//Else remove it to signal that it has been gone trough.
 			SequenceOfStatesLeadingToResult.RemoveAt(SequenceOfStatesLeadingToResult.Count - 1);
 
-			Console.WriteLine(string.Join<string>(", ", active.Select(
-				 x => { return x.ID.ToString() + (x.HasAllThreeNeighbours() == true ? "out" : "in"); })));
+			//	Console.WriteLine(string.Join<string>(", ", active.Select(
+			//		 x => { return x.ID.ToString() + (x.HasAllThreeNeighbours() == true ? "out" : "in"); })));
 
 			#region  If there is a restriction on maximal count of vertices, defaultly set to int.maxValue
 			if (triarc.CountOfVertices > maxNumberOfVertices)
@@ -274,17 +282,17 @@ namespace Triarc
 			}
 			#endregion
 
-			states.Add(active);			
+			states.Add(active);
 
 			if (countOfActiveWithLessThanThreeNeighbours > 1 && !found)
 			{
-				var selectWhatToChange = OrderOfExecution( SelectWhatToChange(active).ToArray());
+				var selectWhatToChange = OrderOfExecution(SelectWhatToChange(active).ToArray());
 				foreach (var selected in selectWhatToChange)
 				{
 					//Conditional debug statements
-				//	WriteDepthAndVertices(active, "active ", true, depth);
-				//	WriteDepthAndVertices(selected, "selected  ", false, depth);
-					
+					//	WriteDepthAndVertices(active, "active ", true, depth);
+					//	WriteDepthAndVertices(selected, "selected  ", false, depth);
+
 					foreach (var faceSize in triarc.FaceSizes)
 					{
 
@@ -313,7 +321,7 @@ namespace Triarc
 						Replace(selected, out replacedBy, faceSize);
 
 						//Conditional debug statements.
-				//		WriteDepthAndVertices(replacedBy, "replaced by", false, depth);
+						//		WriteDepthAndVertices(replacedBy, "replaced by", false, depth);
 
 						triarc.ActiveRootID = selected[0].ID;
 						List<VertexStack> activeNew = triarc.ActiveVertices();
@@ -332,7 +340,7 @@ namespace Triarc
 						}
 
 						//Undo changes done by this method before returning
-						triarc.Faces.RemoveAt(triarc.Faces.Count-1);
+						triarc.Faces.RemoveAt(triarc.Faces.Count - 1);
 						foreach (var item in selected)
 						{
 							item.Pop();
@@ -377,7 +385,7 @@ namespace Triarc
 		void Replace(IList<VertexStack> selected, out List<VertexStack> replacedBy, int faceSize)
 		{
 			var newFace = selected.Select(x => x.ID).ToList();
-			
+
 			//střed vybraných bude neaktivní
 			for (int i = 1; i < selected.Count - 1; i++)
 			{

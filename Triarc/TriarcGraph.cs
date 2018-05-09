@@ -20,10 +20,12 @@ namespace Triarc
 		public TriarcGraph(int x, int y, int z, List<int> faceSizes)
 		{
 			this.FaceSizes = faceSizes;
-			Name = "(" + x + "," + y + "," + z + ")";
+			Name = "(" + x + "," + y + "," + z + ")" + "{" + string.Join<string>(",", faceSizes.Select(i => i.ToString()))+"}"  ;
 			NumberOfVerticesInOuterBoundary = (x + y + z) * 2;
 			CreateOuterBoundaryVertices(x, y, z);
 			ActiveRootID = 0;
+			Console.WriteLine();
+
 
 		}
 
@@ -305,13 +307,6 @@ namespace Triarc
 		public int level;
 		public double angle;
 	}
-
-
-
-
-
-
-	
 }
 
 

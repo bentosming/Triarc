@@ -32,7 +32,7 @@ namespace Triarc
 		/// Finds all vertices marked as active, that create a cycle with ActiveRootID vertex.
 		/// </summary>
 		/// <returns>vertices marked as active, that create a cycle with ActiveRootID vertex</returns>
-		public List<VertexStack> ActiveVerticesOld()
+		public List<VertexStack> ActiveVerticesObsolete()
 		{
 			List<VertexStack> active = new List<VertexStack>();
 			active.Add(vertices[ActiveRootID]);
@@ -199,9 +199,11 @@ namespace Triarc
 		{
 			EvaluateVertexPositions();
 			int diameter = vertices.Select(x => x.level).OrderBy(x => -x).FirstOrDefault()+1;
-			var conn = "//Inside of this graph " + (ThreeConnected.IsGraph3Connected(this) ? "is" : "isn't") + " 3-connected";
-			tw.WriteLine(conn);
-			Console.WriteLine(conn);
+			if (Global.Count3Connectivity)
+			{
+				var conn = "//Inside of this graph " + (ThreeConnected.IsGraph3Connected(this) ? "is" : "isn't") + " 3-connected";
+				tw.WriteLine(conn);
+			}
 			tw.WriteLine("graph G {");
 			
 
@@ -212,17 +214,14 @@ namespace Triarc
 					if (item.ID < NumberOfVerticesInOuterBoundary)
 					{
 				//tw.WriteLine("//"+item.ToString());
-					double sin = (Math.Sin(item.angle) * (diameter-item.level));
-					double cos = (Math.Cos(item.angle) * (diameter-item.level));
+					double sin = (Math.Sin(item.angle) * (diameter-item.level)/2);
+					double cos = (Math.Cos(item.angle) * (diameter-item.level)/2);
 					string tempSIN = string.Format("{0:0.00}", sin); //(int)sin + "." + (int)((sin - (int)sin) * 100);
 					string SIN = tempSIN.Substring(0, tempSIN.Length - 3) + "." + tempSIN[tempSIN.Length - 2] + tempSIN[tempSIN.Length - 1];
 					string tempCOS = string.Format("{0:0.00}", cos); //(int)cos + "." + (int)((cos - (int)cos) * 100);
 					string COS = tempCOS.Substring(0, tempCOS.Length - 3) + "." + tempCOS[tempCOS.Length - 2] + tempCOS[tempCOS.Length - 1];
 
-				
-
-					tw.WriteLine(item.ID + " [ pos = \" " + COS + "," + SIN + "!\" ];");
-				
+					tw.WriteLine(item.ID + " [ pos = \" " + COS + "," + SIN + "!\" ];");				
 
 
 					if (item.ID < item.A.ID && item.A.ID<this.CountOfVertices)
@@ -341,7 +340,7 @@ namespace Triarc
 		/// That is edge is represented by VertexNumber -> VertexNumber and separated by columns.
 		/// </summary>
 		/// <param name="textWriter">TextWriter to write to.</param>
-		public void WAWrite(TextWriter textWriter)
+		public void Write(TextWriter textWriter)
 		{
 			foreach (var vertex in vertices)
 			{

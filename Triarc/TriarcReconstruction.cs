@@ -69,11 +69,13 @@ namespace Triarc
 			{
 				return;
 			}
-			Directory.CreateDirectory("grafy\\" + path);
+			var dir = Directory.CreateDirectory("grafy\\" + path);
 			string fileName = "Triarc" + triarc.Name + "__" + "v" + triarc.CountOfVertices;
-			Console.WriteLine("Saving into grafy\\" + path + fileName + ". For more output files change parameters.");
-
-
+			if (Global.ExportAsStandardGraph || Global.ExportAsGraphViz || Global.ExportAsTutteSageScript || Global.ExportFaces)
+			{
+				Console.WriteLine("Saving into " + dir.FullName + fileName + ". For more output files change parameters.");
+			}
+			
 			if (Global.ExportAsStandardGraph)
 			{
 				StreamWriter waStreamWriter = new StreamWriter("grafy\\" + path + fileName + ".txt");
@@ -84,7 +86,7 @@ namespace Triarc
 			if (Global.ExportAsGraphViz)
 			{
 				StreamWriter gWStreamWriter = new StreamWriter("grafy\\" + path + fileName + ".gv");
-				triarc.GWWrite(gWStreamWriter);
+				triarc.GraphvizWrite(gWStreamWriter);
 				gWStreamWriter.Close();
 			}
 
@@ -236,8 +238,9 @@ namespace Triarc
 			if (!found)
 			{
 				Console.WriteLine("was not found, nex state would be " + Convert.ToString(SequenceOfStatesLeadingToResult.Last(), 2));
+				return false;
 			}
-			return false;
+			return true;
 		}
 
 		/// <summary>
@@ -256,6 +259,11 @@ namespace Triarc
 				triarc.Faces.Add(active.Select(x => x.ID).ToList());
 				Console.WriteLine("Triarc has been found, reconstructed and will be saved.");
 				ExtractResult();
+				if (Global.Count3Connectivity)
+				{
+						var conn = "Graph " + (ReconstructionGraph.ThreeConnected.IsGraph3Connected(triarc) ? "is" : "isn't") + " 3-connected";
+					Console.WriteLine(conn);
+				}
 				found = true;
 				return;
 			}
@@ -270,8 +278,8 @@ namespace Triarc
 			//Else remove it to signal that it has been gone trough.
 			SequenceOfStatesLeadingToResult.RemoveAt(SequenceOfStatesLeadingToResult.Count - 1);
 
-			//	Console.WriteLine(string.Join<string>(", ", active.Select(
-			//		 x => { return x.ID.ToString() + (x.HasAllThreeNeighbours() == true ? "out" : "in"); })));
+			SequencesOfVerticesLeaidngToResult.Add(string.Join<string>(", ", active.Select(
+					 x => { return x.ID.ToString() + (x.HasAllThreeNeighbours() == true ? "out" : "in"); })));
 
 			#region  If there is a restriction on maximal count of vertices, defaultly set to int.maxValue
 			if (triarc.CountOfVertices > maxNumberOfVertices)
@@ -348,13 +356,9 @@ namespace Triarc
 						triarc.vertices.RemoveRange(NumberOfVerticesInTriarc, faceSize - selected.Count);
 						triarc.CountOfVertices = NumberOfVerticesInTriarc;
 						triarc.ActiveRootID = localRoot;
-
 					}
-
 				}
-
 			}
-
 		}
 
 		/// <summary>

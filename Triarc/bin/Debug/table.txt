@@ -1,0 +1,18 @@
+7 & \cellcolor{lightgray}Nalezeno & \cellcolor{lightgray}Nalezeno & \cellcolor{lightgray}Nalezeno\\
+ & \cellcolor{lightgray}(i): 3 & \cellcolor{lightgray}(i): 3 & \cellcolor{lightgray}(i): 3,4,5,6,7\\
+ & \cellcolor{lightgray}(ii): 3 & \cellcolor{lightgray}(ii): 3 & \cellcolor{lightgray}(ii): 3,4,5,6,7\\
+ & \cellcolor{lightgray}AB : 101010 & \cellcolor{lightgray}AB : 101010 & \cellcolor{lightgray}AB : 01001101\\
+ & \cellcolor{lightgray}CD : 101010 & \cellcolor{lightgray}CD : 101010 & \cellcolor{lightgray}CD : 1010\\\hline
+
+8 & \cellcolor{lightgray}Nalezeno & Nenalezeno & \cellcolor{lightgray}Nalezeno\\
+ & \cellcolor{lightgray}(i): 3 & (i): 3,5,6,9 & \cellcolor{lightgray}(i): 3\\
+ & \cellcolor{lightgray}(ii): 3 & (ii):  & \cellcolor{lightgray}(ii): 3\\
+ & \cellcolor{lightgray}AB : 1010 & AB :  & \cellcolor{lightgray}AB : 1010\\
+ & \cellcolor{lightgray}CD : 1010 & CD :  & \cellcolor{lightgray}CD : 1010\\\hline
+
+9 & Nenalezeno & \cellcolor{lightgray}Nalezeno & Nenalezeno\\
+ & (i): 3,4,8 & \cellcolor{lightgray}(i): 3 & (i): 3,4,5,6,7,8,9,10\\
+ & (ii):  & \cellcolor{lightgray}(ii): 3 & (ii): 3,4,5,6,7,8,9,10\\
+ & AB :  & \cellcolor{lightgray}AB : 1010 & AB : \\
+ & CD :  & \cellcolor{lightgray}CD : 1010 & CD : \\\hline
+

@@ -64,7 +64,11 @@ namespace Triarc
 
 		static void Help()
 		{
-	//		Console.WriteLine("-g .................. start GUI"); 
+			Console.WriteLine();
+			Console.WriteLine("- - - - - - - - - - T R I A R C - - - - - - - - - - ");
+			Console.WriteLine("- - - - - - - - - - - H E L P - - - - - - - - - - - ");
+			Console.WriteLine();
+			//		Console.WriteLine("-g .................. start GUI"); 
 			Console.WriteLine("-t a b c ............ builds triarc of lengths abc");
 			Console.WriteLine("-a x ................ builds arc of boudary x (has to start with 1)");
 			Console.WriteLine("-n .................. finds parameters for all graphs needed");
@@ -72,7 +76,7 @@ namespace Triarc
 			Console.WriteLine("-r .................. finds parameters for all graphs needed");
 			Console.WriteLine("                      to finish the proof for all small sequences");
 			Console.WriteLine("-f [list of ints] ... to specify face sizes");
-			Console.WriteLine("-l x ................ to set limit for number of transition spend of solving one graph");
+			Console.WriteLine("-l x ................ to set maximum of transition spend on solving one graph");
 			Console.WriteLine("                      default is " + Global.Limit);
 			Console.WriteLine();
 			Console.WriteLine("other parameters");
@@ -82,6 +86,8 @@ namespace Triarc
 			Console.WriteLine("--ExportAsStandardGraphOFF");
 			Console.WriteLine("--ExportFacesON");
 			Console.WriteLine("--Count3ConnectivityON");
+			Console.WriteLine("--ExportAsAll");
+			Console.WriteLine("--ThreadCount x");
 		}
 
 		/// <summary>
@@ -284,20 +290,23 @@ namespace Triarc
 
 		static void Main(string[] args)
 		{
-			var ca = new ConsoleArguments(args);
-			if (ca.Limit > 0)
-			{
-				Global.Limit = ca.Limit;
-			}
-			Global.Count3Connectivity = ca.Count3Connectivity;
-			Global.ExportAsGraphViz = ca.ExportAsGraphViz;
-			Global.ExportAsTutteSageScript = ca.ExportAsTutteSageScript;
-			Global.ExportFaces = ca.ExportFaces;
-			Global.ExportAsSequence = !ca.ExportAsSequence;
-			Global.ExportAsStandardGraph = !ca.ExportAsStandardGraph;
 			try
 			{
-				
+				var ca = new ConsoleArguments(args);
+				if (ca.Limit > 0)
+				{
+					Global.Limit = ca.Limit;
+				}
+				Global.TaskCount = ca.ThreadCount;
+				Global.Count3Connectivity = ca.Count3Connectivity || ca.ExportAsAll;
+				Global.ExportAsGraphViz = ca.ExportAsGraphViz || ca.ExportAsAll;
+				Global.ExportAsTutteSageScript = ca.ExportAsTutteSageScript || ca.ExportAsAll;
+				Global.ExportFaces = ca.ExportFaces || ca.ExportAsAll;
+				Global.ExportAsSequence = !ca.ExportAsSequence || ca.ExportAsAll;
+				Global.ExportAsStandardGraph = !ca.ExportAsStandardGraph || ca.ExportAsAll;
+
+				ca.Validate();
+
 				if (ca.GUI)
 				{
 					GUI();
@@ -327,20 +336,70 @@ namespace Triarc
 				}
 				else if (ca.AllNeutralSequences)
 				{
-					for (int i = 3; i < 6; i++)
+					#region AllNeutralSequences
+					var sw = new StreamWriter("table.txt");
+					for (int j = 7; j < 18; j++)
 					{
-						for (int j = 7; j < 19; j++)
+						Console.WriteLine("................................");
+						Console.WriteLine(j);
+						Console.WriteLine("................................");
+						Console.WriteLine();
+
+						string firstLine = j.ToString();
+						Func<List<int>, string> toFirst = ks => "(i): " + string.Join<int>(",", ks);
+						string secondLine = "";
+						Func<List<int>, string> toSecond = ksMinus => "(ii): " + string.Join<int>(",", ksMinus);
+						string thirdLine = "";
+						Func<string, string> toThird = ab => "AB : " + ab;
+						string fourthLine = "";
+						Func<string, string> toFourth = ab => "CD : " + ab;
+						string zerothLine = j.ToString();
+						Func<bool, string> toZeroth = found => found ? "Nalezeno" : "Nenalezeno";
+
+						Func<string, string> join = line => line + " & ";
+
+						for (int i = 3; i <= 5; i++)
 						{
-							Console.WriteLine("Faces are " + i + " and  " + j);
+							zerothLine = join(zerothLine);
+							firstLine = join(firstLine);
+							secondLine = join(secondLine);
+							thirdLine = join(thirdLine);
+							fourthLine = join(fourthLine);
+
 							var fc = new List<int> { i, j };
-							var ns = new NeutralSequenceHelpingGraphs(fc);
+							var ns = new NeutralSequenceHelpingGraphs(fc) { slow = true };
 							ns.Find();
+
+							if (ns.found)
+							{
+								zerothLine += @"\cellcolor{lightgray}";
+								firstLine += @"\cellcolor{lightgray}";
+								secondLine += @"\cellcolor{lightgray}";
+								thirdLine += @"\cellcolor{lightgray}";
+								fourthLine += @"\cellcolor{lightgray}";
+							}
+							zerothLine += toZeroth(ns.found);
+							firstLine += toFirst(ns.ks);
+							secondLine += toSecond(ns.ksMinusOne);
+							thirdLine += toThird(ns.AString);
+							fourthLine += toFourth(ns.CDString);
 						}
+						//		sw.WriteLine(zerothLine + "\\\\");
+						sw.WriteLine(firstLine + "\\\\");
+						sw.WriteLine(secondLine + "\\\\");
+						sw.WriteLine(thirdLine + "\\\\");
+						sw.WriteLine(fourthLine + "\\\\" + "\\hline");
+						sw.WriteLine();
 					}
+					sw.Close();
+
+					#endregion
 				}
-				else { Console.WriteLine("try -h"); }
+				else {
+					Help();
+				}
 			}
-		
+
 			catch (ArgumentException ex)
 			{
 				Console.WriteLine(ex.Message);

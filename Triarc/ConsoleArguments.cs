@@ -15,6 +15,7 @@ namespace Triarc
 		public bool NeutralSequence;
 		public bool AllNeutralSequences;
 
+		public bool ExportAsAll;
 		public bool ExportAsTutteSageScript = false;
 		public bool ExportAsSequence = true;
 		public bool ExportAsGraphViz = false;
@@ -33,6 +34,7 @@ namespace Triarc
 			Help = args.Contains("-h");
 			NeutralSequence = args.Contains("-n");
 			AllNeutralSequences = args.Contains("-r");
+			ExportAsAll = args.Contains("--ExportAsAll");
 			ExportAsTutteSageScript = args.Contains("--ExportAsTutteSageScriptON");
 			ExportAsSequence = args.Contains("--ExportAsSequenceOFF");
 			ExportAsGraphViz = args.Contains("--ExportAsGraphVizON");
@@ -58,7 +60,7 @@ namespace Triarc
 				}
 				if (f.Count() == 0)
 				{
-					Console.WriteLine("Invalid arguments, missing face sizes");
+					throw new ArgumentException("Invalid arguments, missing face sizes");
 				}
 				return f;
 			}
@@ -68,17 +70,30 @@ namespace Triarc
 		{
 			get
 			{
-				try
+				if (!args.Contains("-l"))
 				{
-					int value;
-					int.TryParse(args[Array.IndexOf<string>(args, "-l") + 1], out value);
-					return value;
+					return -1;
 				}
-				catch (Exception)
+				int value;
+				int.TryParse(args[Array.IndexOf<string>(args, "-l") + 1], out value);
+				return value;
+
+			}
+		}
+
+
+		public int ThreadCount
+		{
+			get
+			{
+				if (!args.Contains("--ThreadCount"))
 				{
-					Console.WriteLine("Invalid argument, LIMIT");
-					throw new ArgumentException("LIMIT");
+					return 1;
 				}
+				int value;
+				int.TryParse(args[Array.IndexOf<string>(args, "--ThreadCount") + 1], out value);
+				return value;
+
 			}
 		}
 
@@ -86,51 +101,27 @@ namespace Triarc
 		{
 			get
 			{
-				try
-				{
-					int value;
-					int.TryParse(args[Array.IndexOf<string>(args, "-t") + 1], out value);
-					return value;
-				}
-				catch (Exception)
-				{
-					Console.WriteLine("Invalid argument, TRIARC LENGTH 1");
-					throw new ArgumentException("TRIARC LENGTH 1");
-				}
+				int value;
+				int.TryParse(args[Array.IndexOf<string>(args, "-t") + 1], out value);
+				return value;
 			}
 		}
 		public int TriarcY
 		{
 			get
 			{
-				try
-				{
-					int value;
-					int.TryParse(args[Array.IndexOf<string>(args, "-t") + 2], out value);
-					return value;
-				}
-				catch (Exception)
-				{
-					Console.WriteLine("Invalid argument, TRIARC LENGTH 3");
-					throw new ArgumentException("TRIARC LENGTH 3");
-				}
+				int value;
+				int.TryParse(args[Array.IndexOf<string>(args, "-t") + 2], out value);
+				return value;
 			}
 		}
 		public int TriarcZ
 		{
 			get
 			{
-				try
-				{
 					int value;
 					int.TryParse(args[Array.IndexOf<string>(args, "-t") + 3], out value);
-					return value;
-				}
-				catch (Exception)
-				{
-					Console.WriteLine("Invalid argument, TRIARC LENGTH 3");
-					throw new ArgumentException("TRIARC LENGTH 3");
-				}
+					return value;		
 			}
 		}
 
@@ -138,8 +129,26 @@ namespace Triarc
 		{
 			get
 			{
-				return Convert.ToInt64(args[Array.IndexOf<string>(args, "-a") + 1], 2);
+				try {
+					return Convert.ToInt64(args[Array.IndexOf<string>(args, "-a") + 1], 2); }
+				catch(Exception)
+				{
+					throw new ArgumentException("Invalid boundary");
+				}
 			}
-		} 
+		}
+
+		public void Validate()
+		{
+			if (Triarc && (TriarcX <= 0 || TriarcY <= 0 || TriarcZ <= 0))
+			{
+				throw new ArgumentException("Ivalid arguments for triarc sizes.");
+			}
+			if (ThreadCount<=0)
+			{
+				throw new ArgumentException("Ivalid ThreadCount");
+			}
+
+		}
 	}
 }

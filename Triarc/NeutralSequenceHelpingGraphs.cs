@@ -23,24 +23,30 @@ namespace Triarc
 		public string AString { get; private set; }
 		public int? k;
 
+		public List<int> ks = new List<int>();
+		public List<int> ksMinusOne = new List<int>();
+		public bool found = false;
+		public bool slow { get; set; }
 
-		public List<string> strings = new List<string>() { "1010", "101010", "01001101", "10110010", "110010", "10101010", "10111010100","10000110010", "111000000010010110" };
+
+		public List<string> strings = new List<string>() { "1010", "101010", "01001101", "10110010", "110010", "10101010", "10111010100","10000110010", "111000000010010110", "101010101101101", "101010101010" };
 
 		public void Find()
 		{
-			
+
 			FindCD();
-			if (CDString != null)
+			if (CDString != null || slow)
 			{
 				Bstrings = strings.Where(x => Triarc.DoesGeneralBoundaryExist(Convert.ToInt64(B(x), 2), FaceSizes));
 			}
-			if (Bstrings!=null && Bstrings.Count() > 0 && CDString != null)
+			if ((Bstrings != null && Bstrings.Count() > 0 && CDString != null) || slow) 
 			{
 				Findk();
 			}
 
 			if (AString != null && CDString != null & k.HasValue)
 			{
+				found = true;
 				Console.WriteLine("----------------------------------------");
 				Console.WriteLine("Nalezeno:");
 				Console.WriteLine("AB řetízek: " + AString);
@@ -90,23 +96,27 @@ namespace Triarc
 		{
 			for (int k = 3; k <= 10; k++)
 			{
-				Console.WriteLine("k=" + k);
+			//	Console.WriteLine("k=" + k);
 				if (Triarc.DoesTriarcExist(k, k, k, FaceSizes, 100000))
 				{
 					//Console.WriteLine("	Existuje (k,k,k)");
-
+					ks.Add(k);
 					if (Triarc.DoesTriarcExist(k, k, k - 1, FaceSizes, 100000))
 					{
+						ksMinusOne.Add(k);
 						//Console.WriteLine("	Existuje (k,k,k-1)");
 
-						foreach (var r in Bstrings)
+						if (Bstrings != null)
 						{
-							if (A(r, k).Count()<64 && Triarc.DoesGeneralBoundaryExist(Convert.ToInt64(A(r, k), 2), FaceSizes))
+							foreach (var r in Bstrings)
 							{
-						//		Console.WriteLine("	A s řetízkem " + r + " existuje");
-								this.k = k;
-								this.AString = r;
-								return true;
+								if (A(r, k).Count() < 64 && Triarc.DoesGeneralBoundaryExist(Convert.ToInt64(A(r, k), 2), FaceSizes))
+								{
+									//		Console.WriteLine("	A s řetízkem " + r + " existuje");
+									this.k = k;
+									this.AString = r;
+									return true;
+								}
 							}
 						}
 					}

@@ -1,0 +1,31 @@
+//Inside of this graph is 3-connected
+graph G {
+0 [ pos = " 0.50,0.00!" ];
+0 -- 1[style=bold];
+0 -- 12[style=bold];
+1 [ pos = " 0.44,0.23!" ];
+1 -- 2[style=bold];
+2 [ pos = " 0.28,0.41!" ];
+2 -- 3[style=bold];
+3 [ pos = " 0.06,0.50!" ];
+3 -- 4[style=bold];
+4 [ pos = " -0.18,0.47!" ];
+4 -- 5[style=bold];
+4 -- 6;
+5 [ pos = " -0.37,0.33!" ];
+5 -- 6[style=bold];
+6 [ pos = " -0.49,0.12!" ];
+6 -- 7[style=bold];
+7 [ pos = " -0.49,-0.12!" ];
+7 -- 8[style=bold];
+8 [ pos = " -0.37,-0.33!" ];
+8 -- 9[style=bold];
+9 [ pos = " -0.18,-0.47!" ];
+9 -- 10[style=bold];
+10 [ pos = " 0.06,-0.50!" ];
+10 -- 11[style=bold];
+10 -- 12;
+11 [ pos = " 0.28,-0.41!" ];
+11 -- 12[style=bold];
+12 [ pos = " 0.44,-0.23!" ];
+}

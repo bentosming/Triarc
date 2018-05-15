@@ -11,6 +11,7 @@ namespace Triarc
 {
 	class TriarcSolving
 	{
+		#region fields
 		/// <summary>
 		/// Indicates, that Triarc has been found. Value is never changed to false which makes it ThreadSafe
 		/// </summary>
@@ -75,8 +76,9 @@ namespace Triarc
 		/// </summary>
 		long StartingBoundary;
 
+		#endregion
 
-
+		#region constructors
 		/// <summary>
 		/// Constructor takes three counts which represent counts of vertices between main triarc vertices, that have degree 2 in triarc.
 		/// FaceSizes must be those values that Eberhard-like theorems suggest. 
@@ -85,10 +87,10 @@ namespace Triarc
 		/// <param name="b">Second number that determines triarc</param>
 		/// <param name="c">Third number that determines triarc</param>
 		/// <param name="facesSizes">List of values that satisfy neccesary conditions. Must has greatest value last, should be sorted. </param>
-		/// <param name="taskCount">Best speed should be obtained with taskCount similar to number of proccesors.</param>
-		public TriarcSolving(int a, int b, int c, int[] facesSizes, int taskCount = 4)
+		/// <param name="taskCount">Best speed should be achieved by taskCount similar to number of proccesors.</param>
+		public TriarcSolving(int a, int b, int c, int[] facesSizes)
 		{
-			this.TaskCount = taskCount;
+			this.TaskCount = Global.TaskCount;
 			this.TransitionLimit = Global.Limit;
 			this.Name = "(" + a + "," + b + "," + c + ")";
 			this.FacesSizes = facesSizes;
@@ -114,8 +116,9 @@ namespace Triarc
 				Faces[i] = BoundaryLong.FaceToBoundary(FacesSizes[i]);
 			}
 		}
+		#endregion
 
-
+		#region methods
 		/// <summary>
 		/// Returns biggest face allowed in triarc.
 		/// </summary>
@@ -593,5 +596,6 @@ namespace Triarc
 			textWriter.Close();
 
 		}
+		#endregion
 	}
 }

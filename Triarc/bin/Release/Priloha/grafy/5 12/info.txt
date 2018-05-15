@@ -1,0 +1,4 @@
+Nalezeno:
+AB řetízek: 1010
+CD řežízek: 1010
+k: 3

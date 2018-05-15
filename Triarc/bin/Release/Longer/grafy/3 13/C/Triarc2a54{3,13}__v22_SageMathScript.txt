@@ -1,0 +1,108 @@
+G = Graph()
+G.add_edge(0, 1)
+G.add_edge(0, 13)
+G.add_edge(1, 2)
+G.add_edge(2, 3)
+G.add_edge(2, 4)
+G.add_edge(3, 4)
+G.add_edge(4, 5)
+G.add_edge(5, 6)
+G.add_edge(6, 7)
+G.add_edge(6, 14)
+G.add_edge(7, 8)
+G.add_edge(8, 9)
+G.add_edge(9, 10)
+G.add_edge(9, 11)
+G.add_edge(10, 11)
+G.add_edge(11, 12)
+G.add_edge(12, 13)
+G.add_edge(13, 19)
+G.add_edge(14, 15)
+G.add_edge(14, 20)
+G.add_edge(15, 16)
+G.add_edge(15, 20)
+G.add_edge(16, 17)
+G.add_edge(16, 20)
+G.add_edge(17, 18)
+G.add_edge(17, 21)
+G.add_edge(18, 19)
+G.add_edge(18, 21)
+G.add_edge(19, 21)
+outerSize=14
+countOfVertices=22
+#Now adding vertices for each face, so that the graph is 3-connected.
+G.add_edge(22, 2)
+G.add_edge(22, 3)
+G.add_edge(22, 4)
+G.add_edge(23, 9)
+G.add_edge(23, 10)
+G.add_edge(23, 11)
+G.add_edge(24, 6)
+G.add_edge(24, 7)
+G.add_edge(24, 8)
+G.add_edge(24, 9)
+G.add_edge(24, 11)
+G.add_edge(24, 12)
+G.add_edge(24, 13)
+G.add_edge(24, 14)
+G.add_edge(24, 15)
+G.add_edge(24, 16)
+G.add_edge(24, 17)
+G.add_edge(24, 18)
+G.add_edge(24, 19)
+G.add_edge(25, 15)
+G.add_edge(25, 16)
+G.add_edge(25, 20)
+G.add_edge(26, 14)
+G.add_edge(26, 15)
+G.add_edge(26, 20)
+G.add_edge(27, 19)
+G.add_edge(27, 13)
+G.add_edge(27, 0)
+G.add_edge(27, 1)
+G.add_edge(27, 2)
+G.add_edge(27, 4)
+G.add_edge(27, 5)
+G.add_edge(27, 6)
+G.add_edge(27, 14)
+G.add_edge(27, 20)
+G.add_edge(27, 16)
+G.add_edge(27, 17)
+G.add_edge(27, 21)
+G.add_edge(28, 18)
+G.add_edge(28, 19)
+G.add_edge(28, 21)
+G.add_edge(29, 17)
+G.add_edge(29, 18)
+G.add_edge(29, 21)
+def scaling(x,i,j,n):
+    return x*(n-j)
+
+A = G.adjacency_matrix();
+
+n = G.num_verts()
+Munscaled = matrix(QQ, n,n, lambda i,j:-A[i,j]/G.degree(i) if i>=outerSize else 0) + identity_matrix(n)
+M=matrix(QQ,n,n,lambda i,j: scaling(Munscaled[i,j],i,j,n) if i>j & i<countOfVertices else Munscaled[i,j])
+jednicky = matrix(QQ,n,1,lambda i,j: -1)
+soucty = M*jednicky
+for i in range (n-outerSize):
+    M[i+outerSize,i+outerSize]+=soucty[i+outerSize,0]
+
+vy = matrix(QQ,n,1, lambda i,j:round(sin(i/outerSize*2*pi)*1000) if i<outerSize else 0)
+vx = matrix(QQ,n,1, lambda i,j:round(cos(i/outerSize*2*pi)*1000) if i<outerSize else 0)
+resX=M.inverse() * vx
+resY=M.inverse()*vy
+i=0
+d=[[resX[i],resY[i]] for i in range(n)]
+
+G.graphplot(save_pos=True)
+dd=G.get_pos()
+
+for i in range(n):
+    dd[i]=[resX[i,0],resY[i,0]]
+
+G.set_pos(dd)
+#removing vertices that were used to make graph 3-connected
+ran = range(countOfVertices, n)
+G.delete_vertices(ran)
+G.show()

@@ -27,84 +27,11 @@ namespace Triarc
 
 		public List<List<int>> Faces { get; set; }
 
-
+		
 		/// <summary>
 		/// Finds all vertices marked as active, that create a cycle with ActiveRootID vertex.
 		/// </summary>
 		/// <returns>vertices marked as active, that create a cycle with ActiveRootID vertex</returns>
-		public List<VertexStack> ActiveVerticesObsolete()
-		{
-			List<VertexStack> active = new List<VertexStack>();
-			active.Add(vertices[ActiveRootID]);
-			int i = 0;
-			if (active.First().HasAllThreeNeighbours() && active.First().A.IsActive && active.First().B.IsActive && active.First().C.IsActive)
-			{
-				//nejprve přidej řetízek "in" vrcholů
-				VertexStack temp = active.First().C;
-				while (!temp.HasAllThreeNeighbours())
-				{
-					i++;
-					active.Add(temp);
-					temp = active[i].Succescor(active[i - 1]);
-				}
-				active.Add(temp);
-				i++;
-				if (temp.A.IsActive && temp.B.IsActive && temp.C.IsActive) //nastavení prvního out vrcholu, který nesouseí s in vrcholy
-				{
-					if (!active.Contains(temp.A))
-					{
-						temp = temp.A;
-					}
-					else if (!active.Contains(temp.B))
-					{
-						temp = temp.B;
-					}
-					else
-					{
-						temp = temp.C;
-					}
-				}
-
-				while (temp != active[0])
-				{
-					i++;
-					active.Add(temp);
-					//temp = následník, který je aktivní a ještě není v active
-					if (temp.A.IsActive && !active.Contains(temp.A))
-					{
-						temp = temp.A;
-						continue;
-					}
-					if (temp.B.IsActive && !active.Contains(temp.B))
-					{
-						temp = temp.B;
-						continue;
-					}
-					if (temp.C.HasAllThreeNeighbours() && temp.C.IsActive && !active.Contains(temp.C))
-					{
-						temp = temp.C;
-						continue;
-					}
-					//pokud žádné z předchozích nevyšlo, musel mít jen takové aktivní sousedy, které už jsou v active, tedy jeden z nich je první soused
-					temp = active[0];
-				}
-
-				return active;
-			}
-			else
-			{
-
-				VertexStack temp = active[i].Succescor(active[i]);
-				while (temp != active[0])
-				{
-					i++;
-					active.Add(temp);
-					temp = active[i].Succescor(active[i - 1]);
-				}
-				return active;
-			}
-		}
-
 		public List<VertexStack> ActiveVertices()
 		{
 			var allActive = this.vertices.Where(x => x.IsActive).ToList();
@@ -143,6 +70,8 @@ namespace Triarc
 		{
 			return list[rnd.Next(list.Count)];
 		}
+
+		#region write
 
 		void EvaluateVertexPositions()
 		{
@@ -195,17 +124,12 @@ namespace Triarc
 		/// Writes a GraphViz readable representation of triarc,
 		/// </summary>
 		/// <param name="tw">TextWriter to write to.</param>
-		public void GWWrite(TextWriter tw)
+		public void GraphvizWrite(TextWriter tw)
 		{
 			EvaluateVertexPositions();
 			int diameter = vertices.Select(x => x.level).OrderBy(x => -x).FirstOrDefault()+1;
-			if (Global.Count3Connectivity)
-			{
-				var conn = "//Inside of this graph " + (ThreeConnected.IsGraph3Connected(this) ? "is" : "isn't") + " 3-connected";
-				tw.WriteLine(conn);
-			}
+
 			tw.WriteLine("graph G {");
-			
 
 			foreach (var item in vertices)
 			{
@@ -222,7 +146,6 @@ namespace Triarc
 					string COS = tempCOS.Substring(0, tempCOS.Length - 3) + "." + tempCOS[tempCOS.Length - 2] + tempCOS[tempCOS.Length - 1];
 
 					tw.WriteLine(item.ID + " [ pos = \" " + COS + "," + SIN + "!\" ];");				
-
 
 					if (item.ID < item.A.ID && item.A.ID<this.CountOfVertices)
 					{
@@ -244,32 +167,13 @@ namespace Triarc
 					{
 						tw.WriteLine(item.ID + " -- " + item.B.ID + ";");
 					}
-			
 				}
 				if (item.C != null && item.ID < item.C.ID && item.C.ID < this.CountOfVertices)
 				{
 					tw.WriteLine(item.ID + " -- " + item.C.ID + ";");
 				}
-
-
 			}
-	//		for (int i = 0; i < Faces.Count; i++)
-	//		{
-	//			foreach (var vertex in Faces[i])
-	//			{
-	//				tw.WriteLine(i + this.CountOfVertices + " -- " + vertex + ";");
-	//			}
-	//		}
 			tw.WriteLine("}");
-	//		foreach (var item in Faces)
-	//		{
-	//			foreach (var it in item)
-	//			{
-	//				tw.Write(it + "  ");
-	//			}
-	//
-	//			tw.WriteLine("// ");
-	//		}
 		}
 
 		public void SageMathScriptForTuttesEmbeddingWrite(TextWriter tw)
@@ -336,48 +240,27 @@ namespace Triarc
 		}
 
 		/// <summary>
-		/// Writes a WolframAlpha readable representation of triarc. 
-		/// That is edge is represented by VertexNumber -> VertexNumber and separated by columns.
+		/// Writes edge representation of triarc. 
+		/// That is edge is represented by VertexNumber - VertexNumber and separated by newlines.
 		/// </summary>
 		/// <param name="textWriter">TextWriter to write to.</param>
 		public void Write(TextWriter textWriter)
 		{
 			foreach (var vertex in vertices)
 			{
-				if (vertex.ID < NumberOfVerticesInOuterBoundary)
+				if (vertex.ID < vertex.A.ID)
 				{
-					//Adding loop to mark outer boundary
-					textWriter.Write(vertex.ID + " -> " + vertex.ID + ", ");
-
-					if (vertex.ID < vertex.A.ID)
-					{
-
-					}
-					if (vertex.ID < vertex.B.ID)
-					{
-						textWriter.Write(vertex.ID + " -> " + vertex.B.ID + ", ");
-					}
+					textWriter.WriteLine(vertex.ID + " - " + vertex.A.ID);
 				}
-				else
+				if (vertex.ID < vertex.B.ID)
 				{
-					if (vertex.ID < vertex.A.ID)
-					{
-						textWriter.Write(vertex.ID + " -> " + vertex.A.ID + ", ");
-					}
-					if (vertex.ID < vertex.B.ID)
-					{
-						textWriter.Write(vertex.ID + " -> " + vertex.B.ID + ", ");
-					}
-
+					textWriter.WriteLine(vertex.ID + " - " + vertex.B.ID);
 				}
-				if (vertex.C != null && vertex.ID < vertex.C.ID)
+				if (vertex.C != null && vertex.ID < vertex.C.ID && vertex.C.ID!=-1)
 				{
-					textWriter.Write(vertex.ID + " -> " + vertex.C.ID + ", ");
+					textWriter.WriteLine(vertex.ID + " - " + vertex.C.ID);
 				}
-
-
 			}
-
 		}
 
 		/// <summary>
@@ -390,6 +273,7 @@ namespace Triarc
 			textWriter.WriteLine("cd \"C:\\Users\\Zuzana\\Documents\\Visual Studio 2015\\Projects\\Triarc\\Triarc\\bin\\Debug\"");
 			textWriter.WriteLine("  \"C:\\Program Files (x86)\\Graphviz2.38\\bin\\neato.exe\" -o \"grafy\\" + name + ".png\" -Tpng   \"grafy\\" + name + ".gv\"");
 		}
+		#endregion write
 
 		public class ThreeConnected
 		{

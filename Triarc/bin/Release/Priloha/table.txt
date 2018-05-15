@@ -1,0 +1,55 @@
+7 & \cellcolor{lightgray}(i): 3 & \cellcolor{lightgray}(i): 3 & \cellcolor{lightgray}(i): 3\\
+ & \cellcolor{lightgray}(ii): 3 & \cellcolor{lightgray}(ii): 3 & \cellcolor{lightgray}(ii): 3\\
+ & \cellcolor{lightgray}AB : 101010 & \cellcolor{lightgray}AB : 101010 & \cellcolor{lightgray}AB : 101010\\
+ & \cellcolor{lightgray}CD : 101010 & \cellcolor{lightgray}CD : 101010 & \cellcolor{lightgray}CD : 1010\\\hline
+
+8 & \cellcolor{lightgray}(i): 3 & (i): 3,5,6,9 & \cellcolor{lightgray}(i): 3\\
+ & \cellcolor{lightgray}(ii): 3 & (ii):  & \cellcolor{lightgray}(ii): 3\\
+ & \cellcolor{lightgray}AB : 1010 & AB :  & \cellcolor{lightgray}AB : 1010\\
+ & \cellcolor{lightgray}CD : 1010 & CD :  & \cellcolor{lightgray}CD : 1010\\\hline
+
+9 & (i): 3,4,8 & \cellcolor{lightgray}(i): 3 & \cellcolor{lightgray}(i): 3\\
+ & (ii):  & \cellcolor{lightgray}(ii): 3 & \cellcolor{lightgray}(ii): 3\\
+ & AB :  & \cellcolor{lightgray}AB : 1010 & \cellcolor{lightgray}AB : 1010\\
+ & CD :  & \cellcolor{lightgray}CD : 1010 & \cellcolor{lightgray}CD : 1010\\\hline
+
+10 & \cellcolor{lightgray}(i): 3 & (i): 3,4,5,6,7,8,9,10 & (i): 4,5,9,10\\
+ & \cellcolor{lightgray}(ii): 3 & (ii):  & (ii): \\
+ & \cellcolor{lightgray}AB : 1010 & AB :  & AB : \\
+ & \cellcolor{lightgray}CD : 1010 & CD : 1010 & CD : \\\hline
+
+11 & \cellcolor{lightgray}(i): 3 & \cellcolor{lightgray}(i): 3 & \cellcolor{lightgray}(i): 3\\
+ & \cellcolor{lightgray}(ii): 3 & \cellcolor{lightgray}(ii): 3 & \cellcolor{lightgray}(ii): 3\\
+ & \cellcolor{lightgray}AB : 1010 & \cellcolor{lightgray}AB : 1010 & \cellcolor{lightgray}AB : 1010\\
+ & \cellcolor{lightgray}CD : 1010 & \cellcolor{lightgray}CD : 1010 & \cellcolor{lightgray}CD : 1010\\\hline
+
+12 & (i): 3,4,5,6,7,8,9,10 & (i): 5,6 & \cellcolor{lightgray}(i): 3\\
+ & (ii):  & (ii):  & \cellcolor{lightgray}(ii): 3\\
+ & AB :  & AB :  & \cellcolor{lightgray}AB : 1010\\
+ & CD :  & CD :  & \cellcolor{lightgray}CD : 1010\\\hline
+
+13 & \cellcolor{lightgray}(i): 3 & \cellcolor{lightgray}(i): 3 & \cellcolor{lightgray}(i): 3\\
+ & \cellcolor{lightgray}(ii): 3 & \cellcolor{lightgray}(ii): 3 & \cellcolor{lightgray}(ii): 3\\
+ & \cellcolor{lightgray}AB : 1010 & \cellcolor{lightgray}AB : 1010 & \cellcolor{lightgray}AB : 1010\\
+ & \cellcolor{lightgray}CD : 1010 & \cellcolor{lightgray}CD : 1010 & \cellcolor{lightgray}CD : 1010\\\hline
+
+14 & \cellcolor{lightgray}(i): 3 & (i): 3,4,5,6,7,8,9,10 & (i): \\
+ & \cellcolor{lightgray}(ii): 3 & (ii):  & (ii): \\
+ & \cellcolor{lightgray}AB : 1010 & AB :  & AB : \\
+ & \cellcolor{lightgray}CD : 1010 & CD : 1010 & CD : \\\hline
+
+15 & (i): 3,4,7,8 & \cellcolor{lightgray}(i): 3 & (i): 9,10\\
+ & (ii):  & \cellcolor{lightgray}(ii): 3 & (ii): \\
+ & AB :  & \cellcolor{lightgray}AB : 1010 & AB : \\
+ & CD :  & \cellcolor{lightgray}CD : 1010 & CD : \\\hline
+
+16 & \cellcolor{lightgray}(i): 3 & (i): 3,5,6,8,9 & (i): \\
+ & \cellcolor{lightgray}(ii): 3 & (ii):  & (ii): \\
+ & \cellcolor{lightgray}AB : 1010 & AB :  & AB : \\
+ & \cellcolor{lightgray}CD : 1010 & CD :  & CD : \\\hline
+
+17 & \cellcolor{lightgray}(i): 3 & (i):  & (i): \\
+ & \cellcolor{lightgray}(ii): 3 & (ii):  & (ii): \\
+ & \cellcolor{lightgray}AB : 1010 & AB :  & AB : \\
+ & \cellcolor{lightgray}CD : 1010 & CD :  & CD : \\\hline
+
